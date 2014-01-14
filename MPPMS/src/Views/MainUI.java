@@ -4,8 +4,9 @@
  * and open the template in the editor.
  */
 
-package ApplicationInterface;
+package Views;
 
+import Observers.Observer;
 import Projects.Project;
 import Projects.SetOfProjects;
 import Users.User;

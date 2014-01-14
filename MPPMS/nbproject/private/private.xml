@@ -11,25 +11,6 @@
         </file>
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/Users/Craig/Google%20Drive/MPPMS/src/Tasks/SetOfTasks.java</file>
-            <file>file:/C:/Users/Craig/Google%20Drive/MPPMS/src/Components/Asset.java</file>
-            <file>file:/C:/Users/Craig/Google%20Drive/MPPMS/src/Projects/SetOfProjects.java</file>
-            <file>file:/C:/Users/Craig/Google%20Drive/MPPMS/src/Registry/UserRegistry.xml</file>
-            <file>file:/C:/Users/Craig/Google%20Drive/MPPMS/src/ApplicationInterface/ApplicationController.java</file>
-            <file>file:/C:/Users/Craig/Google%20Drive/MPPMS/src/Projects/Project.java</file>
-            <file>file:/C:/Users/Craig/Google%20Drive/MPPMS/src/Users/ProjectManager.java</file>
-            <file>file:/C:/Users/Craig/Google%20Drive/MPPMS/src/Components/SetOfComponents.java</file>
-            <file>file:/C:/Users/Craig/Google%20Drive/MPPMS/src/ApplicationInterface/ViewProjectUI.java</file>
-            <file>file:/C:/Users/Craig/Google%20Drive/MPPMS/src/Users/User.java</file>
-            <file>file:/C:/Users/Craig/Google%20Drive/MPPMS/src/Users/Client.java</file>
-            <file>file:/C:/Users/Craig/Google%20Drive/MPPMS/src/ApplicationInterface/LoginUI.java</file>
-            <file>file:/C:/Users/Craig/Google%20Drive/MPPMS/src/Tasks/Task.java</file>
-            <file>file:/C:/Users/Craig/Google%20Drive/MPPMS/src/ApplicationInterface/Application.java</file>
-            <file>file:/C:/Users/Craig/Google%20Drive/MPPMS/src/Users/StaffMember.java</file>
-            <file>file:/C:/Users/Craig/Google%20Drive/MPPMS/src/ApplicationInterface/MainUI.java</file>
-            <file>file:/C:/Users/Craig/Google%20Drive/MPPMS/src/Components/Component.java</file>
-            <file>file:/C:/Users/Craig/Google%20Drive/MPPMS/src/Registry/UserRegistry.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>
