@@ -201,8 +201,7 @@ public class Project {
                         {
                             Element componentElement = (Element)componentNode;
                             int componentID = Integer.parseInt(componentElement.getElementsByTagName("ComponentID").item(0).getTextContent());
-                            // TODO
-                            //components.add(Component.getComponentByID(componentID));
+                            components.add(Component.getComponentByID(componentID));
                         }
                     }
                     

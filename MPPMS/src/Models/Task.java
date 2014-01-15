@@ -129,8 +129,7 @@ public class Task {
                     Task task = new Task(id, reportType);
                     task.setAssignedTo(assignedTo);
                     task.setPriority(priority);
-                    // TODO
-                    //task.setReport(Report.getReportByID(reportID));
+                    task.setReport(Report.getReportByID(reportID));
                     task.setStatus(status);
                     
                     allTasks.add(task);
