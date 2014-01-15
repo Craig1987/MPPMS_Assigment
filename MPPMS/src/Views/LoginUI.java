@@ -4,11 +4,12 @@
  * and open the template in the editor.
  */
 
-package ApplicationInterface;
+package Views;
 
-import Registry.UserRegistry;
-import Users.User;
+import Observers.Observer;
+import ApplicationInterface.ApplicationController;
 import java.awt.Frame;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 
@@ -16,15 +17,49 @@ import javax.swing.JOptionPane;
  *
  * @author Craig
  */
-public class LoginUI extends javax.swing.JFrame {
+public class LoginUI extends javax.swing.JFrame implements Observer {
 
     /**
      * Creates new form LoginUI
      */
-    public LoginUI() {
+    public LoginUI() 
+    {
         initComponents();
         this.setLocationRelativeTo(null);
     }
+    
+    public void addActionListener(ActionListener listener)
+    {
+        loginButton.addActionListener(listener);
+    }
+    
+    @Override
+    public void update(Boolean success)
+    {
+        if (success)
+        {
+            JOptionPane.showMessageDialog(null, "Success!");
+            //ApplicationController.getInstance().showMainView(user);
+            this.usernameField.setText("");
+            this.passwordField.setText("");
+            //this.setState(Frame.ICONIFIED);            
+        }
+        else
+        {
+           JOptionPane.showMessageDialog(null, "Incorrect username or password."); 
+        }
+    }
+    
+    public String getUsername()
+    {
+        return usernameField.getText();
+    }
+    
+    public String getPassword()
+    {
+        return passwordField.getText();
+    }
+     
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -62,11 +97,6 @@ public class LoginUI extends javax.swing.JFrame {
         });
 
         loginButton.setText("Login");
-        loginButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                loginButtonActionPerformed(evt);
-            }
-        });
 
         exitButton.setText("Exit");
         exitButton.addActionListener(new java.awt.event.ActionListener() {
@@ -116,22 +146,6 @@ public class LoginUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
-        User user = UserRegistry.getInstance().authenticate(usernameField.getText(), passwordField.getText());
-        
-        if (user == null)
-        {
-            JOptionPane.showMessageDialog(null, "Incorrect username or password.");            
-        }
-        else
-        {
-            ApplicationController.getInstance().showMainView(user);
-            this.usernameField.setText("");
-            this.passwordField.setText("");
-            this.setState(Frame.ICONIFIED);
-        }
-    }//GEN-LAST:event_loginButtonActionPerformed
-
     private void exitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitButtonActionPerformed
         this.dispose();
     }//GEN-LAST:event_exitButtonActionPerformed
@@ -139,14 +153,14 @@ public class LoginUI extends javax.swing.JFrame {
     private void usernameFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_usernameFieldKeyPressed
         if (evt.getKeyChar() == KeyEvent.VK_ENTER)
         {
-            loginButtonActionPerformed(null);
+            //loginButtonActionPerformed(null);
         }
     }//GEN-LAST:event_usernameFieldKeyPressed
 
     private void passwordFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passwordFieldKeyPressed
         if (evt.getKeyChar() == KeyEvent.VK_ENTER)
         {
-            loginButtonActionPerformed(null);
+            //loginButtonActionPerformed(null);
         }
     }//GEN-LAST:event_passwordFieldKeyPressed
 

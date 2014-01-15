@@ -1,4 +1,6 @@
-package ApplicationInterface;
+package Views;
+
+import Observers.Observer;
 
 public class ViewProjectUI extends javax.swing.JFrame
 {

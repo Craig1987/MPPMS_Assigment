@@ -1,5 +1,8 @@
 package ApplicationInterface;
 
+import Models.LoginModel;
+import Views.LoginUI;
+import Views.MainUI;
 import Users.User;
 
 public class ApplicationController
@@ -15,9 +18,11 @@ public class ApplicationController
     }
     
     public void showLoginView()
-    {
+    {  
         LoginUI loginView = new LoginUI();
+        LoginModel loginModel = new LoginModel();
         loginView.setVisible(true);
+        LoginController loginController = new LoginController(loginView, loginModel);    
     }
     
     public void showMainView(User user)
