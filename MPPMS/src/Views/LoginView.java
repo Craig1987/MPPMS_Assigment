@@ -1,28 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package Views;
 
-import Observers.Observer;
-import ApplicationInterface.ApplicationController;
-import java.awt.Frame;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author Craig
- */
-public class LoginUI extends javax.swing.JFrame implements Observer {
+public class LoginView extends javax.swing.JFrame {
 
-    /**
-     * Creates new form LoginUI
-     */
-    public LoginUI() 
+    public LoginView() 
     {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -31,23 +14,6 @@ public class LoginUI extends javax.swing.JFrame implements Observer {
     public void addActionListener(ActionListener listener)
     {
         loginButton.addActionListener(listener);
-    }
-    
-    @Override
-    public void update(Boolean success)
-    {
-        if (success)
-        {
-            JOptionPane.showMessageDialog(null, "Success!");
-            //ApplicationController.getInstance().showMainView(user);
-            this.usernameField.setText("");
-            this.passwordField.setText("");
-            //this.setState(Frame.ICONIFIED);            
-        }
-        else
-        {
-           JOptionPane.showMessageDialog(null, "Incorrect username or password."); 
-        }
     }
     
     public String getUsername()
@@ -59,7 +25,10 @@ public class LoginUI extends javax.swing.JFrame implements Observer {
     {
         return passwordField.getText();
     }
-     
+    
+    public void showErrorMessage(String msg) {
+        JOptionPane.showMessageDialog(null, msg);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -80,21 +49,9 @@ public class LoginUI extends javax.swing.JFrame implements Observer {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("MPPMS - Login");
 
-        usernameField.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                usernameFieldKeyPressed(evt);
-            }
-        });
-
         jLabel1.setText("Username");
 
         jLabel2.setText("Password");
-
-        passwordField.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                passwordFieldKeyPressed(evt);
-            }
-        });
 
         loginButton.setText("Login");
 
@@ -149,20 +106,6 @@ public class LoginUI extends javax.swing.JFrame implements Observer {
     private void exitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitButtonActionPerformed
         this.dispose();
     }//GEN-LAST:event_exitButtonActionPerformed
-
-    private void usernameFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_usernameFieldKeyPressed
-        if (evt.getKeyChar() == KeyEvent.VK_ENTER)
-        {
-            //loginButtonActionPerformed(null);
-        }
-    }//GEN-LAST:event_usernameFieldKeyPressed
-
-    private void passwordFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passwordFieldKeyPressed
-        if (evt.getKeyChar() == KeyEvent.VK_ENTER)
-        {
-            //loginButtonActionPerformed(null);
-        }
-    }//GEN-LAST:event_passwordFieldKeyPressed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton exitButton;

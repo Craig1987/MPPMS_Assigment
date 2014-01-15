@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <Task>
+        <ID>1</ID>
+        <Type>QC</Type>
+        <AssignedTo>
+            <Username>Joe90</Username>
+            <Userrname>Gail</Userrname>
+        </AssignedTo>
+        <Status>3</Status>
+        <Priority>1</Priority>
+        <ReportID>1</ReportID>
+    </Task>
+</root>
