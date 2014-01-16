@@ -53,7 +53,7 @@ public class LoginView extends javax.swing.JFrame {
 
         jLabel2.setText("Password");
 
-        loginButton.setText("Login");
+        loginButton.setText("Log in");
 
         exitButton.setText("Exit");
         exitButton.addActionListener(new java.awt.event.ActionListener() {
