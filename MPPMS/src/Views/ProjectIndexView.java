@@ -38,12 +38,12 @@ public class ProjectIndexView extends javax.swing.JFrame {
         newTaskButton.addActionListener(listener);
     }
     
-    public void addLogOutMenuActionListener(ActionListener listener) {
-        menuLogOut.addActionListener(listener);
+    public void addUserMenuLogOutActionListener(ActionListener listener) {
+        userMenuLogOut.addActionListener(listener);
     }
     
-    public void addExitMenuActionListener(ActionListener listener) {
-        menuExit.addActionListener(listener);
+    public void addApplicationMenuExitActionListener(ActionListener listener) {
+        applicationMenuExit.addActionListener(listener);
     }
 
     /**
@@ -67,9 +67,10 @@ public class ProjectIndexView extends javax.swing.JFrame {
         welcomeLabel = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         projectMenuBar = new javax.swing.JMenuBar();
-        menuFile = new javax.swing.JMenu();
-        menuLogOut = new javax.swing.JMenuItem();
-        menuExit = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        applicationMenuExit = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        userMenuLogOut = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("MPPMS - Projects");
@@ -77,24 +78,28 @@ public class ProjectIndexView extends javax.swing.JFrame {
         projectSplitPane.setBorder(null);
         projectSplitPane.setDividerLocation(300);
 
+        jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 675, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 671, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 417, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 413, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         projectSplitPane.setRightComponent(jPanel2);
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         projectsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -115,20 +120,21 @@ public class ProjectIndexView extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 417, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 413, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         projectSplitPane.setLeftComponent(jPanel1);
 
-        projectToolbar.setBackground(new java.awt.Color(255, 255, 255));
+        projectToolbar.setBackground(new java.awt.Color(220, 220, 220));
+        projectToolbar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         newProjectButton.setText("New Project");
 
@@ -140,46 +146,43 @@ public class ProjectIndexView extends javax.swing.JFrame {
             projectToolbarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(projectToolbarLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(welcomeLabel)
-                .addGap(153, 153, 153)
                 .addComponent(newProjectButton)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(newTaskButton)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         projectToolbarLayout.setVerticalGroup(
             projectToolbarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(projectToolbarLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, projectToolbarLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(projectToolbarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(newProjectButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(newTaskButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGroup(projectToolbarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(newTaskButton)
-                    .addGroup(projectToolbarLayout.createSequentialGroup()
-                        .addGroup(projectToolbarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(welcomeLabel)
-                            .addComponent(newProjectButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
         welcomeLabel.setText("jLabel1");
+        welcomeLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         jLabel1.setText("Select a project or click the 'New project' button.");
+        jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         projectMenuBar.setBackground(new java.awt.Color(204, 204, 255));
         projectMenuBar.setBorder(null);
 
-        menuFile.setText("File");
+        jMenu1.setText("Application");
 
-        menuLogOut.setText("Log Out");
-        menuFile.add(menuLogOut);
+        applicationMenuExit.setText("Exit");
+        jMenu1.add(applicationMenuExit);
 
-        menuExit.setText("Exit");
-        menuFile.add(menuExit);
+        projectMenuBar.add(jMenu1);
 
-        projectMenuBar.add(menuFile);
+        jMenu2.setText("User");
+
+        userMenuLogOut.setText("Log Out");
+        jMenu2.add(userMenuLogOut);
+
+        projectMenuBar.add(jMenu2);
 
         setJMenuBar(projectMenuBar);
 
@@ -188,23 +191,29 @@ public class ProjectIndexView extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(projectSplitPane)
-            .addComponent(projectToolbar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(projectToolbar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(welcomeLabel)
+                    .addComponent(welcomeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(projectToolbar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(welcomeLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(welcomeLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel1)
+                        .addGap(16, 16, 16))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(projectToolbar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addComponent(projectSplitPane, javax.swing.GroupLayout.PREFERRED_SIZE, 439, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -212,20 +221,21 @@ public class ProjectIndexView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem applicationMenuExit;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JMenuItem menuExit;
-    private javax.swing.JMenu menuFile;
-    private javax.swing.JMenuItem menuLogOut;
     private javax.swing.JButton newProjectButton;
     private javax.swing.JButton newTaskButton;
     private javax.swing.JMenuBar projectMenuBar;
     private javax.swing.JSplitPane projectSplitPane;
     private javax.swing.JPanel projectToolbar;
     private javax.swing.JTable projectsTable;
+    private javax.swing.JMenuItem userMenuLogOut;
     private javax.swing.JLabel welcomeLabel;
     // End of variables declaration//GEN-END:variables
 }

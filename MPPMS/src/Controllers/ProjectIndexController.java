@@ -3,6 +3,7 @@ package Controllers;
 import Models.Project;
 import Models.User;
 import Views.ProjectIndexView;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -23,8 +24,8 @@ public class ProjectIndexController {
         
         this.view.addNewProjectButtonActionListener(new NewProjectButtonActionListener());
         this.view.addNewTaskButtonActionListener(new NewTaskButtonActionListener());
-        this.view.addLogOutMenuActionListener(new LogOutMenuActionListener());
-        this.view.addExitMenuActionListener(new ExitMenuActionListener());
+        this.view.addUserMenuLogOutActionListener(new UserMenuLogOutActionListener());
+        this.view.addApplicationMenuExitActionListener(new ApplicationMenuExitActionListener());
     }
     
     class NewProjectButtonActionListener implements ActionListener {
@@ -41,17 +42,23 @@ public class ProjectIndexController {
         }
     }
     
-    class LogOutMenuActionListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            // Log out happens
-        }
-    }
-    
-    class ExitMenuActionListener implements ActionListener {
+    class ApplicationMenuExitActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             System.exit(0);
+        }
+    }
+    
+    class UserMenuLogOutActionListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            System.out.println(e.getSource());
+            view.dispose();
+            for (Frame frame : Frame.getFrames()) {
+                if (frame.getTitle().equals("MPPMS - Login")) {
+                    frame.setState(Frame.NORMAL);
+                }
+            }
         }
     }
 }
