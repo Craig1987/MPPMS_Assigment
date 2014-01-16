@@ -8,7 +8,7 @@ public class LoginView extends javax.swing.JFrame {
 
     public LoginView() {
         initComponents();
-        this.setLocationRelativeTo(null);
+        this.setLocationRelativeTo(null); 
     }
     
     public void addLoginButtonActionListener(ActionListener listener) {
@@ -87,7 +87,7 @@ public class LoginView extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addComponent(jLabel2))
-                        .addGap(0, 156, Short.MAX_VALUE))
+                        .addGap(0, 162, Short.MAX_VALUE))
                     .addComponent(passwordField)
                     .addComponent(usernameField)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
