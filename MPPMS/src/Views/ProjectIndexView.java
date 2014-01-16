@@ -7,6 +7,7 @@ import ca.odell.glazedlists.GlazedLists;
 import ca.odell.glazedlists.gui.TableFormat;
 import ca.odell.glazedlists.swing.DefaultEventTableModel;
 import java.awt.event.ActionListener;
+import javax.swing.JPanel;
 
 public class ProjectIndexView extends javax.swing.JFrame {
 
@@ -28,6 +29,10 @@ public class ProjectIndexView extends javax.swing.JFrame {
         DefaultEventTableModel projectsTableModel = new DefaultEventTableModel(projectsEventList, projectsTableFormat);
         
         this.projectsTable.setModel(projectsTableModel);
+    }
+    
+    public void setDetailViewPanel(JPanel panel) {
+        projectSplitPane.setBottomComponent(panel);
     }
     
     public void addNewProjectButtonActionListener(ActionListener listener) {
