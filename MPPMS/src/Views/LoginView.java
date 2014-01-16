@@ -1,29 +1,43 @@
 package Views;
 
 import java.awt.event.ActionListener;
+import java.awt.event.KeyListener;
 import javax.swing.JOptionPane;
 
 public class LoginView extends javax.swing.JFrame {
 
-    public LoginView() 
-    {
+    public LoginView() {
         initComponents();
         this.setLocationRelativeTo(null);
     }
     
-    public void addActionListener(ActionListener listener)
-    {
+    public void addLoginButtonActionListener(ActionListener listener) {
         loginButton.addActionListener(listener);
     }
     
-    public String getUsername()
-    {
+    public void addUsernameFieldKeyListener(KeyListener listener) {
+        usernameField.addKeyListener(listener);
+    }
+    
+    public void addPasswordFieldKeyListener(KeyListener listener) {
+        passwordField.addKeyListener(listener);
+    }
+    
+    public String getUsername() {
         return usernameField.getText();
+    }
+    
+    public void setUsername(String username) {
+        usernameField.setText(username);
     }
     
     public String getPassword()
     {
         return passwordField.getText();
+    }
+    
+    public void setPassword(String password) {
+        passwordField.setText(password);
     }
     
     public void showErrorMessage(String msg) {

@@ -14,6 +14,9 @@ public class ProjectIndexController {
         
         this.view.setWelcomeMessage("Welcome, " + currentUser.getName() + "!");
         this.view.setProjectsTableData(Project.getProjectsForUser(currentUser));
+    }
+    
+    public void launch() {
         this.view.setVisible(true);
     }
 }
