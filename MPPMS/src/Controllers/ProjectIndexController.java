@@ -2,10 +2,16 @@ package Controllers;
 
 import Models.Project;
 import Models.User;
+import Views.ProjectDetailView;
 import Views.ProjectIndexView;
+import ca.odell.glazedlists.swing.DefaultEventTableModel;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 public class ProjectIndexController {
     ProjectIndexView view = new ProjectIndexView();
@@ -26,6 +32,7 @@ public class ProjectIndexController {
         this.view.addNewTaskButtonActionListener(new NewTaskButtonActionListener());
         this.view.addUserMenuLogOutActionListener(new UserMenuLogOutActionListener());
         this.view.addApplicationMenuExitActionListener(new ApplicationMenuExitActionListener());
+        this.view.addProjectsTableListSelectionListener(new ProjectsTableListSelectionListener());
     }
     
     class NewProjectButtonActionListener implements ActionListener {
@@ -59,6 +66,13 @@ public class ProjectIndexController {
                     frame.setState(Frame.NORMAL);
                 }
             }
+        }
+    }
+    
+    class ProjectsTableListSelectionListener implements ListSelectionListener {
+        @Override
+        public void valueChanged(ListSelectionEvent lse) {
+            view.setDetailViewPanel(new ProjectDetailView(view.getSelectedProject()));
         }
     }
 }

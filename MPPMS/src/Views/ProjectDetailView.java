@@ -1,22 +1,23 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package Views;
 
-/**
- *
- * @author Kirsty
- */
-public class ProjectDetailView extends javax.swing.JPanel {
+import Models.Project;
 
-    /**
-     * Creates new form ProjectDetailView
-     */
-    public ProjectDetailView() {
+public class ProjectDetailView extends javax.swing.JPanel {
+    private final Project project;
+
+    public ProjectDetailView(Project project) {
         initComponents();
+        
+        this.project = project;
+        
+        // Populate the ui controls
+        this.lblID.setText("ID: " + project.getId());
+        this.cmboPriority.removeAllItems();
+        this.cmboPriority.addItem("1 - Highest");
+        this.cmboPriority.addItem("2");
+        this.cmboPriority.addItem("3");        
+        this.cmboPriority.addItem("4");
+        this.cmboPriority.addItem("5 - Lowest");
     }
 
     /**
@@ -39,8 +40,6 @@ public class ProjectDetailView extends javax.swing.JPanel {
         textCreationDate = new javax.swing.JTextField();
         textDeadlineDate = new javax.swing.JTextField();
         cmboPriority = new javax.swing.JComboBox();
-        lblStatus = new javax.swing.JLabel();
-        cmboStatus = new javax.swing.JComboBox();
         lblProjectTitle = new javax.swing.JLabel();
         textProjectTitle = new javax.swing.JTextField();
         lblTeam = new javax.swing.JLabel();
@@ -67,10 +66,6 @@ public class ProjectDetailView extends javax.swing.JPanel {
         lblPriority.setText("Priority:");
 
         cmboPriority.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        lblStatus.setText("Status:");
-
-        cmboStatus.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         lblProjectTitle.setText("Title:");
 
@@ -127,19 +122,16 @@ public class ProjectDetailView extends javax.swing.JPanel {
                             .addComponent(lblTeam))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(cmboPriority, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(lblStatus)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(cmboStatus, 0, 134, Short.MAX_VALUE))
                             .addComponent(textCreationDate)
-                            .addComponent(textDeadlineDate)))
+                            .addComponent(textDeadlineDate)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(cmboPriority, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addComponent(jScrollPane1)
                     .addComponent(jScrollPane2)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblProjectDetails)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 306, Short.MAX_VALUE)
                         .addComponent(lblID))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -178,9 +170,7 @@ public class ProjectDetailView extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblPriority)
-                    .addComponent(cmboPriority, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblStatus)
-                    .addComponent(cmboStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cmboPriority, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblTeam)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -200,7 +190,6 @@ public class ProjectDetailView extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox cmboPriority;
-    private javax.swing.JComboBox cmboStatus;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
@@ -213,7 +202,6 @@ public class ProjectDetailView extends javax.swing.JPanel {
     private javax.swing.JLabel lblPriority;
     private javax.swing.JLabel lblProjectDetails;
     private javax.swing.JLabel lblProjectTitle;
-    private javax.swing.JLabel lblStatus;
     private javax.swing.JLabel lblTasks;
     private javax.swing.JLabel lblTeam;
     private javax.swing.JList listComponents;
