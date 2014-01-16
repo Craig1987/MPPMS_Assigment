@@ -6,6 +6,7 @@ import ca.odell.glazedlists.EventList;
 import ca.odell.glazedlists.GlazedLists;
 import ca.odell.glazedlists.gui.TableFormat;
 import ca.odell.glazedlists.swing.DefaultEventTableModel;
+import java.awt.event.ActionListener;
 
 public class ProjectIndexView extends javax.swing.JFrame {
 
@@ -27,6 +28,22 @@ public class ProjectIndexView extends javax.swing.JFrame {
         DefaultEventTableModel projectsTableModel = new DefaultEventTableModel(projectsEventList, projectsTableFormat);
         
         this.projectsTable.setModel(projectsTableModel);
+    }
+    
+    public void addNewProjectButtonActionListener(ActionListener listener) {
+        newProjectButton.addActionListener(listener);
+    }
+    
+    public void addNewTaskButtonActionListener(ActionListener listener) {
+        newTaskButton.addActionListener(listener);
+    }
+    
+    public void addLogOutMenuActionListener(ActionListener listener) {
+        menuLogOut.addActionListener(listener);
+    }
+    
+    public void addExitMenuActionListener(ActionListener listener) {
+        menuExit.addActionListener(listener);
     }
 
     /**
@@ -132,7 +149,7 @@ public class ProjectIndexView extends javax.swing.JFrame {
             .addGroup(projectToolbarLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(welcomeLabel)
-                .addGap(183, 183, 183)
+                .addGap(153, 153, 153)
                 .addComponent(newProjectButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(newTaskButton)
@@ -143,11 +160,11 @@ public class ProjectIndexView extends javax.swing.JFrame {
             .addGroup(projectToolbarLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(projectToolbarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(projectToolbarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(newProjectButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(newTaskButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(newTaskButton)
                     .addGroup(projectToolbarLayout.createSequentialGroup()
-                        .addComponent(welcomeLabel)
+                        .addGroup(projectToolbarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(welcomeLabel)
+                            .addComponent(newProjectButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
