@@ -1,23 +1,32 @@
 package Views;
 
-import Models.Project;
-
 public class ProjectDetailView extends javax.swing.JPanel {
-    private final Project project;
-
-    public ProjectDetailView(Project project) {
+    public ProjectDetailView() {
         initComponents();
-        
-        this.project = project;
-        
-        // Populate the ui controls
-        this.lblID.setText("ID: " + project.getId());
-        this.cmboPriority.removeAllItems();
-        this.cmboPriority.addItem("1 - Highest");
-        this.cmboPriority.addItem("2");
-        this.cmboPriority.addItem("3");        
-        this.cmboPriority.addItem("4");
-        this.cmboPriority.addItem("5 - Lowest");
+    }
+    
+    public void setIdLabelText(String text) {
+        this.lblID.setText(text);
+    }
+    
+    public void setProjectTitleText(String text) {
+        this.textProjectTitle.setText(text);
+    }
+    
+    public void setManagerText(String text) {
+        this.textManager.setText(text);
+    }
+    
+    public void setCoordinatorText(String text) {
+        this.textCoordinator.setText(text);
+    }
+    
+    public void setCreationDateText(String text) {
+        this.textCreationDate.setText(text);
+    }
+    
+    public void setDeadlineText(String text) {
+        this.textDeadlineDate.setText(text);
     }
 
     /**
@@ -103,35 +112,36 @@ public class ProjectDetailView extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel1)
-                            .addComponent(lblProjectTitle))
-                        .addGap(14, 14, 14)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(textCoordinator)
-                            .addComponent(textManager)
-                            .addComponent(textProjectTitle)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblCreationDate)
-                            .addComponent(lblDeadlineDate)
-                            .addComponent(lblPriority)
-                            .addComponent(lblTeam))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lblProjectTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(textCreationDate)
+                            .addComponent(textCoordinator)
+                            .addComponent(textProjectTitle)
+                            .addComponent(textManager, javax.swing.GroupLayout.Alignment.TRAILING)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lblPriority)
+                            .addComponent(lblTeam)
+                            .addComponent(lblCreationDate, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)
+                            .addComponent(lblDeadlineDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(textDeadlineDate)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(cmboPriority, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(textCreationDate, javax.swing.GroupLayout.Alignment.TRAILING)))
                     .addComponent(jScrollPane1)
                     .addComponent(jScrollPane2)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblProjectDetails)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 306, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 296, Short.MAX_VALUE)
                         .addComponent(lblID))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -144,13 +154,14 @@ public class ProjectDetailView extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblProjectDetails)
                     .addComponent(lblID))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblProjectTitle)
-                    .addComponent(textProjectTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(textProjectTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblProjectTitle))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)

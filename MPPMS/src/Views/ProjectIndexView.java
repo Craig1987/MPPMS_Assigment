@@ -8,6 +8,7 @@ import ca.odell.glazedlists.gui.TableFormat;
 import ca.odell.glazedlists.swing.DefaultEventTableModel;
 import java.awt.event.ActionListener;
 import javax.swing.JPanel;
+import javax.swing.event.ListSelectionListener;
 
 public class ProjectIndexView extends javax.swing.JFrame {
 
@@ -31,8 +32,12 @@ public class ProjectIndexView extends javax.swing.JFrame {
         this.projectsTable.setModel(projectsTableModel);
     }
     
+    public Project getSelectedProject() {
+        return (Project)((DefaultEventTableModel)this.projectsTable.getModel()).getElementAt(this.projectsTable.getSelectedRow());
+    }
+    
     public void setDetailViewPanel(JPanel panel) {
-        projectSplitPane.setBottomComponent(panel);
+        detailScrollPane.getViewport().add(panel);
     }
     
     public void addNewProjectButtonActionListener(ActionListener listener) {
@@ -50,6 +55,10 @@ public class ProjectIndexView extends javax.swing.JFrame {
     public void addApplicationMenuExitActionListener(ActionListener listener) {
         applicationMenuExit.addActionListener(listener);
     }
+    
+    public void addProjectsTableListSelectionListener(ListSelectionListener listener) {
+        projectsTable.getSelectionModel().addListSelectionListener(listener);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -62,7 +71,7 @@ public class ProjectIndexView extends javax.swing.JFrame {
 
         projectSplitPane = new javax.swing.JSplitPane();
         jPanel2 = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
+        detailScrollPane = new javax.swing.JScrollPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         projectsTable = new javax.swing.JTable();
@@ -85,21 +94,17 @@ public class ProjectIndexView extends javax.swing.JFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
+        detailScrollPane.setBorder(null);
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 671, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(detailScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 691, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 413, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(detailScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 435, Short.MAX_VALUE)
         );
 
         projectSplitPane.setRightComponent(jPanel2);
@@ -117,6 +122,7 @@ public class ProjectIndexView extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        projectsTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane3.setViewportView(projectsTable);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -227,12 +233,12 @@ public class ProjectIndexView extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem applicationMenuExit;
+    private javax.swing.JScrollPane detailScrollPane;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JButton newProjectButton;
     private javax.swing.JButton newTaskButton;

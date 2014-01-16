@@ -4,17 +4,15 @@ import Models.Project;
 import Models.User;
 import Views.ProjectDetailView;
 import Views.ProjectIndexView;
-import ca.odell.glazedlists.swing.DefaultEventTableModel;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 public class ProjectIndexController {
     ProjectIndexView view = new ProjectIndexView();
+    ProjectDetailController detailController = null;
     
     private final User currentUser;
     
@@ -72,7 +70,9 @@ public class ProjectIndexController {
     class ProjectsTableListSelectionListener implements ListSelectionListener {
         @Override
         public void valueChanged(ListSelectionEvent lse) {
-            view.setDetailViewPanel(new ProjectDetailView(view.getSelectedProject()));
+            ProjectDetailView projectDetailView = new ProjectDetailView();
+            view.setDetailViewPanel(projectDetailView);
+            detailController = new ProjectDetailController(projectDetailView, view.getSelectedProject());
         }
     }
 }
