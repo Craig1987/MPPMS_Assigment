@@ -140,11 +140,8 @@ public class ProjectIndexView extends javax.swing.JFrame {
             projectToolbarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(projectToolbarLayout.createSequentialGroup()
                 .addContainerGap()
-<<<<<<< HEAD
-=======
                 .addComponent(welcomeLabel)
                 .addGap(153, 153, 153)
->>>>>>> b78185755a7b570a15d4b61ad70956360bc42917
                 .addComponent(newProjectButton)
                 .addGap(18, 18, 18)
                 .addComponent(newTaskButton)
@@ -154,11 +151,9 @@ public class ProjectIndexView extends javax.swing.JFrame {
             projectToolbarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(projectToolbarLayout.createSequentialGroup()
                 .addContainerGap()
-<<<<<<< HEAD
                 .addGroup(projectToolbarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(newProjectButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(newTaskButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-=======
                 .addGroup(projectToolbarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(newTaskButton)
                     .addGroup(projectToolbarLayout.createSequentialGroup()
@@ -166,7 +161,6 @@ public class ProjectIndexView extends javax.swing.JFrame {
                             .addComponent(welcomeLabel)
                             .addComponent(newProjectButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(0, 0, Short.MAX_VALUE)))
->>>>>>> b78185755a7b570a15d4b61ad70956360bc42917
                 .addContainerGap())
         );
 
