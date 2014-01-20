@@ -2,6 +2,7 @@
 <root>
     <Component>
         <ID>1</ID>
+        <Description>Video with subtitles</Description>
         <Assets>
             <AssetID>1</AssetID>
         </Assets>

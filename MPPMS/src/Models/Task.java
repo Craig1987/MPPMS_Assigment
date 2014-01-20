@@ -16,25 +16,38 @@ public class Task {
     private static SetOfTasks allTasks = null;
     
     private final int id;
-    private final ReportType reportType;
+    private final TaskType taskType;
     
+    private String title;
     private SetOfUsers assignedTo;
     private int status;
     private int priority;
     private Report report;
     
-    public enum ReportType {
+    public enum TaskType {
         QC,
         Build
     }
     
-    public Task(int id, ReportType reportType) {
+    public Task(int id, TaskType taskType) {
         this.id = id;
-        this.reportType = reportType;
+        this.taskType = taskType;
     }
     
-    public int getID() {
+    public int getId() {
         return this.id;
+    }
+    
+    public TaskType getTaskType() {
+        return this.taskType;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public SetOfUsers getAssignedTo() {
@@ -69,6 +82,11 @@ public class Task {
         this.report = report;
     }
     
+    @Override
+    public String toString() {
+        return "(ID: " + getId() + ") " + getTaskType() + " Task - " + getTitle();
+    }
+    
     public static SetOfTasks getAllTasks() {
         if (allTasks == null) {
             populateTasks();
@@ -78,7 +96,7 @@ public class Task {
     
     public static Task getTaskByID(int id) {
         for (Task task : getAllTasks()) {
-            if (task.getID() == id) {
+            if (task.getId() == id) {
                 return task;
             }
         }
@@ -110,7 +128,8 @@ public class Task {
                     int status = Integer.parseInt(taskElement.getElementsByTagName("Status").item(0).getTextContent());
                     int priority = Integer.parseInt(taskElement.getElementsByTagName("Priority").item(0).getTextContent());
                     int reportID = Integer.parseInt(taskElement.getElementsByTagName("ReportID").item(0).getTextContent());
-                    Task.ReportType reportType = Task.ReportType.valueOf(taskElement.getElementsByTagName("Type").item(0).getTextContent());
+                    String title = taskElement.getElementsByTagName("Title").item(0).getTextContent();
+                    TaskType taskType = TaskType.valueOf(taskElement.getElementsByTagName("Type").item(0).getTextContent());
                     
                     // Get 'AssignedTo' users
                     NodeList assignedNodes = taskElement.getElementsByTagName("AssignedTo");
@@ -126,7 +145,8 @@ public class Task {
                         }
                     }
                     
-                    Task task = new Task(id, reportType);
+                    Task task = new Task(id, taskType);
+                    task.setTitle(title);
                     task.setAssignedTo(assignedTo);
                     task.setPriority(priority);
                     task.setReport(Report.getReportByID(reportID));

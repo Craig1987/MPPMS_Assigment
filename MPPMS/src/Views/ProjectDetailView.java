@@ -1,5 +1,7 @@
 package Views;
 
+import javax.swing.DefaultComboBoxModel;
+
 public class ProjectDetailView extends javax.swing.JPanel {
     public ProjectDetailView() {
         initComponents();
@@ -27,6 +29,23 @@ public class ProjectDetailView extends javax.swing.JPanel {
     
     public void setDeadlineText(String text) {
         this.textDeadlineDate.setText(text);
+    }
+    
+    public void setPriority(DefaultComboBoxModel model, int index) {
+        this.cmboPriority.setModel(model);
+        this.cmboPriority.setSelectedIndex(index);
+    }
+    
+    public void setTeam(DefaultComboBoxModel model) {
+        this.listTeam.setModel(model);
+    }
+    
+    public void setTasks(DefaultComboBoxModel model) {
+        this.listTasks.setModel(model);
+    }
+    
+    public void setComponents(DefaultComboBoxModel model) {
+        this.listComponents.setModel(model);
     }
 
     /**
@@ -111,13 +130,13 @@ public class ProjectDetailView extends javax.swing.JPanel {
         });
         jScrollPane3.setViewportView(listComponents);
 
-        jButton1.setText("Add / Remove Task");
+        jButton1.setText("Add / Remove");
 
-        jButton2.setText("Add / Remove User");
+        jButton2.setText("Add / Remove");
 
-        jButton3.setText("Edit Task");
+        jButton3.setText("Edit");
 
-        jButton4.setText("Add / Remove Component");
+        jButton4.setText("Add / Remove");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -154,16 +173,16 @@ public class ProjectDetailView extends javax.swing.JPanel {
                     .addComponent(lblTasks)
                     .addComponent(lblComponents)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
-                            .addComponent(jScrollPane2)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 285, Short.MAX_VALUE)
+                            .addComponent(jScrollPane3)
                             .addComponent(jScrollPane1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE))))
+                            .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(

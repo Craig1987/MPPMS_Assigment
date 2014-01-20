@@ -2,10 +2,6 @@ package Models;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 import java.util.Vector;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -23,13 +19,23 @@ public class Component {
     private Vector<Asset> assets = new Vector<>();
     
     private final int id;
+    private String description;
     
-    public Component(int id) {
+    public Component(int id, String description) {
         this.id = id;
+        this.description = description;
     }
     
     public int getId() {
         return id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
     
     public Vector<Asset> getAssets() {
@@ -42,6 +48,11 @@ public class Component {
     
     public void removeAsset(Asset a) {
         assets.remove(a);
+    }
+    
+    @Override
+    public String toString() {
+        return "(ID: " + getId() + ") " + getDescription();
     }
     
     public static SetOfComponents getAllComponents() {
@@ -82,8 +93,9 @@ public class Component {
                 {
                     Element element = (Element)node;
                     int id = Integer.parseInt(element.getElementsByTagName("ID").item(0).getTextContent());
+                    String description = element.getElementsByTagName("Description").item(0).getTextContent();
                     
-                    Component component = new Component(id);
+                    Component component = new Component(id, description);
                                         
                     // Get the assets which make up this component
                     NodeList assetNodes = element.getElementsByTagName("Assets");

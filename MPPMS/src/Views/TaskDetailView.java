@@ -3,14 +3,10 @@ package Views;
 import Models.SetOfUsers;
 import javax.swing.DefaultComboBoxModel;
 
-/**
- *
- * @author Kirsty
- */
-public class TaskDetailView extends javax.swing.JFrame {
+public class TaskDetailView extends javax.swing.JPanel {
+
     public TaskDetailView() {
         initComponents();
-        this.setLocationRelativeTo(null);
     }
     
     public void setIdLabelText(String text) {
@@ -44,40 +40,30 @@ public class TaskDetailView extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        lblTaskDetails = new javax.swing.JLabel();
-        lblTaskID = new javax.swing.JLabel();
-        lblTaskTitle = new javax.swing.JLabel();
-        textTaskTitle = new javax.swing.JTextField();
-        lblPriority = new javax.swing.JLabel();
-        cmboPriority = new javax.swing.JComboBox();
-        lblAssignedTo = new javax.swing.JLabel();
-        btnEditAssignedTo = new javax.swing.JButton();
-        lblStatus = new javax.swing.JLabel();
+        btnEditReport = new javax.swing.JButton();
+        lblReport = new javax.swing.JLabel();
+        cmboReport = new javax.swing.JComboBox();
+        btnSaveTask = new javax.swing.JButton();
         cmboStatus = new javax.swing.JComboBox();
         jScrollPane1 = new javax.swing.JScrollPane();
         listAssignedTo = new javax.swing.JList();
-        btnSaveTask = new javax.swing.JButton();
-        lblReport = new javax.swing.JLabel();
-        cmboReport = new javax.swing.JComboBox();
-        btnEditReport = new javax.swing.JButton();
+        lblTaskID = new javax.swing.JLabel();
+        lblTaskDetails = new javax.swing.JLabel();
+        lblStatus = new javax.swing.JLabel();
+        cmboPriority = new javax.swing.JComboBox();
+        lblPriority = new javax.swing.JLabel();
+        textTaskTitle = new javax.swing.JTextField();
+        lblTaskTitle = new javax.swing.JLabel();
+        btnEditAssignedTo = new javax.swing.JButton();
+        lblAssignedTo = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        btnEditReport.setText("Edit Selected Report");
 
-        lblTaskDetails.setText("Task Details");
+        lblReport.setText("Report:");
 
-        lblTaskID.setText("ID:");
+        cmboReport.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        lblTaskTitle.setText("Title:");
-
-        lblPriority.setText("Priority:");
-
-        cmboPriority.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        lblAssignedTo.setText("Assigned to:");
-
-        btnEditAssignedTo.setText("Add / Remove User");
-
-        lblStatus.setText("Status:");
+        btnSaveTask.setText("Save Task Details");
 
         cmboStatus.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -88,54 +74,65 @@ public class TaskDetailView extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(listAssignedTo);
 
-        btnSaveTask.setText("Save Task Details");
+        lblTaskID.setText("ID:");
 
-        lblReport.setText("Report:");
+        lblTaskDetails.setText("Task Details");
 
-        cmboReport.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        lblStatus.setText("Status:");
 
-        btnEditReport.setText("Edit Selected Report");
+        cmboPriority.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
+        lblPriority.setText("Priority:");
+
+        lblTaskTitle.setText("Title:");
+
+        btnEditAssignedTo.setText("Add / Remove User");
+
+        lblAssignedTo.setText("Assigned to:");
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblAssignedTo)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblTaskDetails)
-                        .addGap(331, 331, 331)
-                        .addComponent(lblTaskID))
+                    .addComponent(btnSaveTask, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addComponent(lblTaskTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(lblStatus)
-                                    .addGap(26, 26, 26)))
+                            .addComponent(lblAssignedTo)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblPriority)
-                                .addGap(23, 23, 23))
-                            .addComponent(lblReport))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(lblTaskDetails)
+                                .addGap(331, 331, 331)
+                                .addComponent(lblTaskID))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(cmboReport, 0, 199, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                            .addComponent(lblTaskTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(lblStatus)
+                                            .addGap(26, 26, 26)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(lblPriority)
+                                            .addComponent(lblReport))
+                                        .addGap(23, 23, 23)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(cmboReport, 0, 199, Short.MAX_VALUE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(btnEditReport))
+                                    .addComponent(cmboPriority, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(cmboStatus, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(textTaskTitle, javax.swing.GroupLayout.Alignment.TRAILING)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(btnEditReport))
-                            .addComponent(cmboPriority, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(cmboStatus, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(textTaskTitle, javax.swing.GroupLayout.Alignment.TRAILING)))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(btnSaveTask, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(btnEditAssignedTo, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(btnEditAssignedTo, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -158,23 +155,19 @@ public class TaskDetailView extends javax.swing.JFrame {
                     .addComponent(cmboPriority, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cmboReport, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmboReport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblReport)
                     .addComponent(btnEditReport))
-                .addGap(18, 18, 18)
-                .addComponent(lblAssignedTo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 48, Short.MAX_VALUE)
-                        .addComponent(btnEditAssignedTo, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(lblAssignedTo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnEditAssignedTo, javax.swing.GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnSaveTask)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-
-        pack();
     }// </editor-fold>//GEN-END:initComponents
 
 
