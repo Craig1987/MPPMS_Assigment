@@ -1,7 +1,12 @@
 package Controllers;
 
+import Models.Component;
 import Models.Project;
+import Models.Task;
+import Models.User;
 import Views.ProjectDetailView;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import javax.swing.DefaultComboBoxModel;
 
@@ -27,6 +32,33 @@ public class ProjectDetailController {
             this.view.setTeam(new DefaultComboBoxModel<>(project.getTeam()));
             this.view.setTasks(new DefaultComboBoxModel<>(project.getTasks()));
             this.view.setComponents(new DefaultComboBoxModel<>(project.getComponents()));
+            this.view.addTeamChoiceActionListener(new TeamChoiceActionListener());
+            this.view.addTasksChoiceActionListener(new TasksChoiceActionListener());
+            this.view.addComponentsChoiceActionListener(new ComponentsChoiceActionListener());
         }
+    }
+    
+    class TeamChoiceActionListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            ModelChoiceController controller = new ModelChoiceController(User.getAllUsers(), project.getTeam());
+            controller.launch();
+        }        
+    }
+    
+    class TasksChoiceActionListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            ModelChoiceController controller = new ModelChoiceController(Task.getAllTasks(), project.getTasks());
+            controller.launch();
+        }        
+    }
+    
+    class ComponentsChoiceActionListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            ModelChoiceController controller = new ModelChoiceController(Component.getAllComponents(), project.getComponents());
+            controller.launch();
+        }        
     }
 }

@@ -12,7 +12,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-public class User {
+public class User extends Model {
     private static SetOfUsers allUsers = null;
     
     private SetOfProjects currentProjects;

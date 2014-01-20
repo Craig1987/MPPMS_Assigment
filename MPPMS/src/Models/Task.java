@@ -12,7 +12,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-public class Task {
+public class Task extends Model {
     private static SetOfTasks allTasks = null;
     
     private final int id;

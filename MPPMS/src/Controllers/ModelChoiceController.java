@@ -8,7 +8,6 @@ package Controllers;
 
 import Exceptions.NoModelSelectedException;
 import Models.Model;
-import Models.SetOfUsers;
 import Views.ModelChoiceView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,10 +20,9 @@ import java.util.Vector;
  * 
  * @author ryantk
  */
-public class ModelChoiceController {
-    
-    ModelChoiceView view = new ModelChoiceView();
-    Vector<Model> allModels = new Vector<>();
+public class ModelChoiceController {    
+    private ModelChoiceView view = new ModelChoiceView();
+    private Vector<Model> allModels = new Vector<>();
     
     public ModelChoiceController(Collection allTheModels) {
         allModels = (Vector<Model>) allTheModels;
@@ -52,17 +50,12 @@ public class ModelChoiceController {
         view.setAvailableModels(remainingModels);
         view.setChosenModels(preChosen);
         
-        view.setTitle("Chose Model");
-    }
-    
-    public void setModelTypeName(String name) {
-        view.setTitle("Chose a " + name);
-        view.setAvailableModelsLabel("Available " + name + "s");
-        view.setChosenModelsLabel("Selected " + name + "s");
-    }
-    
-    public void setTitle(String title) {
-        view.setTitle(title);
+        String classDescription = allModels.get(0).getClass().toString();
+        String className = classDescription.substring(classDescription.lastIndexOf(".") + 1);
+        view.setTitle("MPPMS - Select " + className + "s");
+        view.setTitleLabel("Select " + className + "s");
+        view.setAvailableModelsLabel("Available " + className + "s");
+        view.setChosenModelsLabel("Selected " + className + "s");
     }
     
     public void launch() {
@@ -73,6 +66,10 @@ public class ModelChoiceController {
         
         view.setVisible(true);
     }
+    
+    public void setTitle(String title) {
+        view.setTitle(title);
+    }  
     
     class AddModelButtonActionListener implements ActionListener {
         @Override
@@ -129,7 +126,7 @@ public class ModelChoiceController {
     class SaveChosenModelsButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {            
-            //
+            // TODO
         }
     }
     

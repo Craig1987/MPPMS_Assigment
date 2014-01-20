@@ -132,10 +132,10 @@ public class ProjectIndexView extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("MPPMS - Projects");
-        setPreferredSize(new java.awt.Dimension(900, 450));
+        setPreferredSize(new java.awt.Dimension(900, 547));
 
         projectSplitPane.setBorder(null);
-        projectSplitPane.setDividerLocation(300);
+        projectSplitPane.setDividerLocation(450);
 
         detailScrollPane.setBorder(null);
 
@@ -143,7 +143,7 @@ public class ProjectIndexView extends javax.swing.JFrame {
         detailPanel.setLayout(detailPanelLayout);
         detailPanelLayout.setHorizontalGroup(
             detailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(detailScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 595, Short.MAX_VALUE)
+            .addComponent(detailScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 445, Short.MAX_VALUE)
         );
         detailPanelLayout.setVerticalGroup(
             detailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -180,8 +180,8 @@ public class ProjectIndexView extends javax.swing.JFrame {
             .addGroup(projectTablePanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(projectTablePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(projectsScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(newProjectButton, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE))
+                    .addComponent(projectsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 425, Short.MAX_VALUE)
+                    .addComponent(newProjectButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         projectTablePanelLayout.setVerticalGroup(
@@ -221,8 +221,8 @@ public class ProjectIndexView extends javax.swing.JFrame {
             .addGroup(taskTablePanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(taskTablePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tasksScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(newTaskButton, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE))
+                    .addComponent(tasksScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 425, Short.MAX_VALUE)
+                    .addComponent(newTaskButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         taskTablePanelLayout.setVerticalGroup(
@@ -246,8 +246,8 @@ public class ProjectIndexView extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(welcomeLabel)
-                .addContainerGap(256, Short.MAX_VALUE))
-            .addComponent(tabbedPaneView, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addContainerGap(406, Short.MAX_VALUE))
+            .addComponent(tabbedPaneView, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

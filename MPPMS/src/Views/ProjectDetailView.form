@@ -74,10 +74,10 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="jButton4" max="32767" attributes="0"/>
-                          <Component id="jButton2" alignment="1" max="32767" attributes="0"/>
+                          <Component id="componentsChoiceButton" max="32767" attributes="0"/>
+                          <Component id="teamChoiceButton" alignment="1" max="32767" attributes="0"/>
                           <Component id="jButton3" alignment="1" max="32767" attributes="0"/>
-                          <Component id="jButton1" alignment="1" max="32767" attributes="0"/>
+                          <Component id="tasksChoiceButton" alignment="1" max="32767" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -133,7 +133,7 @@
               <Component id="lblTeam" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="jButton2" pref="51" max="32767" attributes="0"/>
+                  <Component id="teamChoiceButton" pref="51" max="32767" attributes="0"/>
                   <Component id="jScrollPane1" pref="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -141,7 +141,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Group type="102" attributes="0">
-                      <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                      <Component id="tasksChoiceButton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="jButton3" min="-2" max="-2" attributes="0"/>
                   </Group>
@@ -151,7 +151,7 @@
               <Component id="lblComponents" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jButton4" min="-2" pref="51" max="-2" attributes="0"/>
+                  <Component id="componentsChoiceButton" min="-2" pref="51" max="-2" attributes="0"/>
                   <Component id="jScrollPane3" min="-2" pref="51" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
@@ -280,12 +280,12 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JButton" name="jButton1">
+    <Component class="javax.swing.JButton" name="tasksChoiceButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Add / Remove"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton2">
+    <Component class="javax.swing.JButton" name="teamChoiceButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Add / Remove"/>
       </Properties>
@@ -295,7 +295,7 @@
         <Property name="text" type="java.lang.String" value="Edit"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton4">
+    <Component class="javax.swing.JButton" name="componentsChoiceButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Add / Remove"/>
       </Properties>
