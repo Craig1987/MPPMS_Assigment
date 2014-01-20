@@ -8,9 +8,11 @@ package Controllers;
 
 import Exceptions.NoModelSelectedException;
 import Models.Model;
+import Models.SetOfUsers;
 import Views.ModelChoiceView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Collection;
 import java.util.Vector;
 
 /**
@@ -24,8 +26,8 @@ public class ModelChoiceController {
     ModelChoiceView view = new ModelChoiceView();
     Vector<Model> allModels = new Vector<>();
     
-    public ModelChoiceController(Vector<Model> allTheModels) {
-        allModels = (Vector<Model>) allTheModels.clone();
+    public ModelChoiceController(Collection allTheModels) {
+        allModels = (Vector<Model>) allTheModels;
         
         view.setAvailableModels(allModels);
         view.setChosenModels(new Vector<Model>());
@@ -38,16 +40,17 @@ public class ModelChoiceController {
         due to the way Vector.remove removes based on object ID rather than
         looking at it's fields
     */
-    public ModelChoiceController(Vector<Model> allTheModels, Vector<Model> preChosenModels) {
-        allModels = (Vector<Model>) allTheModels.clone();
+    public ModelChoiceController(Collection allTheModels, Collection preChosenModels) {
+        allModels = (Vector<Model>) allTheModels;
         
         Vector<Model> remainingModels = new Vector<>();
+        Vector<Model> preChosen = (Vector<Model>) preChosenModels;
         
         remainingModels.addAll(allTheModels);
         remainingModels.removeAll(preChosenModels);
         
         view.setAvailableModels(remainingModels);
-        view.setChosenModels(preChosenModels);
+        view.setChosenModels(preChosen);
         
         view.setTitle("Chose Model");
     }
