@@ -2,6 +2,8 @@ package Views;
 
 import Models.Project;
 import Models.SetOfProjects;
+import Models.Task;
+import Models.SetOfTasks;
 import ca.odell.glazedlists.EventList;
 import ca.odell.glazedlists.GlazedLists;
 import ca.odell.glazedlists.gui.TableFormat;
@@ -30,6 +32,17 @@ public class ProjectIndexView extends javax.swing.JFrame {
         DefaultEventTableModel projectsTableModel = new DefaultEventTableModel(projectsEventList, projectsTableFormat);
         
         this.projectsTable.setModel(projectsTableModel);
+    }
+    
+    public void setTasksTableData(SetOfTasks tasks) {
+        String[] headers = new String[]{ "Title", "Status", "Priority", "Report" };
+        String[] properties = new String[]{ "Title", "Status", "Priority", "Report" };
+        
+        EventList tasksEventList = GlazedLists.eventList(tasks);
+        TableFormat tasksTableFormat = GlazedLists.tableFormat(Task.class, properties, headers);
+        DefaultEventTableModel tasksTableModel = new DefaultEventTableModel(tasksEventList, tasksTableFormat);
+        
+        this.tasksTable.setModel(tasksTableModel);
     }
     
     public Project getSelectedProject() {
