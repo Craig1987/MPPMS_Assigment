@@ -8,8 +8,8 @@
             <Username>Joe90</Username>
             <Userrname>Gail</Userrname>
         </AssignedTo>
-        <Status>3</Status>
-        <Priority>1</Priority>
+        <Status>Ongoing</Status>
+        <Priority>Highest</Priority>
         <ReportID>1</ReportID>
     </Task>
 </root>

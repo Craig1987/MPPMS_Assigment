@@ -37,6 +37,11 @@ public class Report {
         comments.remove(comment);
     }
     
+    @Override
+    public String toString() {
+        return "(ID: " + getId() + ") " + this.comments.size() + " comments";
+    }
+    
     public static SetOfReports getAllReports() {
         if (allReports == null) {
             populateReports();

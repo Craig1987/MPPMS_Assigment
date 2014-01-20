@@ -20,13 +20,25 @@ public class Task {
     
     private String title;
     private SetOfUsers assignedTo;
-    private int status;
-    private int priority;
+    private Status status;
+    private Priority priority;
     private Report report;
     
     public enum TaskType {
         QC,
         Build
+    }
+    public enum Status {
+        New,
+        Ongoing,
+        Completed
+    }
+    public enum Priority {
+        Highest,
+        High,
+        Normal,
+        Low,
+        Lowest
     }
     
     public Task(int id, TaskType taskType) {
@@ -58,20 +70,20 @@ public class Task {
         this.assignedTo = assignedTo;
     }
 
-    public int getPriority() {
-        return priority;
-    }
-
-    public void setPriority(int priority) {
-        this.priority = priority;
-    }
-    
-    public int getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public Priority getPriority() {
+        return priority;
+    }
+
+    public void setPriority(Priority priority) {
+        this.priority = priority;
     }
 
     public Report getReport() {
@@ -92,6 +104,16 @@ public class Task {
             populateTasks();
         }
         return allTasks;
+    }
+    
+    public static SetOfTasks getTasksForUser(User user) {
+        SetOfTasks tasks = new SetOfTasks();
+        for (Task task : getAllTasks()) {
+            if (task.getAssignedTo().contains(user)) {
+                tasks.add(task);
+            }
+        }
+        return tasks;
     }
     
     public static Task getTaskByID(int id) {
@@ -125,9 +147,9 @@ public class Task {
                 {
                     Element taskElement = (Element)node;
                     int id = Integer.parseInt(taskElement.getElementsByTagName("ID").item(0).getTextContent());
-                    int status = Integer.parseInt(taskElement.getElementsByTagName("Status").item(0).getTextContent());
-                    int priority = Integer.parseInt(taskElement.getElementsByTagName("Priority").item(0).getTextContent());
                     int reportID = Integer.parseInt(taskElement.getElementsByTagName("ReportID").item(0).getTextContent());
+                    Status status = Status.valueOf(taskElement.getElementsByTagName("Status").item(0).getTextContent());
+                    Priority priority = Priority.valueOf(taskElement.getElementsByTagName("Priority").item(0).getTextContent());                    
                     String title = taskElement.getElementsByTagName("Title").item(0).getTextContent();
                     TaskType taskType = TaskType.valueOf(taskElement.getElementsByTagName("Type").item(0).getTextContent());
                     
