@@ -27,9 +27,17 @@ public class Project {
     private User coordinator;
     private SetOfUsers team;
     private Date deadline;
-    private int priority;
+    private Priority priority;
     private SetOfTasks tasks;
     private SetOfComponents components;
+    
+    public enum Priority {
+        Highest,
+        High,
+        Normal,
+        Low,
+        Lowest
+    }
     
     public Project(int id, Date creationDate) {
         this.id = id;
@@ -84,11 +92,11 @@ public class Project {
         this.deadline = deadline;
     }
 
-    public int getPriority() {
+    public Priority getPriority() {
         return priority;
     }
 
-    public void setPriority(int priority) {
+    public void setPriority(Priority priority) {
         this.priority = priority;
     }
 
@@ -147,7 +155,7 @@ public class Project {
                 {
                     Element element = (Element)node;
                     int id = Integer.parseInt(element.getElementsByTagName("ID").item(0).getTextContent());
-                    int priority = Integer.parseInt(element.getElementsByTagName("Priority").item(0).getTextContent());
+                    Priority priority = Priority.valueOf(element.getElementsByTagName("Priority").item(0).getTextContent());
                     String title = element.getElementsByTagName("Title").item(0).getTextContent();
                     String managerUsername = element.getElementsByTagName("Manager").item(0).getTextContent();
                     String coordinatorUsername = element.getElementsByTagName("Coordinator").item(0).getTextContent();
