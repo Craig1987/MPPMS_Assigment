@@ -65,7 +65,14 @@ public class IndexController {
     class NewProjectButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            // New Project Happens
+        
+            ProjectDetailView detailView = new ProjectDetailView();
+            
+            ProjectDetailController controller = new ProjectDetailController(detailView, new Project());
+            controller.initialise();
+            
+            view.setDetailViewPanel(detailView);
+            
         }
     }
     

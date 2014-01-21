@@ -36,7 +36,7 @@
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="lblPriority" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="lblTeam" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblCreationDate" alignment="0" pref="85" max="32767" attributes="0"/>
+                          <Component id="lblCreationDate" alignment="0" max="32767" attributes="0"/>
                           <Component id="lblDeadlineDate" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
