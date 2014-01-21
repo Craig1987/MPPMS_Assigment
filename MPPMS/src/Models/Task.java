@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.*;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -116,44 +117,69 @@ public class Task {
             // Prevent unwanted behaviour resulting from poorly formatted XML
             doc.getDocumentElement().normalize();
             
-            // Get the Tasks
-            NodeList taskNodes = doc.getElementsByTagName("Task");
-            for (int i = 0; i < taskNodes.getLength(); i++)
+            XPathFactory xpathfactory = XPathFactory.newInstance();
+            XPath xpath = xpathfactory.newXPath();
+            XPathExpression expr;
+            Object result;
+  
+            // Get the persisted Projects
+            try
             {
-                Node node = taskNodes.item(i);
-                if (node.getNodeType() == Node.ELEMENT_NODE)
+                expr = xpath.compile("/root/Task");
+                result = expr.evaluate(doc, XPathConstants.NODESET);
+                NodeList allTaskNodes = (NodeList) result;
+            
+                if (allTaskNodes != null)
                 {
-                    Element taskElement = (Element)node;
-                    int id = Integer.parseInt(taskElement.getElementsByTagName("ID").item(0).getTextContent());
-                    int status = Integer.parseInt(taskElement.getElementsByTagName("Status").item(0).getTextContent());
-                    int priority = Integer.parseInt(taskElement.getElementsByTagName("Priority").item(0).getTextContent());
-                    int reportID = Integer.parseInt(taskElement.getElementsByTagName("ReportID").item(0).getTextContent());
-                    String title = taskElement.getElementsByTagName("Title").item(0).getTextContent();
-                    TaskType taskType = TaskType.valueOf(taskElement.getElementsByTagName("Type").item(0).getTextContent());
-                    
-                    // Get 'AssignedTo' users
-                    NodeList assignedNodes = taskElement.getElementsByTagName("AssignedTo");
-                    SetOfUsers assignedTo = new SetOfUsers();
-                    for (int x = 0; x < assignedNodes.getLength(); x++)
+                    for (int i = 0; i < allTaskNodes.getLength(); i++) 
                     {
-                        Node assignedNode = assignedNodes.item(x);
-                        if (assignedNode.getNodeType() == Node.ELEMENT_NODE)
+                        Node individualTaskNode = allTaskNodes.item(i);
+                        
+                        if (individualTaskNode.getNodeType() == Node.ELEMENT_NODE)
                         {
-                            Element assignedElement = (Element)assignedNode;
-                            String username = assignedElement.getElementsByTagName("Username").item(0).getTextContent();
-                            assignedTo.add(User.getUserByUsername(username));
+                            Element individualTaskElement = (Element)individualTaskNode;
+                            int id = Integer.parseInt(individualTaskElement.getElementsByTagName("ID").item(i).getTextContent());
+                            int status = Integer.parseInt(individualTaskElement.getElementsByTagName("Status").item(i).getTextContent());
+                            int priority = Integer.parseInt(individualTaskElement.getElementsByTagName("Priority").item(i).getTextContent());
+                            int reportID = Integer.parseInt(individualTaskElement.getElementsByTagName("ReportID").item(i).getTextContent());
+                            String title = individualTaskElement.getElementsByTagName("Title").item(i).getTextContent();
+                            TaskType taskType = TaskType.valueOf(individualTaskElement.getElementsByTagName("Type").item(i).getTextContent());
+
+                            // Get 'AssignedTo' users
+                            expr = xpath.compile("AssignedTo");
+                            result = expr.evaluate(individualTaskNode, XPathConstants.NODE);
+                            NodeList assignedToNodes = (NodeList) result;
+
+                            SetOfUsers assignedTo = new SetOfUsers();
+
+                            for (int x = 0; x < assignedToNodes.getLength(); x++) 
+                            {
+                                Node userNode = assignedToNodes.item(x);
+
+                                if (userNode.getNodeType() == Node.ELEMENT_NODE)
+                                {
+                                    Element userElement = (Element)userNode;
+                                    String username = userElement.getTextContent();
+                                    assignedTo.add(User.getUserByUsername(username));
+                                }
+                            }
+                            
+                            Task task = new Task(id, taskType);
+                            task.setTitle(title);
+                            task.setAssignedTo(assignedTo);
+                            task.setPriority(priority);
+                            task.setReport(Report.getReportByID(reportID));
+                            task.setStatus(status);
+
+                            allTasks.add(task);
                         }
+                      
                     }
-                    
-                    Task task = new Task(id, taskType);
-                    task.setTitle(title);
-                    task.setAssignedTo(assignedTo);
-                    task.setPriority(priority);
-                    task.setReport(Report.getReportByID(reportID));
-                    task.setStatus(status);
-                    
-                    allTasks.add(task);
                 }
+            }
+            catch (XPathExpressionException xe)
+            {
+                System.out.println("Error reading Projects.xml: " + xe.toString());
             }
         }
         catch (ParserConfigurationException | SAXException | IOException | DOMException ex)
