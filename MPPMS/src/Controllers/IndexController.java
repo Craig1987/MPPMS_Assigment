@@ -66,7 +66,12 @@ public class IndexController {
         @Override
         public void actionPerformed(ActionEvent e) {
         
-            view.setDetailViewPanel(new ProjectDetailView());
+            ProjectDetailView detailView = new ProjectDetailView();
+            
+            ProjectDetailController controller = new ProjectDetailController(detailView, new Project());
+            controller.initialise();
+            
+            view.setDetailViewPanel(detailView);
             
         }
     }

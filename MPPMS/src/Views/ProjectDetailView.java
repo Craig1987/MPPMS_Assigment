@@ -1,14 +1,36 @@
 package Views;
 
+import Models.Project;
+import Models.User;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 
 public class ProjectDetailView extends javax.swing.JPanel {
+    
+    Project project;
+    
     public ProjectDetailView() {
         initComponents();
         
         this.saveButton.setVisible(false);
         this.discardButton.setVisible(false);
+    }
+    
+    public void setSaveButtonVisibility(boolean visible) {
+        saveButton.setVisible(visible);
+    }
+    
+    public void setEditButtonVisibility(boolean visible) {
+        editButton.setVisible(visible);
+    }
+    
+    public void setProject(Project p) {
+        project = p;
     }
     
     public void setIdLabelText(String text) {
@@ -52,6 +74,10 @@ public class ProjectDetailView extends javax.swing.JPanel {
         this.listComponents.setModel(model);
     }
     
+    public void addSaveButtonActionListener(ActionListener listener) {
+        saveButton.addActionListener(listener);
+    }
+    
     public void addTeamChoiceActionListener(ActionListener listener) {
         this.teamChoiceButton.addActionListener(listener);
     }
@@ -62,6 +88,31 @@ public class ProjectDetailView extends javax.swing.JPanel {
     
     public void addComponentsChoiceActionListener(ActionListener listener) {
         this.componentsChoiceButton.addActionListener(listener);
+    }
+    
+    public void updateProject() {
+        project.setTitle(textProjectTitle.getText());
+        project.setPriority((Project.Priority) cmboPriority.getSelectedItem());
+        project.setManager(User.getUserByUsername(textManager.getText()));
+        
+        String deadlineDate = textDeadlineDate.getText();
+        
+        if (! deadlineDate.equals("")) {
+            try {
+            project.setDeadline(new SimpleDateFormat("dd MMM yyyy").parse(textDeadlineDate.getText()));
+            } catch (ParseException ex) {
+                Logger.getLogger(ProjectDetailView.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }        
+    }
+    
+    public void displayInfoMessage(String msg) {
+        JOptionPane.showMessageDialog(null, msg);
+    }
+    
+    public Project getProject() {
+        updateProject();
+        return project;
     }
 
     /**

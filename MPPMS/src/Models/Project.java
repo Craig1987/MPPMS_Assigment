@@ -143,6 +143,17 @@ public class Project {
         return projects;
     }
     
+    public void save() {
+        if (id == null){
+            // New Project
+            id = getAllProjects().get(getAllProjects().size() - 1).getId();
+            creationDate = new Date();
+        }
+
+        // TODO: Implement XML Persistance of Project
+        System.out.println("TODO: Implement XML Persistance of Project | Models/Project.java:146");
+    }
+    
     private static void populateProjects() {
         try 
         {
