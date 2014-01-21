@@ -23,7 +23,7 @@ public class LoginController {
     
     private void login() {
         if (User.authenticate(view.getUsername(), view.getPassword())) {
-            ProjectIndexController controller = new ProjectIndexController(User.getUserByUsername(view.getUsername()));
+            IndexController controller = new IndexController(User.getUserByUsername(view.getUsername()));
             controller.launch();
             
             view.setUsername("");

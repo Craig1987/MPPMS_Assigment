@@ -29,9 +29,9 @@ public class ProjectDetailController {
             this.view.setCreationDateText(new SimpleDateFormat("dd MMM yyyy").format(project.getCreationDate()));
             this.view.setDeadlineText(new SimpleDateFormat("dd MMM yyyy").format(project.getDeadline()));
             this.view.setPriority(new DefaultComboBoxModel<>(Project.Priority.values()), project.getPriority().ordinal());
-            this.view.setTeam(new DefaultComboBoxModel<>(project.getTeam()));
-            this.view.setTasks(new DefaultComboBoxModel<>(project.getTasks()));
-            this.view.setComponents(new DefaultComboBoxModel<>(project.getComponents()));
+            this.view.setTeam(new DefaultComboBoxModel<>(project.getTeam().toArray()));
+            this.view.setTasks(new DefaultComboBoxModel<>(project.getTasks().toArray()));
+            this.view.setComponents(new DefaultComboBoxModel<>(project.getComponents().toArray()));
             this.view.addTeamChoiceActionListener(new TeamChoiceActionListener());
             this.view.addTasksChoiceActionListener(new TasksChoiceActionListener());
             this.view.addComponentsChoiceActionListener(new ComponentsChoiceActionListener());

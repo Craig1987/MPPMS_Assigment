@@ -3,11 +3,11 @@ package Views;
 import Exceptions.NoModelSelectedException;
 import Models.Model;
 import java.awt.event.ActionListener;
-import java.util.Vector;
+import java.util.ArrayList;
 
 public class ModelChoiceView extends javax.swing.JFrame {
-    private Vector<Model> availableModels = new Vector<>();
-    private Vector<Model> chosenModels = new Vector<>();
+    private ArrayList<Model> availableModels = new ArrayList<>();
+    private ArrayList<Model> chosenModels = new ArrayList<>();
 
     public ModelChoiceView() {
         initComponents();
@@ -29,12 +29,12 @@ public class ModelChoiceView extends javax.swing.JFrame {
         return chosenModels.get(selectedIndex);
     }
     
-    public Vector<Model> getChosenModels(){
-        return (Vector<Model>) chosenModels.clone();
+    public ArrayList<Model> getChosenModels(){
+        return (ArrayList<Model>) chosenModels.clone();
     }
     
-    public Vector<Model> getAvailableModels() {
-        return (Vector<Model>) availableModels.clone();
+    public ArrayList<Model> getAvailableModels() {
+        return (ArrayList<Model>) availableModels.clone();
     }
     
     public void setTitleLabel(String title) {
@@ -49,14 +49,14 @@ public class ModelChoiceView extends javax.swing.JFrame {
         lbl_chosenModels.setText(text);
     }
     
-    public void setAvailableModels(Vector<Model> models){
+    public void setAvailableModels(ArrayList<Model> models){
         availableModels = models;
-        listbox_availableModels.setListData(models);
+        listbox_availableModels.setListData(models.toArray());
     }
     
-    public void setChosenModels(Vector<Model> models){
+    public void setChosenModels(ArrayList<Model> models){
         chosenModels = models;
-        listbox_chosenModels.setListData(models);
+        listbox_chosenModels.setListData(models.toArray());
     }
     
     public void addAddModelButtonActionListener(ActionListener listener) {

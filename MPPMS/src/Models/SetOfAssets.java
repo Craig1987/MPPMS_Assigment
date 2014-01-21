@@ -1,7 +1,7 @@
 package Models;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
-public class SetOfAssets extends Vector<Asset> {
+public class SetOfAssets extends ArrayList<Asset> {
     
 }

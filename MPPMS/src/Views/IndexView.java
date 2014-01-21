@@ -13,9 +13,9 @@ import javax.swing.JPanel;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionListener;
 
-public class ProjectIndexView extends javax.swing.JFrame {
+public class IndexView extends javax.swing.JFrame {
 
-    public ProjectIndexView() {
+    public IndexView() {
         initComponents();
         this.setLocationRelativeTo(null);
     }
@@ -132,7 +132,6 @@ public class ProjectIndexView extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("MPPMS - Projects");
-        setPreferredSize(new java.awt.Dimension(900, 547));
 
         projectSplitPane.setBorder(null);
         projectSplitPane.setDividerLocation(450);

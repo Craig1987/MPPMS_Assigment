@@ -1,7 +1,7 @@
 package Models;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
-public class SetOfComments extends Vector<Comment> {
+public class SetOfComments extends ArrayList<Comment> {
     
 }

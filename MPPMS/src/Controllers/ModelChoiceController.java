@@ -12,7 +12,7 @@ import Views.ModelChoiceView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Collection;
-import java.util.Vector;
+import java.util.ArrayList;
 
 /**
  *
@@ -22,27 +22,27 @@ import java.util.Vector;
  */
 public class ModelChoiceController {    
     private ModelChoiceView view = new ModelChoiceView();
-    private Vector<Model> allModels = new Vector<>();
+    private ArrayList<Model> allModels = new ArrayList<>();
     
     public ModelChoiceController(Collection allTheModels) {
-        allModels = (Vector<Model>) allTheModels;
+        allModels = (ArrayList<Model>) allTheModels;
         
         view.setAvailableModels(allModels);
-        view.setChosenModels(new Vector<Model>());
+        view.setChosenModels(new ArrayList<Model>());
         
         view.setTitle("Chose Model");
     }
     
     /*
-        preChosenModels MUST be a Vector of the EXACT objects as in allTheModels
-        due to the way Vector.remove removes based on object ID rather than
+        preChosenModels MUST be a ArrayList of the EXACT objects as in allTheModels
+        due to the way ArrayList.remove removes based on object ID rather than
         looking at it's fields
     */
     public ModelChoiceController(Collection allTheModels, Collection preChosenModels) {
-        allModels = (Vector<Model>) allTheModels;
+        allModels = (ArrayList<Model>) allTheModels;
         
-        Vector<Model> remainingModels = new Vector<>();
-        Vector<Model> preChosen = (Vector<Model>) preChosenModels;
+        ArrayList<Model> remainingModels = new ArrayList<>();
+        ArrayList<Model> preChosen = (ArrayList<Model>) preChosenModels;
         
         remainingModels.addAll(allTheModels);
         remainingModels.removeAll(preChosenModels);
@@ -74,8 +74,8 @@ public class ModelChoiceController {
     class AddModelButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            Vector<Model> chosenModels = view.getChosenModels();
-            Vector<Model> availableModels = view.getAvailableModels();
+            ArrayList<Model> chosenModels = view.getChosenModels();
+            ArrayList<Model> availableModels = view.getAvailableModels();
             
             Model selectedModel;
             
@@ -96,8 +96,8 @@ public class ModelChoiceController {
     class RemoveModelButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            Vector<Model> chosenModels = view.getChosenModels();
-            Vector<Model> availableModels = view.getAvailableModels();
+            ArrayList<Model> chosenModels = view.getChosenModels();
+            ArrayList<Model> availableModels = view.getAvailableModels();
             
             Model selectedModel;
             
@@ -118,7 +118,7 @@ public class ModelChoiceController {
     class ClearSelectionButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {            
-            view.setChosenModels(new Vector<Model>());
+            view.setChosenModels(new ArrayList<Model>());
             view.setAvailableModels(allModels);
         }
     }

@@ -36,7 +36,7 @@ public class TaskDetailView extends javax.swing.JPanel {
     }
     
     public void setAssignedTo(SetOfUsers users) {
-        this.listAssignedTo.setListData(users);
+        this.listAssignedTo.setListData(users.toArray());
     }
 
     /**

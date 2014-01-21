@@ -1,7 +1,7 @@
 package Models;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
-public class SetOfTasks extends Vector<Task> {
+public class SetOfTasks extends ArrayList<Task> {
     
 }

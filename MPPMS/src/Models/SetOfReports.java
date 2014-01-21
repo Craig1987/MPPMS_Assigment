@@ -1,7 +1,7 @@
 package Models;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
-class SetOfReports extends Vector<Report> {
+class SetOfReports extends ArrayList<Report> {
 
 }
