@@ -16,4 +16,28 @@
         <Password>password</Password>
         <Role>QATeamLeader</Role>
     </User>
+    <User>
+        <Forename>Michael</Forename>
+        <Surname>McDonald</Surname>
+        <Name></Name>
+        <Username>BigMike</Username>
+        <Password>password</Password>
+        <Role>ProjectManager</Role>
+    </User>
+    <User>
+        <Forename>Stephen</Forename>
+        <Surname>Nail</Surname>
+        <Name></Name>
+        <Username>snail</Username>
+        <Password>password</Password>
+        <Role>ProjectCoordinator</Role>
+    </User>
+    <User>
+        <Forename>Hannibella</Forename>
+        <Surname>Lector</Surname>
+        <Name></Name>
+        <Username>ieatbrains</Username>
+        <Password>password</Password>
+        <Role>QATeamMember</Role>
+    </User>
 </root>

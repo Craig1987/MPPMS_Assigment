@@ -9,9 +9,32 @@
 	<Team>
             <Username>Joe90</Username>
             <Username>Gail</Username>
+            <Username>BigMike</Username>
 	</Team>
 	<Manager>Gail</Manager>
 	<Coordinator>Joe90</Coordinator>
+	<Components>
+            <ComponentID>1</ComponentID>
+            <ComponentID>2</ComponentID>
+        </Components>
+        <Tasks>
+            <TaskID>1</TaskID>
+            <TaskID>2</TaskID>
+        </Tasks>
+    </Project>
+    <Project>
+	<ID>2</ID>
+	<Title>Sally's Super Sandwich Website</Title>
+	<CreationDate>18/01/2014</CreationDate>
+        <Deadline>22/04/2014</Deadline>
+        <Priority>Low</Priority>
+	<Team>
+            <Username>ieatbrains</Username>
+            <Username>Gail</Username>
+            <Username>Joe90</Username>
+	</Team>
+	<Manager>BigMike</Manager>
+	<Coordinator>snail</Coordinator>
 	<Components>
             <ComponentID>1</ComponentID>
             <ComponentID>2</ComponentID>

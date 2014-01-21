@@ -12,8 +12,9 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+import javax.xml.xpath.*;
 
-public class Component extends Model {
+public class Component {
     private static SetOfComponents allComponents = null;
     
     private Vector<Asset> assets = new Vector<>();
@@ -84,34 +85,58 @@ public class Component extends Model {
             // Prevent unwanted behaviour resulting from poorly formatted XML
             doc.getDocumentElement().normalize();
             
-            // Get the persisted Components
-            NodeList componentNodes = doc.getElementsByTagName("Component");
-            for (int i = 0; i < componentNodes.getLength(); i++)
+            XPathFactory xpathfactory = XPathFactory.newInstance();
+            XPath xpath = xpathfactory.newXPath();
+            XPathExpression expr;
+            Object result;
+  
+            // Get the persisted Projects
+            try
             {
-                Node node = componentNodes.item(i);
-                if (node.getNodeType() == Node.ELEMENT_NODE)
+                expr = xpath.compile("/root/Component");
+                result = expr.evaluate(doc, XPathConstants.NODESET);
+                NodeList allComponentNodes = (NodeList) result;
+            
+                if (allComponentNodes != null)
                 {
-                    Element element = (Element)node;
-                    int id = Integer.parseInt(element.getElementsByTagName("ID").item(0).getTextContent());
-                    String description = element.getElementsByTagName("Description").item(0).getTextContent();
-                    
-                    Component component = new Component(id, description);
-                                        
-                    // Get the assets which make up this component
-                    NodeList assetNodes = element.getElementsByTagName("Assets");
-                    for (int x = 0; x < assetNodes.getLength(); x++)
+                    for (int i = 0; i < allComponentNodes.getLength(); i++) 
                     {
-                        Node assetNode = assetNodes.item(x);
-                        if (assetNode.getNodeType() == Node.ELEMENT_NODE)
+                        Node individualComponentNode = allComponentNodes.item(i);
+                        
+                        if (individualComponentNode.getNodeType() == Node.ELEMENT_NODE)
                         {
-                            Element assetElement = (Element)assetNode;
-                            int assetID = Integer.parseInt(assetElement.getElementsByTagName("AssetID").item(0).getTextContent());
-                            component.addAsset(Asset.getAssetByID(assetID));
+                            Element individualComponentElement = (Element)individualComponentNode;
+                            int id = Integer.parseInt(individualComponentElement.getElementsByTagName("ID").item(0).getTextContent());
+                            String description = individualComponentElement.getElementsByTagName("Description").item(0).getTextContent();
+
+                            Component component = new Component(id, description);
+
+                            // Get the assets which make up this component
+                            // Get 'AssignedTo' users
+                            expr = xpath.compile("Assets");
+                            result = expr.evaluate(individualComponentNode, XPathConstants.NODE);
+                            NodeList assetNodes = (NodeList) result;
+
+                            for (int x = 0; x < assetNodes.getLength(); x++) 
+                            {
+                                Node assetNode = assetNodes.item(x);
+
+                                if (assetNode.getNodeType() == Node.ELEMENT_NODE)
+                                {
+                                    Element assetElement = (Element)assetNode;
+                                    int assetID = Integer.parseInt(assetElement.getTextContent());
+                                    component.addAsset(Asset.getAssetByID(assetID));
+                                }
+                            }
+                            
+                            allComponents.add(component); 
                         }
                     }
-                    
-                    allComponents.add(component);
-                }
+                 }
+            }
+            catch (XPathExpressionException xe)
+            {
+                System.out.println("Error reading Projects.xml: " + xe.toString());
             }
         }
         catch (ParserConfigurationException | SAXException | IOException | DOMException ex)
