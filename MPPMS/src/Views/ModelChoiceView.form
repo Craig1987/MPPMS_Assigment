@@ -3,9 +3,6 @@
 <Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="2"/>
-    <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-      <Dimension value="[559, 274]"/>
-    </Property>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
@@ -26,25 +23,26 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jScrollPane1" pref="178" max="32767" attributes="0"/>
-                          <Component id="lbl_chosenModels" max="32767" attributes="0"/>
+                          <Component id="jScrollPane1" alignment="0" pref="178" max="32767" attributes="0"/>
+                          <Component id="lbl_chosenModels" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="btn_addSelectedModel" alignment="0" max="32767" attributes="0"/>
                           <Component id="btn_removeSelectedModel" alignment="0" max="32767" attributes="0"/>
                           <Component id="btn_clearChosenModels" alignment="0" max="32767" attributes="0"/>
-                          <Component id="btn_saveChosenModels" max="32767" attributes="0"/>
+                          <Component id="btn_saveChosenModels" alignment="0" max="32767" attributes="0"/>
+                          <Component id="cancelButton" alignment="0" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="lbl_availableModels" max="32767" attributes="0"/>
-                          <Component id="jScrollPane2" pref="189" max="32767" attributes="0"/>
+                          <Component id="lbl_availableModels" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jScrollPane2" alignment="0" pref="189" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
@@ -68,14 +66,16 @@
               </Group>
               <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jScrollPane1" max="32767" attributes="0"/>
-                  <Component id="jScrollPane2" max="32767" attributes="0"/>
+                  <Component id="jScrollPane1" alignment="0" max="32767" attributes="0"/>
+                  <Component id="jScrollPane2" alignment="0" max="32767" attributes="0"/>
                   <Group type="102" alignment="1" attributes="0">
                       <Component id="btn_addSelectedModel" min="-2" pref="50" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btn_removeSelectedModel" min="-2" pref="50" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="btn_clearChosenModels" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="cancelButton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btn_saveChosenModels" min="-2" max="-2" attributes="0"/>
                   </Group>
@@ -102,6 +102,27 @@
         </Component>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.JLabel" name="lbl_availableModels">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+        <Property name="text" type="java.lang.String" value="Available [model]s"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lbl_title">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Select [model]s"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btn_saveChosenModels">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Save"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btn_addSelectedModel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="&lt;-- Add"/>
+      </Properties>
+    </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane2">
       <AuxValues>
         <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
@@ -118,41 +139,28 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JButton" name="btn_addSelectedModel">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="&lt;-- Add"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JButton" name="btn_removeSelectedModel">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Remove --&gt;"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="lbl_chosenModels">
-      <Properties>
-        <Property name="horizontalAlignment" type="int" value="0"/>
-        <Property name="text" type="java.lang.String" value="Selected"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="lbl_availableModels">
-      <Properties>
-        <Property name="horizontalAlignment" type="int" value="0"/>
-        <Property name="text" type="java.lang.String" value="Available"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="lbl_title">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Select [model]s"/>
-      </Properties>
-    </Component>
     <Component class="javax.swing.JButton" name="btn_clearChosenModels">
       <Properties>
         <Property name="text" type="java.lang.String" value="Clear selected"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="btn_saveChosenModels">
+    <Component class="javax.swing.JLabel" name="lbl_chosenModels">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Save"/>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+        <Property name="text" type="java.lang.String" value="Selected [model]s"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="cancelButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Cancel"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cancelButtonActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btn_removeSelectedModel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Remove --&gt;"/>
       </Properties>
     </Component>
   </SubComponents>

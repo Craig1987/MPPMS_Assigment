@@ -2,6 +2,7 @@ package Views;
 
 import Models.Report;
 import Models.SetOfUsers;
+import java.awt.event.ActionListener;
 import javax.swing.DefaultComboBoxModel;
 
 public class TaskDetailView extends javax.swing.JPanel {
@@ -38,6 +39,10 @@ public class TaskDetailView extends javax.swing.JPanel {
     public void setAssignedTo(SetOfUsers users) {
         this.listAssignedTo.setListData(users.toArray());
     }
+    
+    public void addAssignedToChoiceActionListener(ActionListener listener) {
+        this.assignedToChoiceButton.addActionListener(listener);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -60,7 +65,7 @@ public class TaskDetailView extends javax.swing.JPanel {
         lblPriority = new javax.swing.JLabel();
         textTaskTitle = new javax.swing.JTextField();
         lblTaskTitle = new javax.swing.JLabel();
-        btnEditAssignedTo = new javax.swing.JButton();
+        assignedToChoiceButton = new javax.swing.JButton();
         lblAssignedTo = new javax.swing.JLabel();
         editButton = new javax.swing.JButton();
         saveButton = new javax.swing.JButton();
@@ -78,6 +83,7 @@ public class TaskDetailView extends javax.swing.JPanel {
 
         lblTaskID.setText("ID:");
 
+        lblTaskDetails.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTaskDetails.setText("Task Details");
 
         lblStatus.setText("Status:");
@@ -90,7 +96,7 @@ public class TaskDetailView extends javax.swing.JPanel {
 
         lblTaskTitle.setText("Title:");
 
-        btnEditAssignedTo.setText("Add / Remove");
+        assignedToChoiceButton.setText("Add / Remove");
 
         lblAssignedTo.setText("Assigned to:");
 
@@ -146,9 +152,9 @@ public class TaskDetailView extends javax.swing.JPanel {
                             .addComponent(cmboStatus, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(textTaskTitle, javax.swing.GroupLayout.Alignment.TRAILING)))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 201, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnEditAssignedTo)
+                        .addComponent(assignedToChoiceButton)
                         .addGap(1, 1, 1)))
                 .addContainerGap())
         );
@@ -185,7 +191,7 @@ public class TaskDetailView extends javax.swing.JPanel {
                 .addComponent(lblAssignedTo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnEditAssignedTo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(assignedToChoiceButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
@@ -193,7 +199,7 @@ public class TaskDetailView extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnEditAssignedTo;
+    private javax.swing.JButton assignedToChoiceButton;
     private javax.swing.JComboBox cmboPriority;
     private javax.swing.JComboBox cmboStatus;
     private javax.swing.JButton discardButton;

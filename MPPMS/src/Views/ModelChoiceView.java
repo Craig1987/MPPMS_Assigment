@@ -4,11 +4,12 @@ import Exceptions.NoModelSelectedException;
 import Models.Model;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import javax.swing.event.ListSelectionListener;
 
 public class ModelChoiceView extends javax.swing.JFrame {
     private ArrayList<Model> availableModels = new ArrayList<>();
     private ArrayList<Model> chosenModels = new ArrayList<>();
-
+    
     public ModelChoiceView() {
         initComponents();
     }
@@ -35,6 +36,26 @@ public class ModelChoiceView extends javax.swing.JFrame {
     
     public ArrayList<Model> getAvailableModels() {
         return (ArrayList<Model>) availableModels.clone();
+    }
+    
+    public int getChosenModelsSelectedIndex() {
+        return this.listbox_chosenModels.getSelectedIndex();
+    }
+    
+    public int getAvailableModelsSelectedIndex() {
+        return this.listbox_availableModels.getSelectedIndex();
+    }
+    
+    public void setAddModelButtonEnabled(boolean b) {
+        this.btn_addSelectedModel.setEnabled(b);
+    }
+    
+    public void setRemoveModelButtonEnabled(boolean b) {
+        this.btn_removeSelectedModel.setEnabled(b);
+    }
+    
+    public void setClearButtonEnabled(boolean b) {
+        this.btn_clearChosenModels.setEnabled(b);
     }
     
     public void setTitleLabel(String title) {
@@ -67,12 +88,20 @@ public class ModelChoiceView extends javax.swing.JFrame {
         btn_removeSelectedModel.addActionListener(listener);
     }
     
-    public void addClearSelectionButtonActionListener(ActionListener listener){
+    public void addClearSelectionButtonActionListener(ActionListener listener) {
         btn_clearChosenModels.addActionListener(listener);
     }
     
-    public void addSaveChosenModelsButtonActionListener(ActionListener listener){
+    public void addSaveChosenModelsButtonActionListener(ActionListener listener) {
         btn_saveChosenModels.addActionListener(listener);
+    }
+    
+    public void addChosenModelsListSelectionListener(ListSelectionListener listener) {
+        listbox_chosenModels.getSelectionModel().addListSelectionListener(listener);
+    }
+    
+    public void addAvailableModelsListSelectionListener(ListSelectionListener listener) {
+        listbox_availableModels.getSelectionModel().addListSelectionListener(listener);
     }
 
     /**
@@ -86,38 +115,45 @@ public class ModelChoiceView extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         listbox_chosenModels = new javax.swing.JList();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        listbox_availableModels = new javax.swing.JList();
-        btn_addSelectedModel = new javax.swing.JButton();
-        btn_removeSelectedModel = new javax.swing.JButton();
-        lbl_chosenModels = new javax.swing.JLabel();
         lbl_availableModels = new javax.swing.JLabel();
         lbl_title = new javax.swing.JLabel();
-        btn_clearChosenModels = new javax.swing.JButton();
         btn_saveChosenModels = new javax.swing.JButton();
+        btn_addSelectedModel = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        listbox_availableModels = new javax.swing.JList();
+        btn_clearChosenModels = new javax.swing.JButton();
+        lbl_chosenModels = new javax.swing.JLabel();
+        cancelButton = new javax.swing.JButton();
+        btn_removeSelectedModel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(559, 274));
 
         jScrollPane1.setViewportView(listbox_chosenModels);
 
-        jScrollPane2.setViewportView(listbox_availableModels);
-
-        btn_addSelectedModel.setText("<-- Add");
-
-        btn_removeSelectedModel.setText("Remove -->");
-
-        lbl_chosenModels.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbl_chosenModels.setText("Selected");
-
         lbl_availableModels.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbl_availableModels.setText("Available");
+        lbl_availableModels.setText("Available [model]s");
 
         lbl_title.setText("Select [model]s");
 
+        btn_saveChosenModels.setText("Save");
+
+        btn_addSelectedModel.setText("<-- Add");
+
+        jScrollPane2.setViewportView(listbox_availableModels);
+
         btn_clearChosenModels.setText("Clear selected");
 
-        btn_saveChosenModels.setText("Save");
+        lbl_chosenModels.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbl_chosenModels.setText("Selected [model]s");
+
+        cancelButton.setText("Cancel");
+        cancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelButtonActionPerformed(evt);
+            }
+        });
+
+        btn_removeSelectedModel.setText("Remove -->");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -135,7 +171,8 @@ public class ModelChoiceView extends javax.swing.JFrame {
                             .addComponent(btn_addSelectedModel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btn_removeSelectedModel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btn_clearChosenModels, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btn_saveChosenModels, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(btn_saveChosenModels, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cancelButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lbl_availableModels, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -165,6 +202,8 @@ public class ModelChoiceView extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btn_clearChosenModels)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cancelButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btn_saveChosenModels)))
                 .addContainerGap())
         );
@@ -172,11 +211,51 @@ public class ModelChoiceView extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_cancelButtonActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(ModelChoiceView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(ModelChoiceView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(ModelChoiceView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(ModelChoiceView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new ModelChoiceView().setVisible(true);
+            }
+        });
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_addSelectedModel;
     private javax.swing.JButton btn_clearChosenModels;
     private javax.swing.JButton btn_removeSelectedModel;
     private javax.swing.JButton btn_saveChosenModels;
+    private javax.swing.JButton cancelButton;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lbl_availableModels;

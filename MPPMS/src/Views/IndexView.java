@@ -132,6 +132,7 @@ public class IndexView extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("MPPMS - Projects");
+        setPreferredSize(new java.awt.Dimension(900, 550));
 
         projectSplitPane.setBorder(null);
         projectSplitPane.setDividerLocation(450);

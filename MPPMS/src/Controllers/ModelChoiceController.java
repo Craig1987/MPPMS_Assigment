@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package Controllers;
 
 import Exceptions.NoModelSelectedException;
@@ -13,16 +7,25 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Collection;
 import java.util.ArrayList;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 /**
  *
  * IMPORTANT: To use a model with this controller/view it must extend Model
  * 
- * @author ryantk
  */
-public class ModelChoiceController {    
-    private ModelChoiceView view = new ModelChoiceView();
+public class ModelChoiceController {
+    private final ModelChoiceView view = new ModelChoiceView();
+    private final ModelType modelType;
+    
     private ArrayList<Model> allModels = new ArrayList<>();
+
+    public enum ModelType {
+        User,
+        Task,
+        Component
+    }
     
     public ModelChoiceController(Collection allTheModels) {
         allModels = (ArrayList<Model>) allTheModels;
@@ -30,7 +33,9 @@ public class ModelChoiceController {
         view.setAvailableModels(allModels);
         view.setChosenModels(new ArrayList<Model>());
         
-        view.setTitle("Chose Model");
+        this.modelType = determineModelType();
+        
+        setLabels();
     }
     
     /*
@@ -50,26 +55,53 @@ public class ModelChoiceController {
         view.setAvailableModels(remainingModels);
         view.setChosenModels(preChosen);
         
-        String classDescription = allModels.get(0).getClass().toString();
-        String className = classDescription.substring(classDescription.lastIndexOf(".") + 1);
-        view.setTitle("MPPMS - Select " + className + "s");
-        view.setTitleLabel("Select " + className + "s");
-        view.setAvailableModelsLabel("Available " + className + "s");
-        view.setChosenModelsLabel("Selected " + className + "s");
+        view.setAddModelButtonEnabled(false);
+        view.setRemoveModelButtonEnabled(false);
+        view.setClearButtonEnabled(preChosenModels.size() > 0);
+        
+        this.modelType = determineModelType();
+        
+        setLabels();
     }
     
     public void launch() {
         view.addAddModelButtonActionListener(new AddModelButtonActionListener());
         view.addRemoveModelButtonActionListener(new RemoveModelButtonActionListener());
         view.addClearSelectionButtonActionListener(new ClearSelectionButtonActionListener());
-        view.addSaveChosenModelsButtonActionListener(new SaveChosenModelsButtonActionListener());
+        view.addChosenModelsListSelectionListener(new ChosenModelsListSelectionListener());
+        view.addAvailableModelsListSelectionListener(new AvailableModelsListSelectionListener());
         
         view.setVisible(true);
     }
     
-    public void setTitle(String title) {
-        view.setTitle(title);
-    }  
+    public void closeView() {
+        view.dispose();
+    }
+    
+    public void addSaveButtonActionListener(ActionListener listener) {
+        view.addSaveChosenModelsButtonActionListener(listener);
+    }
+    
+    public ArrayList<Model> getChosenModels() {
+        return view.getChosenModels();
+    }
+    
+    public ModelType getModelType() {
+        return this.modelType;
+    }
+    
+    private ModelType determineModelType() {
+        String classDescription = allModels.get(0).getClass().toString();
+        String className = classDescription.substring(classDescription.lastIndexOf(".") + 1);
+        return ModelType.valueOf(className);
+    }
+    
+    private void setLabels() {
+        view.setTitle("MPPMS - Select " + this.modelType + "s");
+        view.setTitleLabel("Select " + this.modelType + "s");
+        view.setAvailableModelsLabel("Available " + this.modelType + "s");
+        view.setChosenModelsLabel("Selected " + this.modelType + "s");
+    }
     
     class AddModelButtonActionListener implements ActionListener {
         @Override
@@ -90,6 +122,8 @@ public class ModelChoiceController {
             
             view.setChosenModels(chosenModels);
             view.setAvailableModels(availableModels);
+            
+            view.setClearButtonEnabled(chosenModels.size() > 0);
         }
     }
     
@@ -112,6 +146,8 @@ public class ModelChoiceController {
             
             view.setChosenModels(chosenModels);
             view.setAvailableModels(availableModels);
+            
+            view.setClearButtonEnabled(chosenModels.size() > 0);
         }
     }
     
@@ -123,11 +159,17 @@ public class ModelChoiceController {
         }
     }
     
-    class SaveChosenModelsButtonActionListener implements ActionListener {
+    class ChosenModelsListSelectionListener implements ListSelectionListener {
         @Override
-        public void actionPerformed(ActionEvent e) {            
-            // TODO
+        public void valueChanged(ListSelectionEvent lse) {
+            view.setRemoveModelButtonEnabled(view.getChosenModelsSelectedIndex() >= 0);
         }
     }
     
+    class AvailableModelsListSelectionListener implements ListSelectionListener {
+        @Override
+        public void valueChanged(ListSelectionEvent lse) {
+            view.setAddModelButtonEnabled(view.getAvailableModelsSelectedIndex() >= 0);
+        }
+    }
 }

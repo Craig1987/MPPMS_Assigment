@@ -104,6 +104,7 @@ public class ProjectDetailView extends javax.swing.JPanel {
         saveButton = new javax.swing.JButton();
         discardButton = new javax.swing.JButton();
 
+        lblProjectDetails.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblProjectDetails.setText("Project Details");
 
         jLabel1.setText("Manager:");
