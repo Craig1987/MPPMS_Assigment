@@ -13,7 +13,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-public class Task {
+public class Task extends Model {
     private static SetOfTasks allTasks = null;
     
     private final int id;
@@ -21,14 +21,29 @@ public class Task {
     
     private String title;
     private SetOfUsers assignedTo;
-    private int status;
-    private int priority;
+    private Status status;
+    private Priority priority;
+
     private Report report;
     
     public enum TaskType {
         QC,
         Build
     }
+    
+    public enum Status {
+        New,
+        Ongoing,
+        Completed
+    }
+    public enum Priority {
+        Highest,
+        High,
+        Normal,
+        Low,
+        Lowest
+    }
+
     
     public Task(int id, TaskType taskType) {
         this.id = id;
@@ -59,19 +74,19 @@ public class Task {
         this.assignedTo = assignedTo;
     }
 
-    public int getPriority() {
+    public Priority getPriority() {
         return priority;
     }
-
-    public void setPriority(int priority) {
+    
+    public void setPriority(Priority priority) {
         this.priority = priority;
     }
     
-    public int getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
@@ -103,6 +118,17 @@ public class Task {
         }
         return null;
     }
+    
+    public static SetOfTasks getTasksForUser(User user) {
+        SetOfTasks tasks = new SetOfTasks();
+        for (Task task : getAllTasks()) {
+            if (task.getAssignedTo().contains(user)) {
+                tasks.add(task);
+            }
+        }
+        return tasks;
+    }
+
     
     private static void populateTasks() {
         try 
@@ -138,12 +164,12 @@ public class Task {
                         if (individualTaskNode.getNodeType() == Node.ELEMENT_NODE)
                         {
                             Element individualTaskElement = (Element)individualTaskNode;
-                            int id = Integer.parseInt(individualTaskElement.getElementsByTagName("ID").item(i).getTextContent());
-                            int status = Integer.parseInt(individualTaskElement.getElementsByTagName("Status").item(i).getTextContent());
-                            int priority = Integer.parseInt(individualTaskElement.getElementsByTagName("Priority").item(i).getTextContent());
-                            int reportID = Integer.parseInt(individualTaskElement.getElementsByTagName("ReportID").item(i).getTextContent());
-                            String title = individualTaskElement.getElementsByTagName("Title").item(i).getTextContent();
-                            TaskType taskType = TaskType.valueOf(individualTaskElement.getElementsByTagName("Type").item(i).getTextContent());
+                            int id = Integer.parseInt(individualTaskElement.getElementsByTagName("ID").item(0).getTextContent());
+                            Status status = Status.valueOf(individualTaskElement.getElementsByTagName("Status").item(0).getTextContent());
+                            Priority priority = Priority.valueOf(individualTaskElement.getElementsByTagName("Priority").item(0).getTextContent());
+                            int reportID = Integer.parseInt(individualTaskElement.getElementsByTagName("ReportID").item(0).getTextContent());
+                            String title = individualTaskElement.getElementsByTagName("Title").item(0).getTextContent();
+                            TaskType taskType = TaskType.valueOf(individualTaskElement.getElementsByTagName("Type").item(0).getTextContent());
 
                             // Get 'AssignedTo' users
                             expr = xpath.compile("AssignedTo");

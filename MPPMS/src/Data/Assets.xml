@@ -5,4 +5,34 @@
         <Type>Audio</Type>
         <Length>92</Length>
     </Asset>
+    <Asset>
+        <ID>2</ID>
+        <Type>Subtitles</Type>
+        <Length>0</Length>
+    </Asset>
+    <Asset>
+        <ID>3</ID>
+        <Type>Video</Type>
+        <Length>30</Length>
+    </Asset>
+    <Asset>
+        <ID>4</ID>
+        <Type>Menu</Type>
+        <Length>1</Length>
+    </Asset>
+    <Asset>
+        <ID>5</ID>
+        <Type>Audio</Type>
+        <Length>33</Length>
+    </Asset>
+    <Asset>
+        <ID>6</ID>
+        <Type>Video</Type>
+        <Length>92</Length>
+    </Asset>
+    <Asset>
+        <ID>7</ID>
+        <Type>Menu</Type>
+        <Length>5</Length>
+    </Asset>
 </root>

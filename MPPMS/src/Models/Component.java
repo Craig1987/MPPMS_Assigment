@@ -14,7 +14,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import javax.xml.xpath.*;
 
-public class Component {
+public class Component extends Model {
     private static SetOfComponents allComponents = null;
     
     private Vector<Asset> assets = new Vector<>();
