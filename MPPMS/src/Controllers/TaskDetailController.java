@@ -20,6 +20,7 @@ public class TaskDetailController {
     private boolean isNew;
     
     private ModelChoiceController modelChoiceController;
+    private ReportDetailController reportDetailController;
     
     public TaskDetailController(TaskDetailView view, Task task) {
         this.view = view;
@@ -120,5 +121,13 @@ public class TaskDetailController {
             task.setAssets(assets);
             view.setAssets(assets.toArray());
         }        
+    }
+    
+    class ReportEditActionListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            reportDetailController = new ReportDetailController(task.getReport());
+            reportDetailController.launch();
+        }
     }
 }

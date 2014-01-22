@@ -4,32 +4,25 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/Craig/Documents/GitHub/MPPMS_Assignment/MPPMS/src/Views/TaskDetailView.java</file>
-            <file>file:/C:/Users/Craig/Documents/GitHub/MPPMS_Assignment/MPPMS/src/Models/SetOfComponents.java</file>
-            <file>file:/C:/Users/Craig/Documents/GitHub/MPPMS_Assignment/MPPMS/src/Views/ModelChoiceView.java</file>
-            <file>file:/C:/Users/Craig/Documents/GitHub/MPPMS_Assignment/MPPMS/src/Controllers/ModelChoiceController.java</file>
-            <file>file:/C:/Users/Craig/Documents/GitHub/MPPMS_Assignment/MPPMS/src/Models/Task.java</file>
-            <file>file:/C:/Users/Craig/Documents/GitHub/MPPMS_Assignment/MPPMS/src/Application/AppController.java</file>
-            <file>file:/C:/Users/Craig/Documents/GitHub/MPPMS_Assignment/MPPMS/src/Models/User.java</file>
-            <file>file:/C:/Users/Craig/Documents/GitHub/MPPMS_Assignment/MPPMS/src/Models/SetOfComments.java</file>
-            <file>file:/C:/Users/Craig/Documents/GitHub/MPPMS_Assignment/MPPMS/src/Models/SetOfProjects.java</file>
+            <file>file:/C:/Users/Craig/Documents/GitHub/MPPMS_Assignment/MPPMS/src/Data/Users.xml</file>
             <file>file:/C:/Users/Craig/Documents/GitHub/MPPMS_Assignment/MPPMS/src/Controllers/ProjectDetailController.java</file>
-            <file>file:/C:/Users/Craig/Documents/GitHub/MPPMS_Assignment/MPPMS/src/Controllers/LoginController.java</file>
-            <file>file:/C:/Users/Craig/Documents/GitHub/MPPMS_Assignment/MPPMS/src/Data/Components.xml</file>
-            <file>file:/C:/Users/Craig/Documents/GitHub/MPPMS_Assignment/MPPMS/src/Models/SetOfTasks.java</file>
             <file>file:/C:/Users/Craig/Documents/GitHub/MPPMS_Assignment/MPPMS/src/Models/Project.java</file>
-            <file>file:/C:/Users/Craig/Documents/GitHub/MPPMS_Assignment/MPPMS/src/Models/SetOfAssets.java</file>
             <file>file:/C:/Users/Craig/Documents/GitHub/MPPMS_Assignment/MPPMS/src/Views/IndexView.java</file>
-            <file>file:/C:/Users/Craig/Documents/GitHub/MPPMS_Assignment/MPPMS/src/Data/Tasks.xml</file>
-            <file>file:/C:/Users/Craig/Documents/GitHub/MPPMS_Assignment/MPPMS/src/Models/Model.java</file>
+            <file>file:/C:/Users/Craig/Documents/GitHub/MPPMS_Assignment/MPPMS/src/Views/AssetDetailView.java</file>
+            <file>file:/C:/Users/Craig/Documents/GitHub/MPPMS_Assignment/MPPMS/src/Views/ModelChoiceView.java</file>
+            <file>file:/C:/Users/Craig/Documents/GitHub/MPPMS_Assignment/MPPMS/src/Controllers/ComponentDetailController.java</file>
+            <file>file:/C:/Users/Craig/Documents/GitHub/MPPMS_Assignment/MPPMS/src/Controllers/ModelChoiceController.java</file>
             <file>file:/C:/Users/Craig/Documents/GitHub/MPPMS_Assignment/MPPMS/src/Controllers/IndexController.java</file>
             <file>file:/C:/Users/Craig/Documents/GitHub/MPPMS_Assignment/MPPMS/src/Models/Report.java</file>
-            <file>file:/C:/Users/Craig/Documents/GitHub/MPPMS_Assignment/MPPMS/src/Models/SetOfUsers.java</file>
+            <file>file:/C:/Users/Craig/Documents/GitHub/MPPMS_Assignment/MPPMS/src/Models/Task.java</file>
             <file>file:/C:/Users/Craig/Documents/GitHub/MPPMS_Assignment/MPPMS/src/Data/Projects.xml</file>
+            <file>file:/C:/Users/Craig/Documents/GitHub/MPPMS_Assignment/MPPMS/src/Controllers/AssetDetailController.java</file>
             <file>file:/C:/Users/Craig/Documents/GitHub/MPPMS_Assignment/MPPMS/src/Controllers/TaskDetailController.java</file>
-            <file>file:/C:/Users/Craig/Documents/GitHub/MPPMS_Assignment/MPPMS/src/Views/LoginView.java</file>
+            <file>file:/C:/Users/Craig/Documents/GitHub/MPPMS_Assignment/MPPMS/src/Models/Asset.java</file>
+            <file>file:/C:/Users/Craig/Documents/GitHub/MPPMS_Assignment/MPPMS/src/Models/User.java</file>
+            <file>file:/C:/Users/Craig/Documents/GitHub/MPPMS_Assignment/MPPMS/src/Views/ComponentDetailView.java</file>
             <file>file:/C:/Users/Craig/Documents/GitHub/MPPMS_Assignment/MPPMS/src/Views/ProjectDetailView.java</file>
             <file>file:/C:/Users/Craig/Documents/GitHub/MPPMS_Assignment/MPPMS/src/Models/Component.java</file>
-            <file>file:/C:/Users/Craig/Documents/GitHub/MPPMS_Assignment/MPPMS/src/Models/SetOfReports.java</file>
         </group>
     </open-files>
 </project-private>

@@ -11,18 +11,6 @@ public class ProjectDetailView extends javax.swing.JPanel {
         initComponents();
     }
     
-    public void setSaveButtonVisibility(boolean visible) {
-        saveButton.setVisible(visible);
-    }
-    
-    public void setEditButtonVisibility(boolean visible) {
-        editButton.setVisible(visible);
-    }
-    
-    public void setDiscardButtonVisibility(boolean visible) {
-        discardButton.setVisible(visible);
-    }
-    
     public void setEditMode(boolean editMode) {
         saveButton.setVisible(editMode);
         discardButton.setVisible(editMode);
