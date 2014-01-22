@@ -24,7 +24,29 @@
     </Project>
     <Project>
 	<ID>2</ID>
-	<Title>Sally's Super Sandwich Website</Title>
+	<Title>Sally's Super Sandwich Adventure</Title>
+	<CreationDate>18/01/2014</CreationDate>
+        <Deadline>22/04/2014</Deadline>
+        <Priority>Low</Priority>
+	<Team>
+            <Username>ieatbrains</Username>
+            <Username>Gail</Username>
+            <Username>Joe90</Username>
+	</Team>
+	<Manager>BigMike</Manager>
+	<Coordinator>co</Coordinator>
+	<Components>
+            <ComponentID>1</ComponentID>
+            <ComponentID>2</ComponentID>
+        </Components>
+        <Tasks>
+            <TaskID>3</TaskID>
+            <TaskID>2</TaskID>
+        </Tasks>
+    </Project>
+    <Project>
+	<ID>3</ID>
+	<Title>Sally's Second Super Sandwich Adventure</Title>
 	<CreationDate>18/01/2014</CreationDate>
         <Deadline>22/04/2014</Deadline>
         <Priority>Low</Priority>
@@ -35,6 +57,72 @@
 	</Team>
 	<Manager>BigMike</Manager>
 	<Coordinator>snail</Coordinator>
+	<Components>
+            <ComponentID>1</ComponentID>
+            <ComponentID>4</ComponentID>
+        </Components>
+        <Tasks>
+            <TaskID>1</TaskID>
+            <TaskID>4</TaskID>
+        </Tasks>
+    </Project>
+    <Project>
+	<ID>4</ID>
+	<Title>Why are we doing this project?</Title>
+	<CreationDate>14/09/2013</CreationDate>
+        <Deadline>01/03/2014</Deadline>
+        <Priority>Low</Priority>
+	<Team>
+            <Username>ieatbrains</Username>
+            <Username>Gail</Username>
+            <Username>Joe90</Username>
+	</Team>
+	<Manager>man</Manager>
+	<Coordinator>snail</Coordinator>
+	<Components>
+            <ComponentID>1</ComponentID>
+            <ComponentID>2</ComponentID>
+        </Components>
+        <Tasks>
+            <TaskID>1</TaskID>
+            <TaskID>2</TaskID>
+        </Tasks>
+    </Project>
+    <Project>
+	<ID>5</ID>
+	<Title>Notsogood DVD</Title>
+	<CreationDate>17/01/2014</CreationDate>
+        <Deadline>03/07/2014</Deadline>
+        <Priority>Low</Priority>
+	<Team>
+            <Username>ieatbrains</Username>
+            <Username>Gail</Username>
+            <Username>Joe90</Username>
+	</Team>
+	<Manager>Zed</Manager>
+	<Coordinator>co</Coordinator>
+	<Components>
+            <ComponentID>1</ComponentID>
+            <ComponentID>2</ComponentID>
+        </Components>
+        <Tasks>
+            <TaskID>1</TaskID>
+            <TaskID>2</TaskID>
+        </Tasks>
+    </Project>
+    <Project>
+	<ID>6</ID>
+	<Title>DVD 3</Title>
+	<CreationDate>18/01/2014</CreationDate>
+        <Deadline>22/02/2015</Deadline>
+        <Priority>Low</Priority>
+	<Team>
+            <Username>ieatbrains</Username>
+            <Username>Gail</Username>
+            <Username>Joe90</Username>
+	</Team>
+	<Manager>man</Manager>
+	<Coordinator>co</Coordinator>
 	<Components>
             <ComponentID>1</ComponentID>
             <ComponentID>2</ComponentID>
