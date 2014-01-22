@@ -20,8 +20,8 @@ import org.xml.sax.SAXException;
 public class Project {
     private static SetOfProjects allProjects = null;
     
-    private final int id;
-    private final Date creationDate;
+    private Integer id;
+    private Date creationDate;
     
     private String title;    
     private User manager;
@@ -44,9 +44,18 @@ public class Project {
         this.id = id;
         this.creationDate = creationDate;
     }
-
-    public int getId() {
+    
+    public Project() {
+        this.id = null;
+        this.creationDate = null;
+    }
+    
+    public Integer getId() {
         return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Date getCreationDate() {
@@ -132,6 +141,17 @@ public class Project {
             }
         }
         return projects;
+    }
+    
+    public void save() {
+        if (id == null){
+            // New Project
+            id = getAllProjects().get(getAllProjects().size() - 1).getId();
+            creationDate = new Date();
+        }
+
+        // TODO: Implement XML Persistance of Project
+        System.out.println("TODO: Implement XML Persistance of Project | Models/Project.java:146");
     }
     
     private static void populateProjects() {

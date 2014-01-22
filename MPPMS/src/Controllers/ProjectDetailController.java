@@ -26,7 +26,9 @@ public class ProjectDetailController {
     }
     
     public void initialise() {
-        if (project != null) {
+        this.view.setProject(project);
+        
+        if (project.getId() != null) {
             // Populate the ui controls
             this.view.setIdLabelText("ID: " + project.getId());
             this.view.setProjectTitleText(project.getTitle());
@@ -43,7 +45,23 @@ public class ProjectDetailController {
             this.view.addTeamChoiceActionListener(new TeamChoiceActionListener());
             this.view.addTasksChoiceActionListener(new TasksChoiceActionListener());
             this.view.addComponentsChoiceActionListener(new ComponentsChoiceActionListener());
+        } else {
+            // New Project
+            this.view.setSaveButtonVisibility(true);
+            this.view.setEditButtonVisibility(false);
         }
+        
+        this.view.addSaveButtonActionListener(new SaveButtonActionListener());
+    }
+    
+    class SaveButtonActionListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {   
+            view.getProject().save();
+            view.displayInfoMessage("Project Saved");
+        }
+        
     }
     
     class TeamChoiceActionListener implements ActionListener {
@@ -102,6 +120,7 @@ public class ProjectDetailController {
                     view.setTeam(components.toArray());
                     break;
             }
+            view.setProject(project);
         }        
     }
 }
