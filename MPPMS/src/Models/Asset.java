@@ -12,12 +12,14 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-public class Asset {
+public class Asset extends Model {
     private static SetOfAssets allAssets = null;
     
     private final int id;
-    private final int length;
-    private final AssetType assetType;
+    
+    private AssetType assetType;    
+    private int length;
+    private String description;
     
     public enum AssetType {
         Audio,
@@ -26,10 +28,11 @@ public class Asset {
         Menu
     }
     
-    public Asset(int id, int length, AssetType assetType) {
+    public Asset(int id, int length, AssetType assetType, String description) {
         this.id = id;
         this.length = length;
         this.assetType = assetType;
+        this.description = description;
     }
 
     public int getId() {
@@ -39,9 +42,34 @@ public class Asset {
     public int getLength() {
         return length;
     }
+    
+    public void setLength(int length) {
+        this.length = length;
+    }
+    
+    public String getLengthAsString() {
+        return "" + this.length;
+    }
+    
+    public String getDescription() {
+        return description;
+    }
+    
+    public void setDescription(String desc) {
+        this.description = desc;
+    }
 
     public AssetType getAssetType() {
         return assetType;
+    }
+    
+    public void setAssetType(AssetType type) {
+        this.assetType = type;
+    }
+    
+    @Override
+    public String toString() {
+        return "(ID: " + getId() + ") " + getAssetType() + " asset (Length: " + getLengthAsString() + ")";
     }
     
     public static SetOfAssets getAllAssets() {
@@ -84,8 +112,9 @@ public class Asset {
                     int id = Integer.parseInt(element.getElementsByTagName("ID").item(0).getTextContent());
                     int length = Integer.parseInt(element.getElementsByTagName("Length").item(0).getTextContent());
                     AssetType assetType = AssetType.valueOf(element.getElementsByTagName("Type").item(0).getTextContent());
+                    String description = element.getElementsByTagName("Description").item(0).getTextContent();
                     
-                    Asset asset = new Asset(id, length, assetType);
+                    Asset asset = new Asset(id, length, assetType, description);
                     allAssets.add(asset);
                 }
             }

@@ -1,7 +1,5 @@
 package Views;
 
-import Models.Report;
-import Models.SetOfUsers;
 import java.awt.event.ActionListener;
 import javax.swing.DefaultComboBoxModel;
 
@@ -32,12 +30,12 @@ public class TaskDetailView extends javax.swing.JPanel {
         this.cmboPriority.setSelectedIndex(index);
     }
     
-    public void setReport(Report report) {
-        this.textReport.setText(report.toString());
+    public void setReportText(String report) {
+        this.textReport.setText(report);
     }
     
-    public void setAssignedTo(SetOfUsers users) {
-        this.listAssignedTo.setListData(users.toArray());
+    public void setAssignedTo(Object[] users) {
+        this.listAssignedTo.setListData(users);
     }
     
     public void addAssignedToChoiceActionListener(ActionListener listener) {

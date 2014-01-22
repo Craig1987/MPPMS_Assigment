@@ -34,10 +34,10 @@ public class ProjectDetailController {
             this.view.setCoordinatorText(project.getCoordinator().getName());
             this.view.setCreationDateText(new SimpleDateFormat("dd MMM yyyy").format(project.getCreationDate()));
             this.view.setDeadlineText(new SimpleDateFormat("dd MMM yyyy").format(project.getDeadline()));
-            this.view.setPriority(new DefaultComboBoxModel<>(Project.Priority.values()), project.getPriority().ordinal());
-            this.view.setTeam(new DefaultComboBoxModel<>(project.getTeam().toArray()));
-            this.view.setTasks(new DefaultComboBoxModel<>(project.getTasks().toArray()));
-            this.view.setComponents(new DefaultComboBoxModel<>(project.getComponents().toArray()));
+            this.view.setPriority(Project.Priority.values(), project.getPriority().ordinal());
+            this.view.setTeam(project.getTeam().toArray());
+            this.view.setTasks(project.getTasks().toArray());
+            this.view.setComponents(project.getComponents().toArray());
             
             // Add event listeners
             this.view.addTeamChoiceActionListener(new TeamChoiceActionListener());
@@ -83,7 +83,7 @@ public class ProjectDetailController {
                     users.addAll((Collection)modelChoiceController.getChosenModels());                    
                     modelChoiceController.closeView();                    
                     project.setTeam(users);
-                    view.setTeam(new DefaultComboBoxModel<>(users.toArray()));
+                    view.setTeam(users.toArray());
                     break;
                     
                 case Task:
@@ -91,7 +91,7 @@ public class ProjectDetailController {
                     tasks.addAll((Collection)modelChoiceController.getChosenModels());
                     modelChoiceController.closeView();                    
                     project.setTasks(tasks);
-                    view.setTeam(new DefaultComboBoxModel<>(tasks.toArray()));
+                    view.setTeam(tasks.toArray());
                     break;
                     
                 case Component:
@@ -99,7 +99,7 @@ public class ProjectDetailController {
                     components.addAll((Collection)modelChoiceController.getChosenModels());
                     modelChoiceController.closeView();                    
                     project.setComponents(components);
-                    view.setTeam(new DefaultComboBoxModel<>(components.toArray()));
+                    view.setTeam(components.toArray());
                     break;
             }
         }        

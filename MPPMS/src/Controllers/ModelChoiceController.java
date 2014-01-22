@@ -24,7 +24,8 @@ public class ModelChoiceController {
     public enum ModelType {
         User,
         Task,
-        Component
+        Component,
+        Asset
     }
     
     public ModelChoiceController(Collection allTheModels) {

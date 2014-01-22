@@ -2,7 +2,7 @@ package Models;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Vector;
+import java.util.ArrayList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -17,7 +17,7 @@ import javax.xml.xpath.*;
 public class Component extends Model {
     private static SetOfComponents allComponents = null;
     
-    private Vector<Asset> assets = new Vector<>();
+    private ArrayList<Asset> assets = new ArrayList<>();
     
     private final int id;
     private String description;
@@ -39,8 +39,16 @@ public class Component extends Model {
         this.description = description;
     }
     
-    public Vector<Asset> getAssets() {
+    public int getNumberOfAssets() {
+        return assets.size();
+    }
+    
+    public ArrayList<Asset> getAssets() {
         return assets;
+    }
+    
+    public void setAssets(SetOfAssets assets) {
+        this.assets = assets;
     }
     
     public void addAsset(Asset a) {

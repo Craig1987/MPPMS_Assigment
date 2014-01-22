@@ -29,8 +29,8 @@ public class TaskDetailController {
             view.setTitleText(task.getTitle());
             view.setStatus(new DefaultComboBoxModel<>(Task.Status.values()), task.getStatus().ordinal());
             view.setPriority(new DefaultComboBoxModel<>(Task.Priority.values()), task.getPriority().ordinal());
-            view.setReport(task.getReport());
-            view.setAssignedTo(task.getAssignedTo());
+            view.setReportText(task.getReport().toString());
+            view.setAssignedTo(task.getAssignedTo().toArray());
             
             // Add event listeners
             view.addAssignedToChoiceActionListener(new AssignedToChoiceActionListener());
@@ -53,7 +53,7 @@ public class TaskDetailController {
             users.addAll((Collection)modelChoiceController.getChosenModels());                    
             modelChoiceController.closeView();                    
             task.setAssignedTo(users);
-            view.setAssignedTo(users);
+            view.setAssignedTo(users.toArray());
         }        
     }
 }

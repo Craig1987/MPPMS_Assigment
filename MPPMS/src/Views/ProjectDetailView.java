@@ -35,21 +35,21 @@ public class ProjectDetailView extends javax.swing.JPanel {
         this.textDeadlineDate.setText(text);
     }
     
-    public void setPriority(DefaultComboBoxModel model, int index) {
-        this.cmboPriority.setModel(model);
+    public void setPriority(Object[] values, int index) {
+        this.cmboPriority.setModel(new DefaultComboBoxModel<>(values));
         this.cmboPriority.setSelectedIndex(index);
     }
     
-    public void setTeam(DefaultComboBoxModel model) {
-        this.listTeam.setModel(model);
+    public void setTeam(Object[] values) {
+        this.listTeam.setModel(new DefaultComboBoxModel<>(values));
     }
     
-    public void setTasks(DefaultComboBoxModel model) {
-        this.listTasks.setModel(model);
+    public void setTasks(Object[] values) {
+        this.listTasks.setModel(new DefaultComboBoxModel<>(values));
     }
     
-    public void setComponents(DefaultComboBoxModel model) {
-        this.listComponents.setModel(model);
+    public void setComponents(Object[] values) {
+        this.listComponents.setModel(new DefaultComboBoxModel<>(values));
     }
     
     public void addTeamChoiceActionListener(ActionListener listener) {
