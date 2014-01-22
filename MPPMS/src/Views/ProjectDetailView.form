@@ -53,12 +53,12 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="textDeadlineDate" alignment="0" max="32767" attributes="0"/>
                           <Component id="coordinatorCombo" alignment="1" max="32767" attributes="0"/>
                           <Component id="cmboPriority" alignment="0" max="32767" attributes="0"/>
-                          <Component id="textCreationDate" alignment="1" max="32767" attributes="0"/>
                           <Component id="textProjectTitle" max="32767" attributes="0"/>
                           <Component id="managerCombo" alignment="1" max="32767" attributes="0"/>
+                          <Component id="pickCreationDate" alignment="0" max="32767" attributes="0"/>
+                          <Component id="pickDeadlineDate" alignment="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
@@ -104,50 +104,52 @@
                   <Component id="coordinatorCombo" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="lblCreationDate" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="textCreationDate" alignment="3" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="lblCreationDate" min="-2" max="-2" attributes="0"/>
+                  <Component id="pickCreationDate" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="lblDeadlineDate" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="textDeadlineDate" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="lblPriority" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="cmboPriority" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="lblTeam" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="teamChoiceButton" pref="51" max="32767" attributes="0"/>
-                  <Component id="jScrollPane1" pref="0" max="32767" attributes="0"/>
-              </Group>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="lblTasks" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+              <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <Component id="tasksChoiceButton" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
-                      <Component id="tasksEditButton" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblDeadlineDate" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="lblPriority" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="cmboPriority" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="lblTeam" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="teamChoiceButton" pref="51" max="32767" attributes="0"/>
+                          <Component id="jScrollPane1" pref="0" max="32767" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="lblTasks" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Component id="tasksChoiceButton" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="tasksEditButton" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="jScrollPane2" min="-2" pref="51" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="lblComponents" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="jScrollPane3" min="-2" pref="51" max="-2" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="componentsChoiceButton" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="componentsEditButton" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
                   </Group>
-                  <Component id="jScrollPane2" min="-2" pref="51" max="-2" attributes="0"/>
+                  <Component id="pickDeadlineDate" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="lblComponents" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="jScrollPane3" min="-2" pref="51" max="-2" attributes="0"/>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="componentsChoiceButton" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
-                      <Component id="componentsEditButton" min="-2" max="-2" attributes="0"/>
-                  </Group>
-              </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace pref="14" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -185,8 +187,6 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Priority:"/>
       </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="textDeadlineDate">
     </Component>
     <Component class="javax.swing.JComboBox" name="cmboPriority">
       <Properties>
@@ -349,11 +349,19 @@
         </Property>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="textCreationDate">
-    </Component>
     <Component class="javax.swing.JButton" name="componentsEditButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Edit"/>
+      </Properties>
+    </Component>
+    <Component class="com.toedter.calendar.JDateChooser" name="pickCreationDate">
+      <Properties>
+        <Property name="dateFormatString" type="java.lang.String" value="dd MMM yyyy"/>
+      </Properties>
+    </Component>
+    <Component class="com.toedter.calendar.JDateChooser" name="pickDeadlineDate">
+      <Properties>
+        <Property name="dateFormatString" type="java.lang.String" value="dd MMM yyyy"/>
       </Properties>
     </Component>
   </SubComponents>
