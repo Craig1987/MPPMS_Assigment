@@ -19,16 +19,24 @@ public class Component extends Model {
     
     private ArrayList<Asset> assets = new ArrayList<>();
     
-    private final int id;
-    private String description;
+    private Integer id;
+    private String description = "";
+    
+    public Component() {
+        // Default Contstructor
+    }
     
     public Component(int id, String description) {
         this.id = id;
         this.description = description;
     }
-    
-    public int getId() {
+
+    public Integer getId() {
         return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getDescription() {
@@ -78,6 +86,13 @@ public class Component extends Model {
             }
         }
         return null;
+    }
+    
+    public void save() {
+        if (id == null)
+            id = getAllComponents().get(getAllComponents().size() - 1).getId() + 1;
+            
+        System.out.println("TODO: Implement persistence to XML | Models/Component.java:91");
     }
     
     private static void populateComponents() {
