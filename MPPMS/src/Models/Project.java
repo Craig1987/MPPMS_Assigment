@@ -61,6 +61,10 @@ public class Project {
     public Date getCreationDate() {
         return creationDate;
     }
+    
+    public String getFormattedCreationDate() {
+        return new SimpleDateFormat("dd MMM yyyy").format(this.creationDate);
+    }
 
     public String getTitle() {
         return title;

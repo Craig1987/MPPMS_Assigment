@@ -13,15 +13,26 @@ import ca.odell.glazedlists.GlazedLists;
 import ca.odell.glazedlists.gui.TableFormat;
 import ca.odell.glazedlists.swing.DefaultEventTableModel;
 import java.awt.event.ActionListener;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableCellRenderer;
 
 public class IndexView extends javax.swing.JFrame {
 
     public IndexView() {
         initComponents();
         this.setLocationRelativeTo(null);
+        
+        // Set column content alignemnt to center for all numeric values (which default to right aligned)
+        DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+        renderer.setHorizontalAlignment(JLabel.CENTER);
+        componentsTable.getColumnModel().getColumn(0).setCellRenderer(renderer);
+        componentsTable.getColumnModel().getColumn(2).setCellRenderer(renderer);
+        assetsTable.getColumnModel().getColumn(0).setCellRenderer(renderer);
+        assetsTable.getColumnModel().getColumn(1).setCellRenderer(renderer);
     }
     
     public void setWelcomeMessage(String message) {
@@ -30,13 +41,15 @@ public class IndexView extends javax.swing.JFrame {
     
     public void setProjectsTableData(SetOfProjects projects) {
         String[] headers = new String[]{ "Title", "Creation date", "Manager", "Coordinator" };
-        String[] properties = new String[]{ "Title", "CreationDate", "Manager", "Coordinator" };
+        String[] properties = new String[]{ "Title", "FormattedCreationDate", "Manager", "Coordinator" };
         
         EventList projectsEventList = GlazedLists.eventList(projects);
         TableFormat projectsTableFormat = GlazedLists.tableFormat(Project.class, properties, headers);
         DefaultEventTableModel projectsTableModel = new DefaultEventTableModel(projectsEventList, projectsTableFormat);
         
         this.projectsTable.setModel(projectsTableModel);
+        
+        alignTableContent(projectsTable, JLabel.LEFT);
     }
     
     public void setTasksTableData(SetOfTasks tasks) {
@@ -47,6 +60,8 @@ public class IndexView extends javax.swing.JFrame {
         DefaultEventTableModel tasksTableModel = new DefaultEventTableModel(tasksEventList, tasksTableFormat);
         
         this.tasksTable.setModel(tasksTableModel);
+        
+        alignTableContent(tasksTable, JLabel.LEFT);
     }
     
     public void setComponentsTableData(SetOfComponents components) {
@@ -58,6 +73,8 @@ public class IndexView extends javax.swing.JFrame {
         DefaultEventTableModel tableModel = new DefaultEventTableModel(eventList, tableFormat);
         
         this.componentsTable.setModel(tableModel);
+        
+        alignTableContent(componentsTable, JLabel.LEFT);
     }
     
     public void setAssetsTableData(SetOfAssets assets) {
@@ -69,6 +86,16 @@ public class IndexView extends javax.swing.JFrame {
         DefaultEventTableModel tableModel = new DefaultEventTableModel(eventList, tableFormat);
         
         this.assetsTable.setModel(tableModel);
+        
+        alignTableContent(assetsTable, JLabel.LEFT);
+    }
+    
+    private void alignTableContent(JTable table, int alignment) {
+        DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+        renderer.setHorizontalAlignment(alignment);
+        for (int i = 0; i < table.getColumnModel().getColumnCount(); i++) {
+            table.getColumnModel().getColumn(i).setCellRenderer(renderer);
+        }
     }
     
     public Project getSelectedProject() {
@@ -195,7 +222,7 @@ public class IndexView extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         userMenuLogOut = new javax.swing.JMenuItem();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("MPPMS - Home");
         setPreferredSize(new java.awt.Dimension(900, 550));
 
