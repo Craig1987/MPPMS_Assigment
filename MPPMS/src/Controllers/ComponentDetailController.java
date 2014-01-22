@@ -24,7 +24,21 @@ public class ComponentDetailController {
         this.view.setDescriptionText(this.component.getDescription());
         this.view.setAssets(this.component.getAssets().toArray());
         
+        if (component.getId() == null) {
+            this.view.setIdLabelText("ID: New Component");
+            this.view.setEditButtonVisible(false);
+            this.view.setSaveButtonVisible(true);
+        }
+        
         this.view.addAssetChoiceActionListener(new AssetChoiceActionListener());
+        this.view.addSaveButtonActionListener(new SaveButtonActionListener());
+    }
+    
+    class SaveButtonActionListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            view.getComponent().save();
+        }
     }
 
     class AssetChoiceActionListener implements ActionListener {
