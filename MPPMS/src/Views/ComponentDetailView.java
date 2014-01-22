@@ -1,18 +1,19 @@
 package Views;
 
-import Models.Asset;
-import Models.Component;
-import Models.SetOfAssets;
 import java.awt.event.ActionListener;
-import javax.swing.ListModel;
 
 public class ComponentDetailView extends javax.swing.JPanel {
 
     public ComponentDetailView() {
         initComponents();
-        
-        this.saveButton.setVisible(false);
-        this.discardButton.setVisible(false);
+    }
+    
+    public void setEditMode(boolean editMode) {
+        saveButton.setVisible(editMode);
+        discardButton.setVisible(editMode);
+        editButton.setVisible(!editMode);
+        descriptionArea.setEnabled(editMode);
+        assetChoiceButton.setEnabled(editMode);
     }
     
     public void setIdLabelText(String text) {
@@ -40,23 +41,16 @@ public class ComponentDetailView extends javax.swing.JPanel {
         this.assetChoiceButton.addActionListener(listener);
     }
     
-    public void addSaveButtonActionListener(ActionListener listener) {
-        this.saveButton.addActionListener(listener);
+    public void addEditButtonActionListener(ActionListener listener) {
+        editButton.addActionListener(listener);
     }
     
-    public Component getComponent() {
-        Component c = new Component();
-        
-        ListModel model = listAssets.getModel();
-        SetOfAssets assets = new SetOfAssets();
-        
-        for (int i = 0; i < model.getSize(); ++i)
-            assets.add((Asset) model.getElementAt(i));
-        
-        c.setAssets(assets);
-        c.setDescription(descriptionArea.getText());
-        
-        return c;
+    public void addSaveButtonActionListener(ActionListener listener) {
+        saveButton.addActionListener(listener);
+    }
+    
+    public void addDiscardButtonActionListener(ActionListener listener) {
+        discardButton.addActionListener(listener);
     }
     
     /**
@@ -81,6 +75,7 @@ public class ComponentDetailView extends javax.swing.JPanel {
         discardButton = new javax.swing.JButton();
         saveButton = new javax.swing.JButton();
         editButton = new javax.swing.JButton();
+        editAssetButton = new javax.swing.JButton();
 
         lblProjectDetails.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblProjectDetails.setText("Component Details");
@@ -94,6 +89,7 @@ public class ComponentDetailView extends javax.swing.JPanel {
         descriptionArea.setRows(3);
         jScrollPane1.setViewportView(descriptionArea);
 
+        listAssets.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane2.setViewportView(listAssets);
 
         jLabel2.setText("Assets");
@@ -125,6 +121,8 @@ public class ComponentDetailView extends javax.swing.JPanel {
                 .addComponent(editButton))
         );
 
+        editAssetButton.setText("Edit");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -148,7 +146,9 @@ public class ComponentDetailView extends javax.swing.JPanel {
                             .addComponent(jLabel2)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(assetChoiceButton)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(assetChoiceButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(editAssetButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -167,9 +167,12 @@ public class ComponentDetailView extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(assetChoiceButton, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(assetChoiceButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(editAssetButton)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -178,6 +181,7 @@ public class ComponentDetailView extends javax.swing.JPanel {
     private javax.swing.JButton assetChoiceButton;
     private javax.swing.JTextArea descriptionArea;
     private javax.swing.JButton discardButton;
+    private javax.swing.JButton editAssetButton;
     private javax.swing.JButton editButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

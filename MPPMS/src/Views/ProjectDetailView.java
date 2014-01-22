@@ -32,14 +32,9 @@ public class ProjectDetailView extends javax.swing.JPanel {
         textCreationDate.setEditable(editMode);
         textDeadlineDate.setEditable(editMode);
         cmboPriority.setEnabled(editMode);
-        listTeam.setEnabled(editMode);
-        listTasks.setEnabled(editMode);
-        listComponents.setEnabled(editMode);
         teamChoiceButton.setEnabled(editMode);
         tasksChoiceButton.setEnabled(editMode);
-        tasksEditButton.setEnabled(editMode);
         componentsChoiceButton.setEnabled(editMode);
-        componentsEditButton.setEnabled(editMode);
     }
     
     public void setIdLabelText(String text) {
@@ -172,16 +167,19 @@ public class ProjectDetailView extends javax.swing.JPanel {
 
         lblTeam.setText("Team:");
 
+        listTeam.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(listTeam);
 
         lblTasks.setText("Tasks:");
 
+        listTasks.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane2.setViewportView(listTasks);
 
         lblID.setText("ID:");
 
         lblComponents.setText("Components:");
 
+        listComponents.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane3.setViewportView(listComponents);
 
         tasksChoiceButton.setText("Add / Remove");

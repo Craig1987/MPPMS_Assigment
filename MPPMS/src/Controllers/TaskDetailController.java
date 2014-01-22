@@ -15,31 +15,64 @@ import javax.swing.DefaultComboBoxModel;
 
 public class TaskDetailController {
     private final TaskDetailView view;
-    private final Task task;
+    
+    private Task task;
+    private boolean isNew;
     
     private ModelChoiceController modelChoiceController;
     
     public TaskDetailController(TaskDetailView view, Task task) {
         this.view = view;
         this.task = task;
+        this.isNew = this.task.getId() < 1;
     }
     
     public void initialise() {
-        if (task != null) {
-            // Populate ui controls
-            view.setIdLabelText("ID: " + task.getId());
-            view.setTitleText(task.getTitle());
-            view.setStatus(new DefaultComboBoxModel<>(Task.Status.values()), task.getStatus().ordinal());
-            view.setPriority(new DefaultComboBoxModel<>(Task.Priority.values()), task.getPriority().ordinal());
-            view.setReportText(task.getReport().toString());
-            view.setAssignedTo(task.getAssignedTo().toArray());
-            view.setAssets(task.getAssets().toArray());
-            
-            // Add event listeners
-            view.addAssignedToChoiceActionListener(new AssignedToChoiceActionListener());
-            view.addAssetChoiceActionListener(new AssetChoiceActionListener());
-            view.addAssetEditActionListener(new AssetEditActionListener());
+        refreshView();
+        
+        this.view.setEditMode(this.isNew);
+        
+        this.view.addAssignedToChoiceActionListener(new AssignedToChoiceActionListener());
+        this.view.addAssetChoiceActionListener(new AssetChoiceActionListener());
+        this.view.addAssetEditActionListener(new AssetEditActionListener());
+        this.view.addSaveButtonActionListener(new SaveButtonActionListener());
+        this.view.addEditButtonActionListener(new EditButtonActionListener());
+        if (!this.isNew) {
+            this.view.addDiscardButtonActionListener(new DiscardButtonActionListener());
         }
+    }
+    
+    private void refreshView() {
+        view.setIdLabelText("ID: " + task.getId());
+        view.setTitleText(task.getTitle());
+        view.setStatus(Task.Status.values(), task.getStatus());
+        view.setPriority(Task.Priority.values(), task.getPriority());
+        view.setReportText((task.getReport().getId() < 1 ? "Blank report" : task.getReport().toString()));
+        view.setAssignedTo(task.getAssignedTo().toArray());
+        view.setAssets(task.getAssets().toArray());
+    }
+    
+    class SaveButtonActionListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            view.setEditMode(false);
+            isNew = false;
+        }        
+    }
+    
+    class DiscardButtonActionListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            view.setEditMode(false);
+            refreshView();
+        }        
+    }
+    
+    class EditButtonActionListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {   
+            view.setEditMode(true);
+        }        
     }
     
     class AssignedToChoiceActionListener implements ActionListener {

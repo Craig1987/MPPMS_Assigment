@@ -47,6 +47,7 @@ public class Project {
     }
     
     public Project() {
+        this.id = 0;
         this.manager = new User("", "", "");
         this.coordinator = new User("", "", "");
         this.team = new SetOfUsers();
@@ -58,11 +59,11 @@ public class Project {
         
     }
     
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -157,9 +158,7 @@ public class Project {
     
     public void save() {
         if (id == 0){
-            // New Project
             id = getAllProjects().get(getAllProjects().size() - 1).getId();
-            creationDate = new Date();
         }
 
         // TODO: Implement XML Persistance of Project

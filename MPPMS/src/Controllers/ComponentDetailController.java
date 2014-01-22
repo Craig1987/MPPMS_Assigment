@@ -1,5 +1,7 @@
 package Controllers;
 
+import Controllers.ProjectDetailController.DiscardButtonActionListener;
+import Controllers.ProjectDetailController.EditButtonActionListener;
 import Models.Asset;
 import Models.Component;
 import Models.SetOfAssets;
@@ -10,35 +12,58 @@ import java.util.Collection;
 
 public class ComponentDetailController {
     private final ComponentDetailView view;
-    private final Component component;
+    
+    private Component component;
+    private boolean isNew;
     
     private ModelChoiceController modelChoiceController;
     
     public ComponentDetailController(ComponentDetailView view, Component component) {
         this.view = view;
         this.component = component;
+        this.isNew = this.component.getId() < 1;
     }
     
     public void initialise() {
-        this.view.setIdLabelText("ID: " + this.component.getId());
-        this.view.setDescriptionText(this.component.getDescription());
-        this.view.setAssets(this.component.getAssets().toArray());
+        refreshView();
         
-        if (component.getId() == null) {
-            this.view.setIdLabelText("ID: New Component");
-            this.view.setEditButtonVisible(false);
-            this.view.setSaveButtonVisible(true);
-        }
+        this.view.setEditMode(isNew);
         
         this.view.addAssetChoiceActionListener(new AssetChoiceActionListener());
         this.view.addSaveButtonActionListener(new SaveButtonActionListener());
+        this.view.addEditButtonActionListener(new EditButtonActionListener());
+        if (!this.isNew) {
+            this.view.addDiscardButtonActionListener(new DiscardButtonActionListener());
+        }
+    }
+    
+    private void refreshView() {
+        this.view.setIdLabelText("ID: " + this.component.getId());
+        this.view.setDescriptionText(this.component.getDescription());
+        this.view.setAssets(this.component.getAssets().toArray());
     }
     
     class SaveButtonActionListener implements ActionListener {
         @Override
-        public void actionPerformed(ActionEvent ae) {
-            view.getComponent().save();
-        }
+        public void actionPerformed(ActionEvent e) {
+            view.setEditMode(false);
+            isNew = false;
+        }        
+    }
+    
+    class DiscardButtonActionListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            view.setEditMode(false);
+            refreshView();
+        }        
+    }
+    
+    class EditButtonActionListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {   
+            view.setEditMode(true);
+        }        
     }
 
     class AssetChoiceActionListener implements ActionListener {

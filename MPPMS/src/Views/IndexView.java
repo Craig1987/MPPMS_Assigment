@@ -254,6 +254,9 @@ public class IndexView extends javax.swing.JFrame {
 
         projectSplitPane.setRightComponent(detailPanel);
 
+        jPanel1.setForeground(new java.awt.Color(0, 0, 102));
+        jPanel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+
         tabbedPaneView.setMinimumSize(new java.awt.Dimension(100, 55));
         tabbedPaneView.setPreferredSize(new java.awt.Dimension(400, 430));
 

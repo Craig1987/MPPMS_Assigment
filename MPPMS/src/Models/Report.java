@@ -19,10 +19,16 @@ public class Report {
     private static SetOfReports allReports = null;
     
     private final int id;
-    private SetOfComments comments = new SetOfComments();
+    private SetOfComments comments;
     
     public Report(int id) {
         this.id = id;
+        this.comments = new SetOfComments();
+    }
+
+    Report() {
+        this.id = 0;
+        this.comments = new SetOfComments();
     }
     
     public int getId() {

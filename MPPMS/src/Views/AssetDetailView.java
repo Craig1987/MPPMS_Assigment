@@ -1,5 +1,8 @@
 package Views;
 
+import java.awt.event.ActionListener;
+import javax.swing.DefaultComboBoxModel;
+
 public class AssetDetailView extends javax.swing.JPanel {
 
     public AssetDetailView() {
@@ -7,6 +10,15 @@ public class AssetDetailView extends javax.swing.JPanel {
         
         this.saveButton.setVisible(false);
         this.discardButton.setVisible(false);
+    }
+    
+    public void setEditMode(boolean editMode) {
+        saveButton.setVisible(editMode);
+        discardButton.setVisible(editMode);
+        editButton.setVisible(!editMode);
+        descriptionArea.setEnabled(editMode);
+        typeCombo.setEnabled(editMode);
+        lengthText.setEnabled(editMode);
     }
     
     public void setIdLabelText(String text) {
@@ -21,8 +33,21 @@ public class AssetDetailView extends javax.swing.JPanel {
         this.lengthText.setText(text);
     }
     
-    public void setTypeText(String text) {
-        this.typeText.setText(text);
+    public void setType(Object[] items, Object selectedItem) {
+        this.typeCombo.setModel(new DefaultComboBoxModel<>(items));
+        this.typeCombo.setSelectedItem(selectedItem);
+    }
+    
+    public void addEditButtonActionListener(ActionListener listener) {
+        editButton.addActionListener(listener);
+    }
+    
+    public void addSaveButtonActionListener(ActionListener listener) {
+        saveButton.addActionListener(listener);
+    }
+    
+    public void addDiscardButtonActionListener(ActionListener listener) {
+        discardButton.addActionListener(listener);
     }
 
     /**
@@ -39,7 +64,6 @@ public class AssetDetailView extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         descriptionArea = new javax.swing.JTextArea();
-        typeText = new javax.swing.JTextField();
         lengthText = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -47,6 +71,7 @@ public class AssetDetailView extends javax.swing.JPanel {
         discardButton = new javax.swing.JButton();
         saveButton = new javax.swing.JButton();
         editButton = new javax.swing.JButton();
+        typeCombo = new javax.swing.JComboBox();
 
         lblProjectDetails.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblProjectDetails.setText("Asset Details");
@@ -111,8 +136,8 @@ public class AssetDetailView extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lengthText, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(typeText)
-                            .addComponent(jScrollPane1))))
+                            .addComponent(jScrollPane1)
+                            .addComponent(typeCombo, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -130,8 +155,8 @@ public class AssetDetailView extends javax.swing.JPanel {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(typeText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
+                    .addComponent(jLabel2)
+                    .addComponent(typeCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lengthText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -154,6 +179,6 @@ public class AssetDetailView extends javax.swing.JPanel {
     private javax.swing.JLabel lblProjectDetails;
     private javax.swing.JTextField lengthText;
     private javax.swing.JButton saveButton;
-    private javax.swing.JTextField typeText;
+    private javax.swing.JComboBox typeCombo;
     // End of variables declaration//GEN-END:variables
 }

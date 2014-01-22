@@ -61,8 +61,6 @@ public class ProjectDetailController {
         public void actionPerformed(ActionEvent e) {
             view.setEditMode(false);
             isNew = false;
-            //view.getProject().save();
-            //view.displayInfoMessage("Project Saved");
         }        
     }
     

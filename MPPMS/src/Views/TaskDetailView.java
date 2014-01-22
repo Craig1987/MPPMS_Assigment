@@ -7,9 +7,18 @@ public class TaskDetailView extends javax.swing.JPanel {
 
     public TaskDetailView() {
         initComponents();
-        
-        this.saveButton.setVisible(false);
-        this.discardButton.setVisible(false);
+    }
+    
+    public void setEditMode(boolean editMode) {
+        saveButton.setVisible(editMode);
+        discardButton.setVisible(editMode);
+        editButton.setVisible(!editMode);
+        textTaskTitle.setEnabled(editMode);
+        cmboPriority.setEnabled(editMode);
+        cmboStatus.setEnabled(editMode);
+        editReportButton.setEnabled(editMode && !textReport.getText().equals("Blank report"));
+        assignedToChoiceButton.setEnabled(editMode);
+        assetChoiceButton.setEnabled(editMode);
     }
     
     public void setIdLabelText(String text) {
@@ -20,14 +29,14 @@ public class TaskDetailView extends javax.swing.JPanel {
         this.textTaskTitle.setText(text);
     }
     
-    public void setStatus(DefaultComboBoxModel model, int index) {
-        this.cmboStatus.setModel(model);
-        this.cmboStatus.setSelectedIndex(index);
+    public void setStatus(Object[] items, Object selectedItem) {
+        this.cmboStatus.setModel(new DefaultComboBoxModel<>(items));
+        this.cmboStatus.setSelectedItem(selectedItem);
     }
     
-    public void setPriority(DefaultComboBoxModel model, int index) {
-        this.cmboPriority.setModel(model);
-        this.cmboPriority.setSelectedIndex(index);
+    public void setPriority(Object[] items, Object selectedItem) {
+        this.cmboPriority.setModel(new DefaultComboBoxModel<>(items));
+        this.cmboPriority.setSelectedItem(selectedItem);
     }
     
     public void setReportText(String report) {
@@ -53,6 +62,18 @@ public class TaskDetailView extends javax.swing.JPanel {
     public void addAssetEditActionListener(ActionListener listener) {
         this.assetEditButton.addActionListener(listener);
     }
+    public void addEditButtonActionListener(ActionListener listener) {
+        editButton.addActionListener(listener);
+    }
+    
+    public void addSaveButtonActionListener(ActionListener listener) {
+        saveButton.addActionListener(listener);
+    }
+    
+    public void addDiscardButtonActionListener(ActionListener listener) {
+        discardButton.addActionListener(listener);
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -94,6 +115,7 @@ public class TaskDetailView extends javax.swing.JPanel {
 
         cmboStatus.setFocusable(false);
 
+        listAssignedTo.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         listAssignedTo.setFocusable(false);
         jScrollPane1.setViewportView(listAssignedTo);
 
@@ -143,6 +165,7 @@ public class TaskDetailView extends javax.swing.JPanel {
                 .addComponent(editButton))
         );
 
+        listAssets.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane2.setViewportView(listAssets);
 
         lblAssets.setText("Assets:");

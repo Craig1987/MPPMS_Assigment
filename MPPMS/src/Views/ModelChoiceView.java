@@ -130,6 +130,7 @@ public class ModelChoiceView extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        listbox_chosenModels.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(listbox_chosenModels);
 
         lbl_availableModels.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -141,6 +142,7 @@ public class ModelChoiceView extends javax.swing.JFrame {
 
         btn_addSelectedModel.setText("<-- Add");
 
+        listbox_availableModels.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane2.setViewportView(listbox_availableModels);
 
         btn_clearChosenModels.setText("Clear selected");

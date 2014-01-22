@@ -17,13 +17,13 @@ import javax.xml.xpath.*;
 public class Component extends Model {
     private static SetOfComponents allComponents = null;
     
-    private ArrayList<Asset> assets = new ArrayList<>();
-    
-    private Integer id;
-    private String description = "";
+    private SetOfAssets assets = new SetOfAssets();    
+    private int id;
+    private String description;
     
     public Component() {
-        // Default Contstructor
+        this.id = 0;
+        this.description = "";
     }
     
     public Component(int id, String description) {
@@ -31,11 +31,11 @@ public class Component extends Model {
         this.description = description;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -89,8 +89,9 @@ public class Component extends Model {
     }
     
     public void save() {
-        if (id == null)
+        if (id == 0) {
             id = getAllComponents().get(getAllComponents().size() - 1).getId() + 1;
+        }
             
         System.out.println("TODO: Implement persistence to XML | Models/Component.java:91");
     }

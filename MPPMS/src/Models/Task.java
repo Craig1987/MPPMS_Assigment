@@ -16,15 +16,13 @@ import org.xml.sax.SAXException;
 public class Task extends Model {
     private static SetOfTasks allTasks = null;
     
-    private Integer id;
-    private TaskType taskType;
-    
+    private int id;
+    private TaskType taskType;    
     private String title;
     private SetOfUsers assignedTo;
     private SetOfAssets assets;
     private Status status;
     private Priority priority;
-
     private Report report;
     
     public enum TaskType {
@@ -46,7 +44,14 @@ public class Task extends Model {
     }
     
     public Task() {
-        // Default Constructor
+        this.id = 0;
+        this.taskType = TaskType.QC;
+        this.title = "";
+        this.assignedTo = new SetOfUsers();
+        this.assets = new SetOfAssets();
+        this.status = Status.New;
+        this.priority = Priority.Normal;
+        this.report = new Report();
     }
 
     
@@ -55,11 +60,11 @@ public class Task extends Model {
         this.taskType = taskType;
     }
     
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
     
@@ -147,8 +152,9 @@ public class Task extends Model {
     }
     
     public void save() {
-        if (id == null)
+        if (id == 0) {
             id = getAllTasks().get(getAllTasks().size() - 1).getId() + 1;
+        }
         
         System.out.println("TODO: Implement persistance to XML | Models/Task.java:136");
     }

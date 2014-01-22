@@ -117,27 +117,42 @@ public class IndexController {
     class NewTaskButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            // New Task Happens
+            TaskDetailView detailView = new TaskDetailView();
+            detailView.addDiscardButtonActionListener(new DiscardNewProjectActionListener());
+            
+            TaskDetailController controller = new TaskDetailController(detailView, new Task());
+            controller.initialise();
+            
+            view.clearTaskSelection();
+            view.setDetailViewPanel(detailView);
         }
     }
     
     class NewComponentButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            
             ComponentDetailView detailView = new ComponentDetailView();
+            detailView.addDiscardButtonActionListener(new DiscardNewProjectActionListener());
+            
             ComponentDetailController controller = new ComponentDetailController(detailView, new Component());
             controller.initialise();
             
-            view.setDetailViewPanel(detailView);
-            
+            view.clearComponentSelection();
+            view.setDetailViewPanel(detailView);            
         }
     }
     
     class NewAssetButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            // New Asset Happens
+            AssetDetailView detailView = new AssetDetailView();
+            detailView.addDiscardButtonActionListener(new DiscardNewProjectActionListener());
+            
+            AssetDetailController controller = new AssetDetailController(detailView, new Asset());
+            controller.initialise();
+            
+            view.clearAssetSelection();
+            view.setDetailViewPanel(detailView);  
         }
     }
     

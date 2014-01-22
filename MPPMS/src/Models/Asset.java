@@ -15,8 +15,7 @@ import org.xml.sax.SAXException;
 public class Asset extends Model {
     private static SetOfAssets allAssets = null;
     
-    private final int id;
-    
+    private int id;    
     private AssetType assetType;    
     private int length;
     private String description;
@@ -26,6 +25,13 @@ public class Asset extends Model {
         Video,
         Subtitles,
         Menu
+    }
+    
+    public Asset() {
+        this.id = 0;
+        this.length = 0;
+        this.assetType = AssetType.Audio;
+        this.description = "";
     }
     
     public Asset(int id, int length, AssetType assetType, String description) {
