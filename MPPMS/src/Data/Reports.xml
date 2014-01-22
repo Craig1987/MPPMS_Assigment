@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
     <Report>
-        <ID>1</ID>
+        <ReportID>1</ReportID>
         <Comments>
             <Comment>
+                <ID>1</ID>
                 <Date>15/01/2014</Date>
                 <Username>Joe90</Username>
                 <Content>I'm adding a note.</Content>
             </Comment>
             <Comment>
+                <ID>2</ID>
                 <Date>15/01/2014</Date>
                 <Username>Gail</Username>
                 <Content>Well done, Joe, your mum would be proud.</Content>

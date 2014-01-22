@@ -18,6 +18,7 @@ public class TaskDetailController {
     private final Task task;
     
     private ModelChoiceController modelChoiceController;
+    private ReportDetailController reportDetailController;
     
     public TaskDetailController(TaskDetailView view, Task task) {
         this.view = view;
@@ -39,6 +40,7 @@ public class TaskDetailController {
             view.addAssignedToChoiceActionListener(new AssignedToChoiceActionListener());
             view.addAssetChoiceActionListener(new AssetChoiceActionListener());
             view.addAssetEditActionListener(new AssetEditActionListener());
+            view.addEditReportActionListener(new ReportEditActionListener());
         }
     }
     
@@ -87,5 +89,13 @@ public class TaskDetailController {
             task.setAssets(assets);
             view.setAssets(assets.toArray());
         }        
+    }
+    
+    class ReportEditActionListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            reportDetailController = new ReportDetailController(task.getReport());
+            reportDetailController.launch();
+        }
     }
 }

@@ -53,6 +53,10 @@ public class TaskDetailView extends javax.swing.JPanel {
     public void addAssetEditActionListener(ActionListener listener) {
         this.assetEditButton.addActionListener(listener);
     }
+    
+    public void addEditReportActionListener(ActionListener listener) {
+        this.editReportButton.addActionListener(listener);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.

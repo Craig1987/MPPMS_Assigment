@@ -8,6 +8,7 @@ import java.util.Date;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.*;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -42,6 +43,10 @@ public class Report {
         return "(ID: " + getId() + ") " + this.comments.size() + " comments";
     }
     
+    public SetOfComments getAllComments() {
+        return this.comments;
+    }
+    
     public static SetOfReports getAllReports() {
         if (allReports == null) {
             populateReports();
@@ -71,47 +76,75 @@ public class Report {
             // Prevent unwanted behaviour resulting from poorly formatted XML
             doc.getDocumentElement().normalize();
             
+            XPathFactory xpathfactory = XPathFactory.newInstance();
+            XPath xpath = xpathfactory.newXPath();
+            XPathExpression expr;
+            Object result;
+            
             // Get the persisted Reports
-            NodeList reportNodes = doc.getElementsByTagName("Report");
-            for (int i = 0; i < reportNodes.getLength(); i++)
+            try
             {
-                Node node = reportNodes.item(i);
-                if (node.getNodeType() == Node.ELEMENT_NODE)
+                expr = xpath.compile("/root/Report");
+                result = expr.evaluate(doc, XPathConstants.NODESET);
+                NodeList allReportNodes = (NodeList) result;
+                
+                if (allReportNodes != null)
                 {
-                    Element element = (Element)node;
-                    int id = Integer.parseInt(element.getElementsByTagName("ID").item(0).getTextContent());
-                    
-                    Report report = new Report(id);
-                                        
-                    // Get the comments which belong to this report
-                    NodeList commentNodes = element.getElementsByTagName("Comments");
-                    for (int x = 0; x < commentNodes.getLength(); x++)
+                    for (int i = 0; i < allReportNodes.getLength(); i++) 
                     {
-                        Node commentNode = commentNodes.item(x);
-                        if (commentNode.getNodeType() == Node.ELEMENT_NODE)
+                        Node individualReportNode = allReportNodes.item(i);
+                        
+                        if (individualReportNode.getNodeType() == Node.ELEMENT_NODE)
                         {
-                            Element commentElement = (Element)commentNode;
-                            String username = commentElement.getElementsByTagName("Username").item(0).getTextContent();
-                            String content = commentElement.getElementsByTagName("Content").item(0).getTextContent();
-                            Date date;
-                            try {
-                                date = new SimpleDateFormat("dd/MM/yyyy").parse(commentElement.getElementsByTagName("Date").item(0).getTextContent());
-                            }
-                            catch (ParseException pEx) {
-                                date = new Date();
+                             Element individualReportElement = (Element)individualReportNode;
+                             int id = Integer.parseInt(individualReportElement.getElementsByTagName("ReportID").item(0).getTextContent());
+                             Report report = new Report(id);
+                             
+                             // Get report comments
+                            expr = xpath.compile("Comments");
+                            result = expr.evaluate(individualReportNode, XPathConstants.NODE);
+                            NodeList commentsNodes = (NodeList) result;
+
+                            for (int x = 0; x < commentsNodes.getLength(); x++) 
+                            {
+                                Node commentNode = commentsNodes.item(x);
+                               
+                                if (commentNode.getNodeType() == Node.ELEMENT_NODE)
+                                {
+                                    Element commentElement = (Element)commentNode;
+                                    int commentId = Integer.parseInt(commentElement.getElementsByTagName("ID").item(0).getTextContent());
+                                    String username = commentElement.getElementsByTagName("Username").item(0).getTextContent();
+                                    String content = commentElement.getElementsByTagName("Content").item(0).getTextContent();
+                                    Date date;
+                                    try 
+                                    {
+                                        date = new SimpleDateFormat("dd/MM/yyyy").parse(commentElement.getElementsByTagName("Date").item(0).getTextContent());
+                                    }
+                                    catch (ParseException pEx) 
+                                    {
+                                        date = new Date();
+                                    }
+                                    
+                                    report.addComment(new Comment(commentId, date, User.getUserByUsername(username), content));
+                                }
                             }
                             
-                            report.addComment(new Comment(date, User.getUserByUsername(username), content));
+                            allReports.add(report);
+                            
                         }
-                    }
-                    
-                    allReports.add(report);
+                    }  
                 }
             }
+            catch (XPathExpressionException xe)
+            {
+                System.out.println("Error reading Projects.xml: " + xe.toString());
+            }
         }
+
         catch (ParserConfigurationException | SAXException | IOException | DOMException ex)
         {
             System.out.println(ex.getMessage());
         }
     }
 }
+        
