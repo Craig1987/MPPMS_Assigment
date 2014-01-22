@@ -73,6 +73,14 @@ public class Asset extends Model {
         this.assetType = type;
     }
     
+    public void save() {
+        if (id == 0) {
+            id = getAllAssets().get(getAllAssets().size() - 1).getId() + 1;
+        }
+        
+        System.out.println("TODO: Implement persistence to XML | Models/Asset.java:81");
+    }
+    
     @Override
     public String toString() {
         return "(ID: " + getId() + ") " + getAssetType() + " asset (Length: " + getLengthAsString() + ")";

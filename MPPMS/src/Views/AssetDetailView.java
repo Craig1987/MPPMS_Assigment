@@ -1,5 +1,6 @@
 package Views;
 
+import Models.Asset.AssetType;
 import java.awt.event.ActionListener;
 import javax.swing.DefaultComboBoxModel;
 
@@ -29,13 +30,25 @@ public class AssetDetailView extends javax.swing.JPanel {
         this.descriptionArea.setText(text);
     }
     
+    public String getDescription() {
+        return this.descriptionArea.getText();
+    }
+    
     public void setLengthText(String text) {
         this.lengthText.setText(text);
+    }
+    
+    public int getLength() {
+        return Integer.parseInt(this.lengthText.getText());
     }
     
     public void setType(Object[] items, Object selectedItem) {
         this.typeCombo.setModel(new DefaultComboBoxModel<>(items));
         this.typeCombo.setSelectedItem(selectedItem);
+    }
+    
+    public AssetType getAssetType() {
+        return AssetType.valueOf(this.typeCombo.getSelectedItem().toString());
     }
     
     public void addEditButtonActionListener(ActionListener listener) {

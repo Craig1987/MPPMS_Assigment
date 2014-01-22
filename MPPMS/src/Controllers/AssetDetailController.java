@@ -39,6 +39,9 @@ public class AssetDetailController {
         public void actionPerformed(ActionEvent e) {
             view.setEditMode(false);
             isNew = false;
+            
+            Asset newAsset = new Asset(0, view.getLength(), view.getAssetType(), view.getDescription());
+            newAsset.save();
         }        
     }
     
