@@ -14,6 +14,7 @@ import ca.odell.glazedlists.gui.TableFormat;
 import ca.odell.glazedlists.swing.DefaultEventTableModel;
 import java.awt.event.ActionListener;
 import javax.swing.JLabel;
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.event.ChangeListener;
@@ -24,15 +25,8 @@ public class IndexView extends javax.swing.JFrame {
 
     public IndexView() {
         initComponents();
+        this.setIconImage(new ImageIcon(getClass().getResource("/resources/icon.png")).getImage());
         this.setLocationRelativeTo(null);
-        
-        // Set column content alignemnt to center for all numeric values (which default to right aligned)
-        DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
-        renderer.setHorizontalAlignment(JLabel.CENTER);
-        componentsTable.getColumnModel().getColumn(0).setCellRenderer(renderer);
-        componentsTable.getColumnModel().getColumn(2).setCellRenderer(renderer);
-        assetsTable.getColumnModel().getColumn(0).setCellRenderer(renderer);
-        assetsTable.getColumnModel().getColumn(1).setCellRenderer(renderer);
     }
     
     public void setWelcomeMessage(String message) {

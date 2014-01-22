@@ -2,12 +2,14 @@ package Views;
 
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 public class LoginView extends javax.swing.JFrame {
 
     public LoginView() {
         initComponents();
+        this.setIconImage(new ImageIcon(getClass().getResource("/resources/icon.png")).getImage());
         this.setLocationRelativeTo(null); 
     }
     

@@ -4,6 +4,7 @@ import Exceptions.NoModelSelectedException;
 import Models.Model;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
 import javax.swing.event.ListSelectionListener;
 
 public class ModelChoiceView extends javax.swing.JFrame {
@@ -12,6 +13,7 @@ public class ModelChoiceView extends javax.swing.JFrame {
     
     public ModelChoiceView() {
         initComponents();
+        this.setIconImage(new ImageIcon(getClass().getResource("/resources/icon.png")).getImage());
     }
     
     public Model getSelectedAvailableModel() throws NoModelSelectedException {
