@@ -123,7 +123,13 @@ public class IndexController {
     class NewComponentButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            // New Component Happens
+            
+            ComponentDetailView detailView = new ComponentDetailView();
+            ComponentDetailController controller = new ComponentDetailController(detailView, new Component());
+            controller.initialise();
+            
+            view.setDetailViewPanel(detailView);
+            
         }
     }
     
