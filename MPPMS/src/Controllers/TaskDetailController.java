@@ -1,5 +1,7 @@
 package Controllers;
 
+import Models.Asset;
+import Models.SetOfAssets;
 import Models.SetOfComponents;
 import Models.SetOfTasks;
 import Models.SetOfUsers;
@@ -31,9 +33,12 @@ public class TaskDetailController {
             view.setPriority(new DefaultComboBoxModel<>(Task.Priority.values()), task.getPriority().ordinal());
             view.setReportText(task.getReport().toString());
             view.setAssignedTo(task.getAssignedTo().toArray());
+            view.setAssets(task.getAssets().toArray());
             
             // Add event listeners
             view.addAssignedToChoiceActionListener(new AssignedToChoiceActionListener());
+            view.addAssetChoiceActionListener(new AssetChoiceActionListener());
+            view.addAssetEditActionListener(new AssetEditActionListener());
         }
     }
     
@@ -41,12 +46,28 @@ public class TaskDetailController {
         @Override
         public void actionPerformed(ActionEvent ae) {
             modelChoiceController = new ModelChoiceController(User.getAllUsers(), task.getAssignedTo());
-            modelChoiceController.addSaveButtonActionListener(new ModelChoiceSaveActionListener());
+            modelChoiceController.addSaveButtonActionListener(new ModelChoiceAssignedToSaveActionListener());
             modelChoiceController.launch();
         }        
     }
     
-    class ModelChoiceSaveActionListener implements ActionListener {
+    class AssetChoiceActionListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            modelChoiceController = new ModelChoiceController(Asset.getAllAssets(), task.getAssets());
+            modelChoiceController.addSaveButtonActionListener(new ModelChoiceAssetsSaveActionListener());
+            modelChoiceController.launch();
+        }
+    }
+    
+    class AssetEditActionListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            
+        }
+    }
+    
+    class ModelChoiceAssignedToSaveActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ae) {
             SetOfUsers users = new SetOfUsers();
@@ -54,6 +75,17 @@ public class TaskDetailController {
             modelChoiceController.closeView();                    
             task.setAssignedTo(users);
             view.setAssignedTo(users.toArray());
+        }        
+    }
+    
+    class ModelChoiceAssetsSaveActionListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            SetOfAssets assets = new SetOfAssets();
+            assets.addAll((Collection)modelChoiceController.getChosenModels());                    
+            modelChoiceController.closeView();                    
+            task.setAssets(assets);
+            view.setAssets(assets.toArray());
         }        
     }
 }
