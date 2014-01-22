@@ -1,6 +1,10 @@
 package Views;
 
+import Models.Asset;
+import Models.Component;
+import Models.SetOfAssets;
 import java.awt.event.ActionListener;
+import javax.swing.ListModel;
 
 public class ComponentDetailView extends javax.swing.JPanel {
 
@@ -18,6 +22,15 @@ public class ComponentDetailView extends javax.swing.JPanel {
     public void setDescriptionText(String text) {
         this.descriptionArea.setText(text);
     }
+    
+    public void setEditButtonVisible(boolean visible) {
+        editButton.setVisible(visible);
+    }
+    
+    public void setSaveButtonVisible(boolean visible) {
+        saveButton.setVisible(visible);
+    }
+    
 
     public void setAssets(Object[] assets) {
         this.listAssets.setListData(assets);
@@ -25,6 +38,25 @@ public class ComponentDetailView extends javax.swing.JPanel {
     
     public void addAssetChoiceActionListener(ActionListener listener) {
         this.assetChoiceButton.addActionListener(listener);
+    }
+    
+    public void addSaveButtonActionListener(ActionListener listener) {
+        this.saveButton.addActionListener(listener);
+    }
+    
+    public Component getComponent() {
+        Component c = new Component();
+        
+        ListModel model = listAssets.getModel();
+        SetOfAssets assets = new SetOfAssets();
+        
+        for (int i = 0; i < model.getSize(); ++i)
+            assets.add((Asset) model.getElementAt(i));
+        
+        c.setAssets(assets);
+        c.setDescription(descriptionArea.getText());
+        
+        return c;
     }
     
     /**
