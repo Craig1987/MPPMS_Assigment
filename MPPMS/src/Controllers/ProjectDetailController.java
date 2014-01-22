@@ -48,8 +48,8 @@ public class ProjectDetailController {
         this.view.setProjectTitleText(project.getTitle());
         this.view.setManager(User.getUsersByRole(User.Role.ProjectManager).toArray(), project.getManager());
         this.view.setCoordinatorText(User.getUsersByRole(User.Role.ProjectCoordinator).toArray(), project.getCoordinator());
-        this.view.setCreationDateText(new SimpleDateFormat("dd MMM yyyy").format(project.getCreationDate()));
-        this.view.setDeadlineText(new SimpleDateFormat("dd MMM yyyy").format(project.getDeadline()));
+        this.view.setCreationDateText(project.getCreationDate());
+        this.view.setDeadlineText(project.getDeadline());
         this.view.setPriority(Project.Priority.values(), project.getPriority().ordinal());
         this.view.setTeam(project.getTeam().toArray());
         this.view.setTasks(project.getTasks().toArray());
