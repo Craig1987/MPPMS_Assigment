@@ -56,6 +56,14 @@ public class User extends Model {
     public String getPassword() {
         return password;
     }
+
+    public SetOfProjects getCurrentProjects() {
+        return currentProjects;
+    }
+
+    public Role getRole() {
+        return role;
+    }
     
     /**
      * Gets the User's name.
@@ -90,6 +98,16 @@ public class User extends Model {
             }
         }
         return null;
+    }
+    
+    public static SetOfUsers getUsersByRole(Role role) {
+        SetOfUsers users = new SetOfUsers();
+        for (User user : getAllUsers()) {
+            if (user.getRole() == role) {
+                users.add(user);
+            }
+        }
+        return users;
     }
     
     public static boolean authenticate(String username, String password) {

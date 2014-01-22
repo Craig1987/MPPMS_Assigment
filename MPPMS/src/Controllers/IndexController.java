@@ -13,6 +13,7 @@ import Views.TaskDetailView;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
@@ -101,15 +102,15 @@ public class IndexController {
     
     class NewProjectButtonActionListener implements ActionListener {
         @Override
-        public void actionPerformed(ActionEvent e) {
-        
+        public void actionPerformed(ActionEvent e) {        
             ProjectDetailView detailView = new ProjectDetailView();
+            detailView.addDiscardButtonActionListener(new DiscardNewProjectActionListener());
             
             ProjectDetailController controller = new ProjectDetailController(detailView, new Project());
             controller.initialise();
             
+            view.clearProjectSelection();
             view.setDetailViewPanel(detailView);
-            
         }
     }
     
@@ -131,6 +132,13 @@ public class IndexController {
         @Override
         public void actionPerformed(ActionEvent e) {
             // New Asset Happens
+        }
+    }
+    
+    class DiscardNewProjectActionListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            view.setDetailViewPanel(new JPanel());
         }
     }
     

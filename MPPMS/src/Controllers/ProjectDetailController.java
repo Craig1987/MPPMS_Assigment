@@ -12,56 +12,73 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
-import javax.swing.DefaultComboBoxModel;
 
 public class ProjectDetailController {
     private final ProjectDetailView view;
-    private final Project project;
+    
+    private Project project;    
+    private boolean isNew;
     
     private ModelChoiceController modelChoiceController;
     
     public ProjectDetailController(ProjectDetailView view, Project project) {
         this.view = view;        
         this.project = project;
+        this.isNew = project.getId() < 1;
     }
     
     public void initialise() {
-        this.view.setProject(project);
-        
-        if (project.getId() != null) {
-            // Populate the ui controls
-            this.view.setIdLabelText("ID: " + project.getId());
-            this.view.setProjectTitleText(project.getTitle());
-            this.view.setManagerText(project.getManager().getName());
-            this.view.setCoordinatorText(project.getCoordinator().getName());
-            this.view.setCreationDateText(new SimpleDateFormat("dd MMM yyyy").format(project.getCreationDate()));
-            this.view.setDeadlineText(new SimpleDateFormat("dd MMM yyyy").format(project.getDeadline()));
-            this.view.setPriority(Project.Priority.values(), project.getPriority().ordinal());
-            this.view.setTeam(project.getTeam().toArray());
-            this.view.setTasks(project.getTasks().toArray());
-            this.view.setComponents(project.getComponents().toArray());
+        refreshView();
             
-            // Add event listeners
-            this.view.addTeamChoiceActionListener(new TeamChoiceActionListener());
-            this.view.addTasksChoiceActionListener(new TasksChoiceActionListener());
-            this.view.addComponentsChoiceActionListener(new ComponentsChoiceActionListener());
-        } else {
-            // New Project
-            this.view.setSaveButtonVisibility(true);
-            this.view.setEditButtonVisibility(false);
-        }
-        
+        this.view.setEditMode(this.isNew);
+
+        // Add event listeners
+        this.view.addTeamChoiceActionListener(new TeamChoiceActionListener());
+        this.view.addTasksChoiceActionListener(new TasksChoiceActionListener());
+        this.view.addComponentsChoiceActionListener(new ComponentsChoiceActionListener());        
         this.view.addSaveButtonActionListener(new SaveButtonActionListener());
+        this.view.addEditButtonActionListener(new EditButtonActionListener());
+        if (!this.isNew) {
+            this.view.addDiscardButtonActionListener(new DiscardButtonActionListener());
+        }
+    }
+    
+    private void refreshView() {
+        this.view.setIdLabelText("ID: " + project.getId());
+        this.view.setProjectTitleText(project.getTitle());
+        this.view.setManager(User.getUsersByRole(User.Role.ProjectManager).toArray(), project.getManager());
+        this.view.setCoordinatorText(User.getUsersByRole(User.Role.ProjectCoordinator).toArray(), project.getCoordinator());
+        this.view.setCreationDateText(new SimpleDateFormat("dd MMM yyyy").format(project.getCreationDate()));
+        this.view.setDeadlineText(new SimpleDateFormat("dd MMM yyyy").format(project.getDeadline()));
+        this.view.setPriority(Project.Priority.values(), project.getPriority().ordinal());
+        this.view.setTeam(project.getTeam().toArray());
+        this.view.setTasks(project.getTasks().toArray());
+        this.view.setComponents(project.getComponents().toArray());
     }
     
     class SaveButtonActionListener implements ActionListener {
-
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            view.setEditMode(false);
+            isNew = false;
+            //view.getProject().save();
+            //view.displayInfoMessage("Project Saved");
+        }        
+    }
+    
+    class DiscardButtonActionListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            view.setEditMode(false);
+            refreshView();
+        }        
+    }
+    
+    class EditButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {   
-            view.getProject().save();
-            view.displayInfoMessage("Project Saved");
-        }
-        
+            view.setEditMode(true);
+        }        
     }
     
     class TeamChoiceActionListener implements ActionListener {
@@ -99,28 +116,24 @@ public class ProjectDetailController {
                 case User:
                     SetOfUsers users = new SetOfUsers();
                     users.addAll((Collection)modelChoiceController.getChosenModels());                    
-                    modelChoiceController.closeView();                    
-                    project.setTeam(users);
+                    modelChoiceController.closeView();
                     view.setTeam(users.toArray());
                     break;
                     
                 case Task:
                     SetOfTasks tasks = new SetOfTasks();
                     tasks.addAll((Collection)modelChoiceController.getChosenModels());
-                    modelChoiceController.closeView();                    
-                    project.setTasks(tasks);
+                    modelChoiceController.closeView();
                     view.setTeam(tasks.toArray());
                     break;
                     
                 case Component:
                     SetOfComponents components = new SetOfComponents();
                     components.addAll((Collection)modelChoiceController.getChosenModels());
-                    modelChoiceController.closeView();                    
-                    project.setComponents(components);
+                    modelChoiceController.closeView();
                     view.setTeam(components.toArray());
                     break;
             }
-            view.setProject(project);
         }        
     }
 }

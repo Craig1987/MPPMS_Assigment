@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import javax.xml.parsers.DocumentBuilder;
@@ -20,7 +21,7 @@ import org.xml.sax.SAXException;
 public class Project {
     private static SetOfProjects allProjects = null;
     
-    private Integer id;
+    private int id;
     private Date creationDate;
     
     private String title;    
@@ -46,8 +47,15 @@ public class Project {
     }
     
     public Project() {
-        this.id = null;
-        this.creationDate = null;
+        this.manager = new User("", "", "");
+        this.coordinator = new User("", "", "");
+        this.team = new SetOfUsers();
+        this.creationDate = new Date();
+        this.deadline = new Date(this.creationDate.getTime() + (1000 * 60 * 60 * 24) * 7);
+        this.priority = Priority.Normal;
+        this.tasks = new SetOfTasks();
+        this.components = new SetOfComponents();
+        
     }
     
     public Integer getId() {
@@ -148,7 +156,7 @@ public class Project {
     }
     
     public void save() {
-        if (id == null){
+        if (id == 0){
             // New Project
             id = getAllProjects().get(getAllProjects().size() - 1).getId();
             creationDate = new Date();

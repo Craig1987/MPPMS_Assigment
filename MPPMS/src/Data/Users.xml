@@ -25,6 +25,14 @@
         <Role>ProjectManager</Role>
     </User>
     <User>
+        <Forename>Zebbedy</Forename>
+        <Surname>Schmidt</Surname>
+        <Name></Name>
+        <Username>Zed</Username>
+        <Password>password</Password>
+        <Role>ProjectManager</Role>
+    </User>
+    <User>
         <Forename>Stephen</Forename>
         <Surname>Nail</Surname>
         <Name></Name>

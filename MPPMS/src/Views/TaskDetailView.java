@@ -65,10 +65,11 @@ public class TaskDetailView extends javax.swing.JPanel {
         lblTaskTitle = new javax.swing.JLabel();
         assignedToChoiceButton = new javax.swing.JButton();
         lblAssignedTo = new javax.swing.JLabel();
-        editButton = new javax.swing.JButton();
-        saveButton = new javax.swing.JButton();
-        discardButton = new javax.swing.JButton();
         textReport = new javax.swing.JTextField();
+        jPanel1 = new javax.swing.JPanel();
+        discardButton = new javax.swing.JButton();
+        saveButton = new javax.swing.JButton();
+        editButton = new javax.swing.JButton();
 
         editReportButton.setText("Edit report");
 
@@ -98,13 +99,32 @@ public class TaskDetailView extends javax.swing.JPanel {
 
         lblAssignedTo.setText("Assigned to:");
 
-        editButton.setText("Edit");
-
-        saveButton.setText("Save");
+        textReport.setEditable(false);
 
         discardButton.setText("Discard changes");
 
-        textReport.setEditable(false);
+        saveButton.setText("Save");
+
+        editButton.setText("Edit");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(discardButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(saveButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(editButton))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(discardButton)
+                .addComponent(saveButton)
+                .addComponent(editButton))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -118,12 +138,7 @@ public class TaskDetailView extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblTaskID, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(discardButton)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(saveButton)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(editButton))))
+                            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblAssignedTo)
                         .addGap(0, 0, Short.MAX_VALUE))
@@ -162,11 +177,8 @@ public class TaskDetailView extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblTaskDetails)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(editButton)
-                        .addComponent(saveButton)
-                        .addComponent(discardButton)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(11, 11, 11)
                 .addComponent(lblTaskID)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -203,6 +215,7 @@ public class TaskDetailView extends javax.swing.JPanel {
     private javax.swing.JButton discardButton;
     private javax.swing.JButton editButton;
     private javax.swing.JButton editReportButton;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblAssignedTo;
     private javax.swing.JLabel lblPriority;

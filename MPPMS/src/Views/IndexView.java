@@ -105,11 +105,19 @@ public class IndexView extends javax.swing.JFrame {
         return (Project)((DefaultEventTableModel)this.projectsTable.getModel()).getElementAt(this.projectsTable.getSelectedRow());
     }
     
+    public void clearProjectSelection() {
+        this.projectsTable.clearSelection();
+    }
+    
     public Task getSelectedTask() {
         if (this.tasksTable.getSelectedRow() < 0) {
             return null;
         }
         return (Task)((DefaultEventTableModel)this.tasksTable.getModel()).getElementAt(this.tasksTable.getSelectedRow());
+    }
+    
+    public void clearTaskSelection() {
+        this.tasksTable.clearSelection();
     }
     
     public Component getSelectedComponent() {
@@ -119,11 +127,19 @@ public class IndexView extends javax.swing.JFrame {
         return (Component)((DefaultEventTableModel)this.componentsTable.getModel()).getElementAt(this.componentsTable.getSelectedRow());
     }
     
+    public void clearComponentSelection() {
+        this.componentsTable.clearSelection();
+    }
+    
     public Asset getSelectedAsset() {
         if (this.assetsTable.getSelectedRow() < 0) {
             return null;
         }
         return (Asset)((DefaultEventTableModel)this.assetsTable.getModel()).getElementAt(this.assetsTable.getSelectedRow());
+    }
+    
+    public void clearAssetSelection() {
+        this.assetsTable.clearSelection();
     }
     
     public String getSelectedTabName() {
@@ -224,7 +240,7 @@ public class IndexView extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("MPPMS - Home");
-        setPreferredSize(new java.awt.Dimension(900, 550));
+        setPreferredSize(new java.awt.Dimension(900, 555));
 
         projectSplitPane.setBorder(null);
         projectSplitPane.setDividerLocation(450);
