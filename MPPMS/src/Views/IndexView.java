@@ -13,6 +13,7 @@ import ca.odell.glazedlists.GlazedLists;
 import ca.odell.glazedlists.gui.TableFormat;
 import ca.odell.glazedlists.swing.DefaultEventTableModel;
 import java.awt.event.ActionListener;
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionListener;
@@ -21,6 +22,7 @@ public class IndexView extends javax.swing.JFrame {
 
     public IndexView() {
         initComponents();
+        this.setIconImage(new ImageIcon(getClass().getResource("/resources/icon.png")).getImage());
         this.setLocationRelativeTo(null);
     }
     
