@@ -48,4 +48,20 @@
         <Password>password</Password>
         <Role>QATeamMember</Role>
     </User>
+    <User>
+        <Forename>Man</Forename>
+        <Surname>Ager</Surname>
+        <Name></Name>
+        <Username>man</Username>
+        <Password>password</Password>
+        <Role>ProjectManager</Role>
+    </User>
+    <User>
+        <Forename>Co</Forename>
+        <Surname>Ordinator</Surname>
+        <Name></Name>
+        <Username>co</Username>
+        <Password>password</Password>
+        <Role>ProjectCoordinator</Role>
+    </User>
 </root>
