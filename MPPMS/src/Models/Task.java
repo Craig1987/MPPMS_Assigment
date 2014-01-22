@@ -21,6 +21,7 @@ public class Task extends Model {
     
     private String title;
     private SetOfUsers assignedTo;
+    private SetOfAssets assets;
     private Status status;
     private Priority priority;
 
@@ -80,6 +81,14 @@ public class Task extends Model {
 
     public void setAssignedTo(SetOfUsers assignedTo) {
         this.assignedTo = assignedTo;
+    }
+    
+    public SetOfAssets getAssets(){
+        return assets;
+    }
+    
+    public void setAssets(SetOfAssets assets){
+        this.assets = assets;
     }
 
     public Priority getPriority() {
@@ -205,12 +214,32 @@ public class Task extends Model {
                                 }
                             }
                             
+                            // Get 'Assets' assigned to the task
+                            expr = xpath.compile("Assets");
+                            result = expr.evaluate(individualTaskNode, XPathConstants.NODE);
+                            NodeList assetNodes = (NodeList) result;
+
+                            SetOfAssets assets = new SetOfAssets();
+
+                            for (int x = 0; x < assetNodes.getLength(); x++) 
+                            {
+                                Node assetNode = assetNodes.item(x);
+
+                                if (assetNode.getNodeType() == Node.ELEMENT_NODE)
+                                {
+                                    Element assetElement = (Element)assetNode;
+                                    int assetID = Integer.parseInt(assetElement.getTextContent());
+                                    assets.add(Asset.getAssetByID(assetID));
+                                }
+                            }
+                            
                             Task task = new Task(id, taskType);
                             task.setTitle(title);
                             task.setAssignedTo(assignedTo);
                             task.setPriority(priority);
                             task.setReport(Report.getReportByID(reportID));
                             task.setStatus(status);
+                            task.setAssets(assets);
 
                             allTasks.add(task);
                         }

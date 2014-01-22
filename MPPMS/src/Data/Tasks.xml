@@ -11,5 +11,10 @@
         <Status>Ongoing</Status>
         <Priority>Highest</Priority>
         <ReportID>1</ReportID>
+        <Assets>
+            <AssetID>1</AssetID>
+            <AssetID>2</AssetID>
+            <AssetID>3</AssetID>
+        </Assets>
     </Task>
 </root>

@@ -38,8 +38,20 @@ public class TaskDetailView extends javax.swing.JPanel {
         this.listAssignedTo.setListData(users);
     }
     
+    public void setAssets(Object[] assets) {
+        this.listAssets.setListData(assets);
+    }
+    
     public void addAssignedToChoiceActionListener(ActionListener listener) {
         this.assignedToChoiceButton.addActionListener(listener);
+    }
+    
+    public void addAssetChoiceActionListener(ActionListener listener) {
+        this.assetChoiceButton.addActionListener(listener);
+    }
+    
+    public void addAssetEditActionListener(ActionListener listener) {
+        this.assetEditButton.addActionListener(listener);
     }
 
     /**
@@ -69,6 +81,11 @@ public class TaskDetailView extends javax.swing.JPanel {
         saveButton = new javax.swing.JButton();
         discardButton = new javax.swing.JButton();
         textReport = new javax.swing.JTextField();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        listAssets = new javax.swing.JList();
+        lblAssets = new javax.swing.JLabel();
+        assetChoiceButton = new javax.swing.JButton();
+        assetEditButton = new javax.swing.JButton();
 
         editReportButton.setText("Edit report");
 
@@ -106,6 +123,14 @@ public class TaskDetailView extends javax.swing.JPanel {
 
         textReport.setEditable(false);
 
+        jScrollPane2.setViewportView(listAssets);
+
+        lblAssets.setText("Assets:");
+
+        assetChoiceButton.setText("Add / Remove");
+
+        assetEditButton.setText("Edit");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -124,9 +149,6 @@ public class TaskDetailView extends javax.swing.JPanel {
                                 .addComponent(saveButton)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(editButton))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblAssignedTo)
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -153,7 +175,18 @@ public class TaskDetailView extends javax.swing.JPanel {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 201, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(assignedToChoiceButton)
-                        .addGap(1, 1, 1)))
+                        .addGap(1, 1, 1))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(assetEditButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(assetChoiceButton, javax.swing.GroupLayout.Alignment.TRAILING)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblAssignedTo)
+                            .addComponent(lblAssets))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -191,12 +224,23 @@ public class TaskDetailView extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(assignedToChoiceButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addGap(18, 18, 18)
+                .addComponent(lblAssets)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(assetChoiceButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(assetEditButton))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton assetChoiceButton;
+    private javax.swing.JButton assetEditButton;
     private javax.swing.JButton assignedToChoiceButton;
     private javax.swing.JComboBox cmboPriority;
     private javax.swing.JComboBox cmboStatus;
@@ -204,6 +248,8 @@ public class TaskDetailView extends javax.swing.JPanel {
     private javax.swing.JButton editButton;
     private javax.swing.JButton editReportButton;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lblAssets;
     private javax.swing.JLabel lblAssignedTo;
     private javax.swing.JLabel lblPriority;
     private javax.swing.JLabel lblReport;
@@ -211,6 +257,7 @@ public class TaskDetailView extends javax.swing.JPanel {
     private javax.swing.JLabel lblTaskDetails;
     private javax.swing.JLabel lblTaskID;
     private javax.swing.JLabel lblTaskTitle;
+    private javax.swing.JList listAssets;
     private javax.swing.JList listAssignedTo;
     private javax.swing.JButton saveButton;
     private javax.swing.JTextField textReport;
