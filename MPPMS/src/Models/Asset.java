@@ -1,5 +1,6 @@
 package Models;
 
+import Application.AppObservable;
 import java.io.File;
 import java.io.IOException;
 import javax.xml.parsers.DocumentBuilder;
@@ -79,6 +80,8 @@ public class Asset extends Model {
         }
         
         System.out.println("TODO: Implement persistence to XML | Models/Asset.java:81");
+        
+        AppObservable.getInstance().notifyObserversToRefresh();
     }
     
     @Override

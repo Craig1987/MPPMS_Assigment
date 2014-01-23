@@ -114,7 +114,9 @@
                 <Font component="descriptionArea" property="font" relativeSize="true" size="0"/>
               </FontInfo>
             </Property>
+            <Property name="lineWrap" type="boolean" value="true"/>
             <Property name="rows" type="int" value="3"/>
+            <Property name="wrapStyleWord" type="boolean" value="true"/>
           </Properties>
         </Component>
       </SubComponents>

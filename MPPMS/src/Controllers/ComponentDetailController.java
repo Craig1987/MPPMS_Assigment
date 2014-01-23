@@ -1,7 +1,5 @@
 package Controllers;
 
-import Controllers.ProjectDetailController.DiscardButtonActionListener;
-import Controllers.ProjectDetailController.EditButtonActionListener;
 import Models.Asset;
 import Models.Component;
 import Models.SetOfAssets;

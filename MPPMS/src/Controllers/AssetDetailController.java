@@ -1,11 +1,14 @@
 package Controllers;
 
+import Application.AppObservable;
 import Models.Asset;
 import Views.AssetDetailView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Observable;
+import java.util.Observer;
 
-public class AssetDetailController {
+public class AssetDetailController implements Observer {
     private final AssetDetailView view;
     
     private Asset asset;
@@ -25,6 +28,8 @@ public class AssetDetailController {
         this.view.addSaveButtonActionListener(new SaveButtonActionListener());
         this.view.addEditButtonActionListener(new EditButtonActionListener());
         this.view.addDiscardButtonActionListener(new DiscardButtonActionListener());
+        
+        AppObservable.getInstance().addObserver(this);
     }
     
     private void refreshView() {
@@ -32,6 +37,12 @@ public class AssetDetailController {
         this.view.setDescriptionText(this.asset.getDescription());
         this.view.setType(Asset.AssetType.values(), this.asset.getAssetType());
         this.view.setLengthText(this.asset.getLengthAsString());
+    }
+    
+    @Override
+    public void update(Observable o, Object o1) {
+        this.asset = Asset.getAssetByID(this.asset.getId());        
+        refreshView();
     }
     
     class SaveButtonActionListener implements ActionListener {

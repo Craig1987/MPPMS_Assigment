@@ -8,9 +8,6 @@ public class AssetDetailView extends javax.swing.JPanel {
 
     public AssetDetailView() {
         initComponents();
-        
-        this.saveButton.setVisible(false);
-        this.discardButton.setVisible(false);
     }
     
     public void setEditMode(boolean editMode) {
@@ -62,7 +59,7 @@ public class AssetDetailView extends javax.swing.JPanel {
     public void addDiscardButtonActionListener(ActionListener listener) {
         discardButton.addActionListener(listener);
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -95,7 +92,9 @@ public class AssetDetailView extends javax.swing.JPanel {
 
         descriptionArea.setColumns(20);
         descriptionArea.setFont(descriptionArea.getFont());
+        descriptionArea.setLineWrap(true);
         descriptionArea.setRows(3);
+        descriptionArea.setWrapStyleWord(true);
         jScrollPane1.setViewportView(descriptionArea);
 
         jLabel2.setText("Type");
@@ -177,7 +176,6 @@ public class AssetDetailView extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea descriptionArea;

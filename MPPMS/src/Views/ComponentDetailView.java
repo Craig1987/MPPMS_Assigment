@@ -86,7 +86,9 @@ public class ComponentDetailView extends javax.swing.JPanel {
 
         descriptionArea.setColumns(20);
         descriptionArea.setFont(descriptionArea.getFont());
+        descriptionArea.setLineWrap(true);
         descriptionArea.setRows(3);
+        descriptionArea.setWrapStyleWord(true);
         jScrollPane1.setViewportView(descriptionArea);
 
         listAssets.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
