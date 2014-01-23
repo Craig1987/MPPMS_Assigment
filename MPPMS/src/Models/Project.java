@@ -1,10 +1,10 @@
 package Models;
 
+import Application.AppObservable;
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import javax.xml.parsers.DocumentBuilder;
@@ -156,6 +156,15 @@ public class Project {
         return projects;
     }
     
+    public static Project getProjectById(int id) {
+        for (Project project : getAllProjects()) {
+            if (project.getId() == id) {
+                return project;
+            }
+        }
+        return null;
+    }
+    
     public void save() {
         if (id == 0){
             id = getAllProjects().get(getAllProjects().size() - 1).getId();
@@ -163,6 +172,12 @@ public class Project {
 
         // TODO: Implement XML Persistance of Project
         System.out.println("TODO: Implement XML Persistance of Project | Models/Project.java:146");
+        
+        if (allProjects != null) {
+            allProjects.clear();
+        }
+        allProjects = null;
+        AppObservable.getInstance().notifyObserversToRefresh();
     }
     
     private static void populateProjects() {

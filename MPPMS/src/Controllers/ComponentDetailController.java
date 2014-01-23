@@ -7,8 +7,10 @@ import Views.ComponentDetailView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Collection;
+import java.util.Observable;
+import java.util.Observer;
 
-public class ComponentDetailController {
+public class ComponentDetailController implements Observer {
     private final ComponentDetailView view;
     
     private Component component;
@@ -41,11 +43,29 @@ public class ComponentDetailController {
         this.view.setAssets(this.component.getAssets().toArray());
     }
     
+    @Override
+    public void update(Observable o, Object o1) {
+        if (!this.isNew) {
+            this.component = Component.getComponentByID(this.component.getId());        
+            refreshView();
+        }
+    }
+    
     class SaveButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             view.setEditMode(false);
             isNew = false;
+            
+            Object[] objects = view.getAssets();
+            SetOfAssets assets = new SetOfAssets();
+            for (Object object : objects) {
+                assets.add((Asset)object);
+            }
+            
+            Component newComponent = new Component(component.getId(), view.getDescription());
+            newComponent.setAssets(assets);            
+            newComponent.save();
         }        
     }
     
@@ -78,8 +98,7 @@ public class ComponentDetailController {
         public void actionPerformed(ActionEvent ae) {
             SetOfAssets assets = new SetOfAssets();
             assets.addAll((Collection)modelChoiceController.getChosenModels());                    
-            modelChoiceController.closeView();                    
-            component.setAssets(assets);
+            modelChoiceController.closeView();
             view.setAssets(assets.toArray());
         }        
     }

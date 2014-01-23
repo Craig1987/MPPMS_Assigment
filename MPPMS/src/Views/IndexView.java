@@ -72,8 +72,8 @@ public class IndexView extends javax.swing.JFrame {
     }
     
     public void setAssetsTableData(SetOfAssets assets) {
-        String[] headers = new String[]{ "ID", "Length", "Asset type" };
-        String[] properties = new String[]{ "Id", "Length", "AssetType" };
+        String[] headers = new String[]{ "ID", "Asset type", "Length" };
+        String[] properties = new String[]{ "Id", "AssetType", "Length" };
         
         EventList eventList = GlazedLists.eventList(assets);
         TableFormat tableFormat = GlazedLists.tableFormat(Asset.class, properties, headers);
@@ -295,7 +295,7 @@ public class IndexView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(newProjectButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(projectsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)
+                .addComponent(projectsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 362, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -375,7 +375,7 @@ public class IndexView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(newComponentButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(componentsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)
+                .addComponent(componentsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 362, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -414,12 +414,14 @@ public class IndexView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(newAssetButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(assetsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)
+                .addComponent(assetsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 362, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         tabbedPaneView.addTab("Assets", assetsTablePanel);
 
+        welcomeLabel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        welcomeLabel.setForeground(new java.awt.Color(0, 51, 153));
         welcomeLabel.setText("jLabel1");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -429,7 +431,7 @@ public class IndexView extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(welcomeLabel)
-                .addContainerGap(406, Short.MAX_VALUE))
+                .addContainerGap(390, Short.MAX_VALUE))
             .addComponent(tabbedPaneView, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
@@ -438,7 +440,7 @@ public class IndexView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(welcomeLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(tabbedPaneView, javax.swing.GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE))
+                .addComponent(tabbedPaneView, javax.swing.GroupLayout.DEFAULT_SIZE, 446, Short.MAX_VALUE))
         );
 
         tabbedPaneView.getAccessibleContext().setAccessibleName("");

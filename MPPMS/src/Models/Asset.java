@@ -81,6 +81,10 @@ public class Asset extends Model {
         
         System.out.println("TODO: Implement persistence to XML | Models/Asset.java:81");
         
+        if (allAssets != null) {
+            allAssets.clear();
+        }
+        allAssets = null;
         AppObservable.getInstance().notifyObserversToRefresh();
     }
     

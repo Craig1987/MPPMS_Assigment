@@ -1,6 +1,7 @@
 package Views;
 
 import java.awt.event.ActionListener;
+import javax.swing.ListModel;
 
 public class ComponentDetailView extends javax.swing.JPanel {
 
@@ -24,17 +25,23 @@ public class ComponentDetailView extends javax.swing.JPanel {
         this.descriptionArea.setText(text);
     }
     
-    public void setEditButtonVisible(boolean visible) {
-        editButton.setVisible(visible);
+    public String getDescription() {
+        return this.descriptionArea.getText();
     }
     
-    public void setSaveButtonVisible(boolean visible) {
-        saveButton.setVisible(visible);
-    }
-    
-
     public void setAssets(Object[] assets) {
         this.listAssets.setListData(assets);
+    }
+    
+    public Object[] getAssets() {
+        ListModel model = listAssets.getModel();
+        Object[] items = new Object[model.getSize()];
+
+        for(int i = 0; i < model.getSize(); i++) {
+             items[i] =  model.getElementAt(i);
+        }
+        
+        return items;
     }
     
     public void addAssetChoiceActionListener(ActionListener listener) {

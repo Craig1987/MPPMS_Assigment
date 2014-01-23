@@ -1,5 +1,6 @@
 package Models;
 
+import Application.AppObservable;
 import java.io.File;
 import java.io.IOException;
 import javax.xml.parsers.DocumentBuilder;
@@ -157,6 +158,12 @@ public class Task extends Model {
         }
         
         System.out.println("TODO: Implement persistance to XML | Models/Task.java:136");
+        
+        if (allTasks != null) {
+            allTasks.clear();
+        }
+        allTasks = null;
+        AppObservable.getInstance().notifyObserversToRefresh();
     }
 
     

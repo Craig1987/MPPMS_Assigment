@@ -41,8 +41,10 @@ public class AssetDetailController implements Observer {
     
     @Override
     public void update(Observable o, Object o1) {
-        this.asset = Asset.getAssetByID(this.asset.getId());        
-        refreshView();
+        if (!this.isNew) {
+            this.asset = Asset.getAssetByID(this.asset.getId());        
+            refreshView();
+        }
     }
     
     class SaveButtonActionListener implements ActionListener {
@@ -51,7 +53,7 @@ public class AssetDetailController implements Observer {
             view.setEditMode(false);
             isNew = false;
             
-            Asset newAsset = new Asset(0, view.getLength(), view.getAssetType(), view.getDescription());
+            Asset newAsset = new Asset(asset.getId(), view.getLength(), view.getAssetType(), view.getDescription());
             newAsset.save();
         }        
     }

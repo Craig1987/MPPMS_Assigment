@@ -1,5 +1,6 @@
 package Models;
 
+import Application.AppObservable;
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
@@ -19,7 +20,7 @@ import org.xml.sax.SAXException;
 public class Report {
     private static SetOfReports allReports = null;
     
-    private final int id;
+    private int id;
     private SetOfComments comments;
     
     public Report(int id) {
@@ -51,6 +52,21 @@ public class Report {
     
     public SetOfComments getAllComments() {
         return this.comments;
+    }
+    
+    public void save() {
+        if (id == 0){
+            id = getAllReports().get(getAllReports().size() - 1).getId();
+        }
+
+        // TODO: Implement XML Persistance of Project
+        System.out.println("TODO: Implement XML Persistance of Project | Models/Project.java:146");
+        
+        if (allReports != null) {
+            allReports.clear();
+        }
+        allReports = null;
+        AppObservable.getInstance().notifyObserversToRefresh();
     }
     
     public static SetOfReports getAllReports() {
