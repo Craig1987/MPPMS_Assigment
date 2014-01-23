@@ -2,6 +2,7 @@ package Views;
 
 import Models.Asset;
 import Models.Component;
+import Models.Model;
 import Models.Project;
 import Models.SetOfAssets;
 import Models.SetOfComponents;
@@ -99,6 +100,18 @@ public class IndexView extends javax.swing.JFrame {
         return (Project)((DefaultEventTableModel)this.projectsTable.getModel()).getElementAt(this.projectsTable.getSelectedRow());
     }
     
+    public void setSelectedProject(Project model) {
+        if (model != null) {
+            for (int i = 0; i < this.projectsTable.getRowCount(); i++) {
+                Project temp = (Project)((DefaultEventTableModel)this.projectsTable.getModel()).getElementAt(i);
+                if (temp.getId() == model.getId()) {
+                    this.projectsTable.setRowSelectionInterval(i, i);
+                    break;
+                }
+            }
+        }
+    }
+    
     public void clearProjectSelection() {
         this.projectsTable.clearSelection();
     }
@@ -108,6 +121,18 @@ public class IndexView extends javax.swing.JFrame {
             return null;
         }
         return (Task)((DefaultEventTableModel)this.tasksTable.getModel()).getElementAt(this.tasksTable.getSelectedRow());
+    }
+    
+    public void setSelectedTask(Task model) {
+        if (model != null) {
+            for (int i = 0; i < this.tasksTable.getRowCount(); i++) {
+                Task temp = (Task)((DefaultEventTableModel)this.tasksTable.getModel()).getElementAt(i);
+                if (temp.getId() == model.getId()) {
+                    this.tasksTable.setRowSelectionInterval(i, i);
+                    break;
+                }
+            }
+        }
     }
     
     public void clearTaskSelection() {
@@ -121,6 +146,18 @@ public class IndexView extends javax.swing.JFrame {
         return (Component)((DefaultEventTableModel)this.componentsTable.getModel()).getElementAt(this.componentsTable.getSelectedRow());
     }
     
+    public void setSelectedComponent(Component model) {
+        if (model != null) {
+            for (int i = 0; i < this.componentsTable.getRowCount(); i++) {
+                Component temp = (Component)((DefaultEventTableModel)this.componentsTable.getModel()).getElementAt(i);
+                if (temp.getId() == model.getId()) {
+                    this.componentsTable.setRowSelectionInterval(i, i);
+                    break;
+                }
+            }
+        }
+    }
+    
     public void clearComponentSelection() {
         this.componentsTable.clearSelection();
     }
@@ -130,6 +167,18 @@ public class IndexView extends javax.swing.JFrame {
             return null;
         }
         return (Asset)((DefaultEventTableModel)this.assetsTable.getModel()).getElementAt(this.assetsTable.getSelectedRow());
+    }
+    
+    public void setSelectedAsset(Asset model) {
+        if (model != null) {
+            for (int i = 0; i < this.assetsTable.getRowCount(); i++) {
+                Asset temp = (Asset)((DefaultEventTableModel)this.assetsTable.getModel()).getElementAt(i);
+                if (temp.getId() == model.getId()) {
+                    this.assetsTable.setRowSelectionInterval(i, i);
+                    break;
+                }
+            }
+        }
     }
     
     public void clearAssetSelection() {
@@ -336,7 +385,7 @@ public class IndexView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(newTaskButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(tasksScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tasksScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 362, Short.MAX_VALUE)
                 .addContainerGap())
         );
 

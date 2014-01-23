@@ -16,8 +16,10 @@ public class TaskDetailView extends javax.swing.JPanel {
         discardButton.setVisible(editMode);
         editButton.setVisible(!editMode);
         textTaskTitle.setEnabled(editMode);
+        cmboTaskType.setEnabled(editMode);
         cmboPriority.setEnabled(editMode);
         cmboStatus.setEnabled(editMode);
+        textReport.setEnabled(editMode);
         editReportButton.setEnabled(editMode && !textReport.getText().equals("Blank report"));
         assignedToChoiceButton.setEnabled(editMode);
         assetChoiceButton.setEnabled(editMode);
@@ -276,7 +278,7 @@ public class TaskDetailView extends javax.swing.JPanel {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addGap(37, 37, 37)
+                        .addGap(33, 33, 33)
                         .addComponent(cmboTaskType, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );

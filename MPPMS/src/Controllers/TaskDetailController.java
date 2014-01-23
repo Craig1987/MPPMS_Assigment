@@ -1,5 +1,6 @@
 package Controllers;
 
+import Application.AppObservable;
 import Models.Asset;
 import Models.Report;
 import Models.SetOfAssets;
@@ -39,7 +40,10 @@ public class TaskDetailController implements Observer {
         this.view.addEditButtonActionListener(new EditButtonActionListener());
         if (!this.isNew) {
             this.view.addDiscardButtonActionListener(new DiscardButtonActionListener());
+            this.view.addEditReportActionListener(new EditReportActionListener());
         }
+        
+        AppObservable.getInstance().addObserver(this);
     }
     
     private void refreshView() {
@@ -150,7 +154,7 @@ public class TaskDetailController implements Observer {
         }        
     }
     
-    class ReportEditActionListener implements ActionListener {
+    class EditReportActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ae) {
             ReportDetailController reportDetailController = new ReportDetailController(task.getReport());

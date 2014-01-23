@@ -1,5 +1,6 @@
 package Controllers;
 
+import Application.AppObservable;
 import Models.Asset;
 import Models.Component;
 import Models.SetOfAssets;
@@ -35,6 +36,8 @@ public class ComponentDetailController implements Observer {
         if (!this.isNew) {
             this.view.addDiscardButtonActionListener(new DiscardButtonActionListener());
         }
+        
+        AppObservable.getInstance().addObserver(this);
     }
     
     private void refreshView() {

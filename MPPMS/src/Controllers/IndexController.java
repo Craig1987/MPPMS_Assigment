@@ -1,5 +1,6 @@
 package Controllers;
 
+import Application.AppObservable;
 import Models.Asset;
 import Models.Component;
 import Models.Project;
@@ -13,13 +14,15 @@ import Views.TaskDetailView;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Observable;
+import java.util.Observer;
 import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-public class IndexController {
+public class IndexController implements Observer {
     IndexView view = new IndexView();
     private final User currentUser;
     
@@ -28,11 +31,9 @@ public class IndexController {
     }
     
     public void launch() {
-        this.view.setWelcomeMessage("Welcome, " + currentUser.getName() + "!");
-        this.view.setProjectsTableData(Project.getProjectsForUser(currentUser));
-        this.view.setTasksTableData(Task.getTasksForUser(currentUser));
-        this.view.setComponentsTableData(Component.getAllComponents());
-        this.view.setAssetsTableData(Asset.getAllAssets());
+        populateTables();
+        
+        this.view.setWelcomeMessage("Welcome, " + currentUser.getName() + "!");        
         
         this.view.addNewProjectButtonActionListener(new NewProjectButtonActionListener());
         this.view.addNewTaskButtonActionListener(new NewTaskButtonActionListener());
@@ -50,6 +51,15 @@ public class IndexController {
         this.view.addTabChangeListener(new TabChangeListener());
         
         this.view.setVisible(true);
+        
+        AppObservable.getInstance().addObserver(this);
+    }
+    
+    private void populateTables() {
+        this.view.setProjectsTableData(Project.getProjectsForUser(currentUser));
+        this.view.setTasksTableData(Task.getTasksForUser(currentUser));
+        this.view.setComponentsTableData(Component.getAllComponents());
+        this.view.setAssetsTableData(Asset.getAllAssets());
     }
     
     private void projectValueChanged() {
@@ -98,6 +108,44 @@ public class IndexController {
             AssetDetailController controller = new AssetDetailController(assetDetailView, view.getSelectedAsset());
             controller.initialise();
         }
+    }
+    
+    private void valueChanged() {
+        switch (view.getSelectedTabName()) {
+            case "Projects":
+                projectValueChanged();
+                break;
+            case "Tasks":
+                taskValueChanged();
+                break;
+            case "Components":
+                componentValueChanged();
+                break;
+            case "Assets":
+                assetValueChanged();
+                break;
+        }
+    }
+
+    @Override
+    public void update(Observable o, Object o1) {
+        // Store any currently selected Models in the tables
+        Project selectedProject = view.getSelectedProject();
+        Task selectedTask = view.getSelectedTask();
+        Component selectedComponent = view.getSelectedComponent();
+        Asset selectedAsset = view.getSelectedAsset();
+        
+        // Repopulate the tables
+        populateTables();
+        
+        // Select any models which were previously selected
+        view.setSelectedProject(selectedProject);
+        view.setSelectedTask(selectedTask);
+        view.setSelectedComponent(selectedComponent);
+        view.setSelectedAsset(selectedAsset);
+        
+        // Ensure that we remain looking at the same tab / detail view
+        valueChanged();
     }
     
     class NewProjectButtonActionListener implements ActionListener {
@@ -214,20 +262,7 @@ public class IndexController {
     class TabChangeListener implements ChangeListener {
         @Override
         public void stateChanged(ChangeEvent ce) {
-            switch (view.getSelectedTabName()) {
-                case "Projects":
-                    projectValueChanged();
-                    break;
-                case "Tasks":
-                    taskValueChanged();
-                    break;
-                case "Components":
-                    componentValueChanged();
-                    break;
-                case "Assets":
-                    assetValueChanged();
-                    break;
-            }
+            valueChanged();
         }        
     }
 }

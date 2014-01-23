@@ -47,7 +47,12 @@ public class Report {
     
     @Override
     public String toString() {
-        return "(ID: " + getId() + ") " + this.comments.size() + " comments";
+        String result = this.comments.size() + " comments";        
+        if (this.comments.size() > 0) {
+            Date lastEditDate = this.comments.get(this.comments.size() - 1).getDate();
+            result += " (last edited " + new SimpleDateFormat("dd MMM yyyy").format(lastEditDate) + ")";
+        }
+        return result;
     }
     
     public SetOfComments getAllComments() {

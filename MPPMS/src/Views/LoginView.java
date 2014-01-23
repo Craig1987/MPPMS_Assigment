@@ -42,6 +42,10 @@ public class LoginView extends javax.swing.JFrame {
         passwordField.setText(password);
     }
     
+    public void focusUsername() {
+        usernameField.requestFocus(true);
+    }
+    
     public void showErrorMessage(String msg) {
         JOptionPane.showMessageDialog(null, msg);
     }
@@ -120,7 +124,7 @@ public class LoginView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void exitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitButtonActionPerformed
-        this.dispose();
+        System.exit(0);
     }//GEN-LAST:event_exitButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
