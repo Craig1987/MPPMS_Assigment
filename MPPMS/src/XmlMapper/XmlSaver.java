@@ -45,14 +45,16 @@ public class XmlSaver {
     public XmlSaver(String path, Map attrs) {
         pathToXml  = path;
         attributes = attrs;
-        
-        System.out.println(pathToXml);
     }
     
     public boolean save() {
         Document doc = getDocument();
         Node node    = getNode();
         Node root    = doc.getFirstChild();
+        Transformer transformer = getTransformer();
+        
+        if (doc == null || node == null || root == null || transformer == null)
+            return false;
         
         // Update Node's Data
         for (Map.Entry<String, String> entry : getAttributes().entrySet())
@@ -62,18 +64,9 @@ public class XmlSaver {
         // Append new Child to root
         root.appendChild(node);
         
-        // Attempt to create DOM Transformer
-        Transformer transformer = null;
-        try {
-            transformer = TransformerFactory.newInstance().newTransformer();
-        } catch (TransformerConfigurationException ex) {
-            Logger.getLogger(XmlSaver.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
-        }
-        
         // Input (XML DOM) / Output (File.xml)
         Result output = new StreamResult(new File(pathToXml));
-        Source input = new DOMSource(doc);
+        Source input  = new DOMSource(doc);
         
         // Attempt to transform DOM to XML file
         try {
@@ -97,7 +90,7 @@ public class XmlSaver {
     }
     
     private Document getDocument() {
-        if (document == null)
+        if (document == null){
             try {
                 document = DocumentBuilderFactory
                     .newInstance()
@@ -107,6 +100,7 @@ public class XmlSaver {
             } catch (ParserConfigurationException | SAXException | IOException ex) {
                 Logger.getLogger(XmlSaver.class.getName()).log(Level.SEVERE, null, ex);
             }
+        }
         return document;
     }
     
@@ -115,11 +109,7 @@ public class XmlSaver {
         String saveByValue = attributes.get(saveByNode);
         String node        = attributes.get("Node");
         
-        String expression  = "//" + node + "" + "["  + saveByNode + "=" + saveByValue + "]";
-        
-        System.out.println(expression);
-        
-        return expression;
+        return "//" + node + "" + "["  + saveByNode + "=" + saveByValue + "]";
     }
     
     private Node getNode() {
@@ -127,10 +117,8 @@ public class XmlSaver {
             Node node = (Node) getXPath().evaluate(buildExpression(), getDocument(), XPathConstants.NODE);
             
             // New Child
-            if (node == null) {
+            if (node == null)
                 node = getDocument().createElement(attributes.get("Node"));
-                System.out.println("Not Found");
-            }
             
             return node;            
         } catch (XPathExpressionException ex) {
