@@ -12,7 +12,9 @@ public class ReportDetailController {
     }
     
     public void launch() {
+        this.view.setIdLabelText("(ID: " + this.report.getId() + ")");
         this.view.setListOfComments(report.getAllComments().toArray());
+        
         this.view.setVisible(true);
     }
     
@@ -22,6 +24,4 @@ public class ReportDetailController {
             view.setIdLabelText("ID: " + report.getId());
         }
     }
-    
-    
 }

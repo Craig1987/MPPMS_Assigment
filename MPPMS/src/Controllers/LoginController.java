@@ -29,6 +29,7 @@ public class LoginController {
             view.setUsername("");
             view.setPassword("");
             view.setState(Frame.ICONIFIED);
+            view.focusUsername();
         }
         else {
             view.showErrorMessage("Incorrect username or password.");

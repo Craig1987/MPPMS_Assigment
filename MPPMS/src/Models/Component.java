@@ -1,5 +1,6 @@
 package Models;
 
+import Application.AppObservable;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -51,20 +52,12 @@ public class Component extends Model {
         return assets.size();
     }
     
-    public ArrayList<Asset> getAssets() {
+    public SetOfAssets getAssets() {
         return assets;
     }
     
     public void setAssets(SetOfAssets assets) {
         this.assets = assets;
-    }
-    
-    public void addAsset(Asset a) {
-        assets.add(a);
-    }
-    
-    public void removeAsset(Asset a) {
-        assets.remove(a);
     }
     
     @Override
@@ -94,6 +87,12 @@ public class Component extends Model {
         }
             
         System.out.println("TODO: Implement persistence to XML | Models/Component.java:91");
+        
+        if (allComponents != null) {
+            allComponents.clear();
+        }
+        allComponents = null;
+        AppObservable.getInstance().notifyObserversToRefresh();
     }
     
     private static void populateComponents() {
@@ -141,17 +140,21 @@ public class Component extends Model {
                             result = expr.evaluate(individualComponentNode, XPathConstants.NODE);
                             NodeList assetNodes = (NodeList) result;
 
+                            SetOfAssets assets = new SetOfAssets();
+                            
                             for (int x = 0; x < assetNodes.getLength(); x++) 
                             {
                                 Node assetNode = assetNodes.item(x);
-
+                                
                                 if (assetNode.getNodeType() == Node.ELEMENT_NODE)
                                 {
                                     Element assetElement = (Element)assetNode;
                                     int assetID = Integer.parseInt(assetElement.getTextContent());
-                                    component.addAsset(Asset.getAssetByID(assetID));
+                                    assets.add(Asset.getAssetByID(assetID));
                                 }
                             }
+                            
+                            component.setAssets(assets);
                             
                             allComponents.add(component); 
                         }

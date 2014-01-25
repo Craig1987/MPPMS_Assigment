@@ -1,9 +1,9 @@
 package Controllers;
 
+import Application.AppObservable;
 import Models.Asset;
+import Models.Report;
 import Models.SetOfAssets;
-import Models.SetOfComponents;
-import Models.SetOfTasks;
 import Models.SetOfUsers;
 import Models.Task;
 import Models.User;
@@ -11,16 +11,16 @@ import Views.TaskDetailView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Collection;
-import javax.swing.DefaultComboBoxModel;
+import java.util.Observable;
+import java.util.Observer;
 
-public class TaskDetailController {
+public class TaskDetailController implements Observer {
     private final TaskDetailView view;
     
     private Task task;
     private boolean isNew;
     
     private ModelChoiceController modelChoiceController;
-    private ReportDetailController reportDetailController;
     
     public TaskDetailController(TaskDetailView view, Task task) {
         this.view = view;
@@ -40,17 +40,29 @@ public class TaskDetailController {
         this.view.addEditButtonActionListener(new EditButtonActionListener());
         if (!this.isNew) {
             this.view.addDiscardButtonActionListener(new DiscardButtonActionListener());
+            this.view.addEditReportActionListener(new EditReportActionListener());
         }
+        
+        AppObservable.getInstance().addObserver(this);
     }
     
     private void refreshView() {
         view.setIdLabelText("ID: " + task.getId());
         view.setTitleText(task.getTitle());
+        view.setTaskType(Task.TaskType.values(), task.getTaskType());
         view.setStatus(Task.Status.values(), task.getStatus());
         view.setPriority(Task.Priority.values(), task.getPriority());
         view.setReportText((task.getReport().getId() < 1 ? "Blank report" : task.getReport().toString()));
         view.setAssignedTo(task.getAssignedTo().toArray());
         view.setAssets(task.getAssets().toArray());
+    }
+
+    @Override
+    public void update(Observable o, Object o1) {
+        if (!this.isNew) {
+            this.task = Task.getTaskByID(this.task.getId());
+            refreshView();
+        }
     }
     
     class SaveButtonActionListener implements ActionListener {
@@ -58,6 +70,27 @@ public class TaskDetailController {
         public void actionPerformed(ActionEvent e) {
             view.setEditMode(false);
             isNew = false;
+            
+            Object[] objects = view.getAssignedTo();
+            SetOfUsers assignedTo = new SetOfUsers();
+            for (Object object : objects) {
+                assignedTo.add((User)object);
+            }
+            
+            objects = view.getAssets();
+            SetOfAssets assets = new SetOfAssets();
+            for (Object object : objects) {
+                assets.add((Asset)object);
+            }
+            
+            Task newTask = new Task(task.getId(), Task.TaskType.valueOf(view.getTaskType().toString()));
+            newTask.setTitle(view.getTaskTitle());            
+            newTask.setPriority(Task.Priority.valueOf(view.getPriority().toString()));
+            newTask.setStatus(Task.Status.valueOf(view.getStatus().toString()));
+            newTask.setReport(Report.getReportByID(task.getReport().getId()));
+            newTask.setAssignedTo(assignedTo);
+            newTask.setAssets(assets);
+            newTask.save();
         }        
     }
     
@@ -97,7 +130,7 @@ public class TaskDetailController {
     class AssetEditActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ae) {
-            
+            // TODO
         }
     }
     
@@ -106,8 +139,7 @@ public class TaskDetailController {
         public void actionPerformed(ActionEvent ae) {
             SetOfUsers users = new SetOfUsers();
             users.addAll((Collection)modelChoiceController.getChosenModels());                    
-            modelChoiceController.closeView();                    
-            task.setAssignedTo(users);
+            modelChoiceController.closeView();
             view.setAssignedTo(users.toArray());
         }        
     }
@@ -117,16 +149,15 @@ public class TaskDetailController {
         public void actionPerformed(ActionEvent ae) {
             SetOfAssets assets = new SetOfAssets();
             assets.addAll((Collection)modelChoiceController.getChosenModels());                    
-            modelChoiceController.closeView();                    
-            task.setAssets(assets);
+            modelChoiceController.closeView();
             view.setAssets(assets.toArray());
         }        
     }
     
-    class ReportEditActionListener implements ActionListener {
+    class EditReportActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ae) {
-            reportDetailController = new ReportDetailController(task.getReport());
+            ReportDetailController reportDetailController = new ReportDetailController(task.getReport());
             reportDetailController.launch();
         }
     }

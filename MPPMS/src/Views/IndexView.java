@@ -2,6 +2,7 @@ package Views;
 
 import Models.Asset;
 import Models.Component;
+import Models.Model;
 import Models.Project;
 import Models.SetOfAssets;
 import Models.SetOfComponents;
@@ -72,8 +73,8 @@ public class IndexView extends javax.swing.JFrame {
     }
     
     public void setAssetsTableData(SetOfAssets assets) {
-        String[] headers = new String[]{ "ID", "Length", "Asset type" };
-        String[] properties = new String[]{ "Id", "Length", "AssetType" };
+        String[] headers = new String[]{ "ID", "Asset type", "Length" };
+        String[] properties = new String[]{ "Id", "AssetType", "Length" };
         
         EventList eventList = GlazedLists.eventList(assets);
         TableFormat tableFormat = GlazedLists.tableFormat(Asset.class, properties, headers);
@@ -99,6 +100,18 @@ public class IndexView extends javax.swing.JFrame {
         return (Project)((DefaultEventTableModel)this.projectsTable.getModel()).getElementAt(this.projectsTable.getSelectedRow());
     }
     
+    public void setSelectedProject(Project model) {
+        if (model != null) {
+            for (int i = 0; i < this.projectsTable.getRowCount(); i++) {
+                Project temp = (Project)((DefaultEventTableModel)this.projectsTable.getModel()).getElementAt(i);
+                if (temp.getId() == model.getId()) {
+                    this.projectsTable.setRowSelectionInterval(i, i);
+                    break;
+                }
+            }
+        }
+    }
+    
     public void clearProjectSelection() {
         this.projectsTable.clearSelection();
     }
@@ -108,6 +121,18 @@ public class IndexView extends javax.swing.JFrame {
             return null;
         }
         return (Task)((DefaultEventTableModel)this.tasksTable.getModel()).getElementAt(this.tasksTable.getSelectedRow());
+    }
+    
+    public void setSelectedTask(Task model) {
+        if (model != null) {
+            for (int i = 0; i < this.tasksTable.getRowCount(); i++) {
+                Task temp = (Task)((DefaultEventTableModel)this.tasksTable.getModel()).getElementAt(i);
+                if (temp.getId() == model.getId()) {
+                    this.tasksTable.setRowSelectionInterval(i, i);
+                    break;
+                }
+            }
+        }
     }
     
     public void clearTaskSelection() {
@@ -121,6 +146,18 @@ public class IndexView extends javax.swing.JFrame {
         return (Component)((DefaultEventTableModel)this.componentsTable.getModel()).getElementAt(this.componentsTable.getSelectedRow());
     }
     
+    public void setSelectedComponent(Component model) {
+        if (model != null) {
+            for (int i = 0; i < this.componentsTable.getRowCount(); i++) {
+                Component temp = (Component)((DefaultEventTableModel)this.componentsTable.getModel()).getElementAt(i);
+                if (temp.getId() == model.getId()) {
+                    this.componentsTable.setRowSelectionInterval(i, i);
+                    break;
+                }
+            }
+        }
+    }
+    
     public void clearComponentSelection() {
         this.componentsTable.clearSelection();
     }
@@ -130,6 +167,18 @@ public class IndexView extends javax.swing.JFrame {
             return null;
         }
         return (Asset)((DefaultEventTableModel)this.assetsTable.getModel()).getElementAt(this.assetsTable.getSelectedRow());
+    }
+    
+    public void setSelectedAsset(Asset model) {
+        if (model != null) {
+            for (int i = 0; i < this.assetsTable.getRowCount(); i++) {
+                Asset temp = (Asset)((DefaultEventTableModel)this.assetsTable.getModel()).getElementAt(i);
+                if (temp.getId() == model.getId()) {
+                    this.assetsTable.setRowSelectionInterval(i, i);
+                    break;
+                }
+            }
+        }
     }
     
     public void clearAssetSelection() {
@@ -295,7 +344,7 @@ public class IndexView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(newProjectButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(projectsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)
+                .addComponent(projectsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 362, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -336,7 +385,7 @@ public class IndexView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(newTaskButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(tasksScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tasksScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 362, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -375,7 +424,7 @@ public class IndexView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(newComponentButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(componentsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)
+                .addComponent(componentsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 362, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -414,12 +463,14 @@ public class IndexView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(newAssetButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(assetsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)
+                .addComponent(assetsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 362, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         tabbedPaneView.addTab("Assets", assetsTablePanel);
 
+        welcomeLabel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        welcomeLabel.setForeground(new java.awt.Color(0, 51, 153));
         welcomeLabel.setText("jLabel1");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -429,7 +480,7 @@ public class IndexView extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(welcomeLabel)
-                .addContainerGap(406, Short.MAX_VALUE))
+                .addContainerGap(390, Short.MAX_VALUE))
             .addComponent(tabbedPaneView, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
@@ -438,7 +489,7 @@ public class IndexView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(welcomeLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(tabbedPaneView, javax.swing.GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE))
+                .addComponent(tabbedPaneView, javax.swing.GroupLayout.DEFAULT_SIZE, 446, Short.MAX_VALUE))
         );
 
         tabbedPaneView.getAccessibleContext().setAccessibleName("");

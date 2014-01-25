@@ -1,14 +1,22 @@
 package Views;
 
 import java.awt.event.ActionListener;
+import java.util.Calendar;
 import java.util.Date;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.swing.ListModel;
 
 public class ProjectDetailView extends javax.swing.JPanel {
     
     public ProjectDetailView() {
         initComponents();
+        
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(2010, 1, 1);
+        this.pickCreationDate.setMinSelectableDate(calendar.getTime());
+        this.pickDeadlineDate.setMinSelectableDate(calendar.getTime());
     }
     
     public void setEditMode(boolean editMode) {
@@ -34,22 +42,42 @@ public class ProjectDetailView extends javax.swing.JPanel {
         this.textProjectTitle.setText(text);
     }
     
+    public String getProjectTitle() {
+        return this.textProjectTitle.getText();
+    }
+    
     public void setManager(Object[] items, Object selectedItem) {
         this.managerCombo.setModel(new DefaultComboBoxModel<>(items));
         this.managerCombo.setSelectedItem(selectedItem);
     }
     
-    public void setCoordinatorText(Object[] items, Object selectedItem) {
+    public Object getManager() {
+        return this.managerCombo.getSelectedItem();
+    }
+    
+    public void setCoordinator(Object[] items, Object selectedItem) {
         this.coordinatorCombo.setModel(new DefaultComboBoxModel<>(items));
         this.coordinatorCombo.setSelectedItem(selectedItem);
+    }
+    
+    public Object getCoordinator() {
+        return this.coordinatorCombo.getSelectedItem();
     }
     
     public void setCreationDateText(Date creationDate) {
         this.pickCreationDate.setDate(creationDate);
     }
     
+    public Date getCreationDate() {
+        return this.pickCreationDate.getDate();
+    }
+    
     public void setDeadlineText(Date deadlineDate) {
         this.pickDeadlineDate.setDate(deadlineDate);
+    }
+    
+    public Date getDeadlineDate() {
+        return this.pickDeadlineDate.getDate();
     }
     
     public void setPriority(Object[] values, int index) {
@@ -57,16 +85,32 @@ public class ProjectDetailView extends javax.swing.JPanel {
         this.cmboPriority.setSelectedIndex(index);
     }
     
+    public Object getPriority() {
+        return this.cmboPriority.getSelectedItem();
+    }
+    
     public void setTeam(Object[] values) {
         this.listTeam.setModel(new DefaultComboBoxModel<>(values));
+    }
+    
+    public Object[] getTeam() {
+        return getItemsFromList(listTeam);
     }
     
     public void setTasks(Object[] values) {
         this.listTasks.setModel(new DefaultComboBoxModel<>(values));
     }
     
-    public void setComponents(Object[] values) {
+    public Object[] getTasks() {
+        return getItemsFromList(listTasks);
+    }
+    
+    public void setProjectComponents(Object[] values) {
         this.listComponents.setModel(new DefaultComboBoxModel<>(values));
+    }
+    
+    public Object[] getProjectComponents() {
+        return getItemsFromList(listComponents);
     }
     
     public void addEditButtonActionListener(ActionListener listener) {
@@ -93,8 +137,15 @@ public class ProjectDetailView extends javax.swing.JPanel {
         this.componentsChoiceButton.addActionListener(listener);
     }
     
-    public void displayInfoMessage(String msg) {
-        JOptionPane.showMessageDialog(null, msg);
+    private Object[] getItemsFromList(JList list) {
+        ListModel model = list.getModel();
+        Object[] items = new Object[model.getSize()];
+
+        for(int i = 0; i < model.getSize(); i++) {
+             items[i] =  model.getElementAt(i);
+        }
+        
+        return items;
     }
     
     /**

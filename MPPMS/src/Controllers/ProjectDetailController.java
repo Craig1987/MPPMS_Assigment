@@ -1,5 +1,6 @@
 package Controllers;
 
+import Application.AppObservable;
 import Models.Component;
 import Models.Project;
 import Models.SetOfComponents;
@@ -10,10 +11,11 @@ import Models.User;
 import Views.ProjectDetailView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Observable;
+import java.util.Observer;
 
-public class ProjectDetailController {
+public class ProjectDetailController implements Observer {
     private final ProjectDetailView view;
     
     private Project project;    
@@ -41,19 +43,29 @@ public class ProjectDetailController {
         if (!this.isNew) {
             this.view.addDiscardButtonActionListener(new DiscardButtonActionListener());
         }
+        
+        AppObservable.getInstance().addObserver(this);
     }
     
     private void refreshView() {
         this.view.setIdLabelText("ID: " + project.getId());
         this.view.setProjectTitleText(project.getTitle());
         this.view.setManager(User.getUsersByRole(User.Role.ProjectManager).toArray(), project.getManager());
-        this.view.setCoordinatorText(User.getUsersByRole(User.Role.ProjectCoordinator).toArray(), project.getCoordinator());
+        this.view.setCoordinator(User.getUsersByRole(User.Role.ProjectCoordinator).toArray(), project.getCoordinator());
         this.view.setCreationDateText(project.getCreationDate());
         this.view.setDeadlineText(project.getDeadline());
         this.view.setPriority(Project.Priority.values(), project.getPriority().ordinal());
         this.view.setTeam(project.getTeam().toArray());
         this.view.setTasks(project.getTasks().toArray());
-        this.view.setComponents(project.getComponents().toArray());
+        this.view.setProjectComponents(project.getComponents().toArray());
+    }
+
+    @Override
+    public void update(Observable o, Object o1) {
+        if (!this.isNew) {
+            this.project = Project.getProjectById(this.project.getId());
+            refreshView();
+        }
     }
     
     class SaveButtonActionListener implements ActionListener {
@@ -61,6 +73,35 @@ public class ProjectDetailController {
         public void actionPerformed(ActionEvent e) {
             view.setEditMode(false);
             isNew = false;
+            
+            Object[] objects = view.getTeam();
+            SetOfUsers team = new SetOfUsers();
+            for (Object object : objects) {
+                team.add((User)object);
+            }
+            
+            objects = view.getTasks();
+            SetOfTasks tasks = new SetOfTasks();
+            for (Object object : objects) {
+                tasks.add((Task)object);
+            }
+            
+            objects = view.getProjectComponents();
+            SetOfComponents components = new SetOfComponents();
+            for (Object object : objects) {
+                components.add((Component)object);
+            }
+            
+            Project newProject = new Project(project.getId(), view.getCreationDate());
+            newProject.setDeadline(view.getDeadlineDate());
+            newProject.setTitle(view.getProjectTitle());
+            newProject.setPriority(Project.Priority.valueOf(view.getPriority().toString()));
+            newProject.setManager((User)view.getManager());
+            newProject.setCoordinator((User)view.getCoordinator());
+            newProject.setTeam(team);
+            newProject.setTasks(tasks);
+            newProject.setComponents(components);
+            newProject.save();
         }        
     }
     
