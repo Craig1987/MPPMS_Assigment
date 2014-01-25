@@ -1,10 +1,27 @@
 package Models;
 
+import XmlMapper.XmlSaver;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -100,6 +117,49 @@ public class Asset extends Model {
             }
         }
         return null;
+    }
+    
+    public boolean save() {
+        if (id == 0)
+            id = getAllAssets().get(getAllAssets().size() - 1).getId() + 1;
+        
+        return new XmlSaver(getXmlFilePath(), getSaveableAttributes()).save();
+    }
+    
+    /**
+     * 
+     * @return String - The path to the XML file representing this object.
+     */
+    private String getXmlFilePath() {
+        return getClass()
+                   .getClassLoader()
+                   .getResource("Data/Assets.xml")
+                   .getPath()
+                   .replaceAll("%20", " ")
+                   .replaceAll("build/classes", "src"); 
+                   // Fix bug on ryan's machine where XML gets saved to Build
+    }
+    
+    /**
+     * 
+     * This forms a schema for saving a Model to XML. 
+     * 
+     * This allows the XMLSaver to work dynamically for any Model.
+     * 
+     * The key of the map is the XML Node tag name (Case Sensitive).
+     * The val of the map is the value of the node.
+     * 
+     * @return Map<String, String>
+     */
+    private Map getSaveableAttributes() {
+        return new HashMap<String, String>() {{
+            put("Node",        "Asset");
+            put("SaveBy",      "ID");
+            put("ID",          "" + id);
+            put("Type",        "" + assetType.name());
+            put("Length",      "" + length);
+            put("Description", "" + description);
+        }};
     }
     
     private static void populateAssets() {
