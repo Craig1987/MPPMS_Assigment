@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
+import javax.swing.JOptionPane;
 
 public class AssetDetailController implements Observer {
     private final AssetDetailView view;
@@ -50,11 +51,14 @@ public class AssetDetailController implements Observer {
     class SaveButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            view.setEditMode(false);
-            isNew = false;
-            
             Asset newAsset = new Asset(asset.getId(), view.getLength(), view.getAssetType(), view.getDescription());
-            newAsset.save();
+            if (newAsset.save()) {
+                view.setEditMode(false);
+                isNew = false;
+            }
+            else {
+                JOptionPane.showMessageDialog(view, "Error saving new Asset", "New Azsset Error", JOptionPane.ERROR_MESSAGE);
+            }
         }        
     }
     

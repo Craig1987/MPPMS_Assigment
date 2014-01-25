@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<root>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><root>
     <Asset>
         <ID>1</ID>
         <Type>Audio</Type>
@@ -42,4 +41,4 @@
         <Length>5</Length>
         <Description>This is a description of this asset</Description>
     </Asset>
-</root>
+<Asset><Description>This is a new Asset</Description><Node>Asset</Node><Type>Video</Type><Length>90</Length><ID>8</ID><SaveBy>ID</SaveBy></Asset></root>

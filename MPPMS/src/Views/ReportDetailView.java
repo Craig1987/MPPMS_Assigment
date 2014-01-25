@@ -1,29 +1,80 @@
 package Views;
 
+import Models.Comment;
 import Models.Report;
 import Models.SetOfComments;
+import java.awt.Component;
+import java.awt.event.ActionListener;
+import java.util.Date;
 import javax.swing.ImageIcon;
+import javax.swing.event.ListSelectionListener;
 
 public class ReportDetailView extends javax.swing.JFrame {
     
     public ReportDetailView() {
         initComponents();
         this.setIconImage(new ImageIcon(getClass().getResource("/resources/icon.png")).getImage());
+        this.setLocationRelativeTo(null);
     }
     
-    public Report getSelectedComment() {
+    public Comment getSelectedComment() {
         if (this.listComments.getSelectedIndex()< 0) {
             return null;
         }
-        return (Report)(listComments.getSelectedValue());
+        return (Comment)(listComments.getSelectedValue());
     }
     
     public void setListOfComments(Object[] comments) {
         this.listComments.setListData(comments);
     }
     
-    public void setIdLabelText(String text) {
+    public void setReportIdLabelText(String text) {
         this.lblReportID.setText(text);
+    }
+    
+    public void setCommentLabelID(String text) {
+        this.lblCommentID.setText(text);
+    }
+    
+    public void setCommentDate(Date date) {
+        this.pickDate.setDate(date);
+    }
+    
+    public void setUser(String user) {
+        this.lblUserName.setText(user);
+    }
+    
+    public void setContent(String content) {
+        this.contentText.setText(content);
+    }
+    
+    public void setControlsEnabled(Boolean enabled) {
+        this.pickDate.setEnabled(enabled);
+        this.lblUserName.setVisible(enabled);
+        this.contentText.setEnabled(enabled);
+    }
+    
+    public void setPanelVisibility(Boolean visibility) {
+        Component [] com = this.editCommentPanel.getComponents();
+        for (Component com1 : com) {
+            com1.setVisible(visibility);
+        }
+    }
+    
+     public void addEditButtonActionListener(ActionListener listener) {
+        this.editButton.addActionListener(listener);
+    }
+    
+    public void addSaveButtonActionListener(ActionListener listener) {
+        this.saveButton.addActionListener(listener);
+    }
+    
+    public void addDiscardButtonActionListener(ActionListener listener) {
+        this.discardButton.addActionListener(listener);
+    }
+    
+    public void addCommentsListSelectionListener(ListSelectionListener listener) {
+        this.listComments.addListSelectionListener(listener);
     }
 
     /**
@@ -42,9 +93,15 @@ public class ReportDetailView extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         listComments = new javax.swing.JList();
         editCommentPanel = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        editField = new javax.swing.JTextArea();
-        jPanel1 = new javax.swing.JPanel();
+        lblCommentID = new javax.swing.JLabel();
+        pickDate = new com.toedter.calendar.JDateChooser();
+        lblDate = new javax.swing.JLabel();
+        lblContent = new javax.swing.JLabel();
+        lblUser = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        contentText = new javax.swing.JTextArea();
+        lblUserName = new javax.swing.JLabel();
+        commentControlsPanel = new javax.swing.JPanel();
         discardButton = new javax.swing.JButton();
         saveButton = new javax.swing.JButton();
         editButton = new javax.swing.JButton();
@@ -57,7 +114,7 @@ public class ReportDetailView extends javax.swing.JFrame {
         lblComments.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblComments.setText("Comments");
 
-        lblReportID.setText("ID:");
+        lblReportID.setText("Report ID:");
 
         listComments.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -76,7 +133,7 @@ public class ReportDetailView extends javax.swing.JFrame {
                     .addComponent(jScrollPane1)
                     .addGroup(commentListPanelLayout.createSequentialGroup()
                         .addComponent(lblComments)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 148, Short.MAX_VALUE)
                         .addComponent(lblReportID)))
                 .addContainerGap())
         );
@@ -94,9 +151,23 @@ public class ReportDetailView extends javax.swing.JFrame {
 
         reportSplitPane.setLeftComponent(commentListPanel);
 
-        editField.setColumns(20);
-        editField.setRows(5);
-        jScrollPane2.setViewportView(editField);
+        lblCommentID.setText("ID:");
+
+        pickDate.setDateFormatString("dd MMM yyyy");
+
+        lblDate.setText("Date:");
+
+        lblContent.setText("Content:");
+
+        lblUser.setText("User:");
+
+        contentText.setColumns(20);
+        contentText.setFont(contentText.getFont());
+        contentText.setRows(5);
+        contentText.setWrapStyleWord(true);
+        jScrollPane3.setViewportView(contentText);
+
+        lblUserName.setText("jLabel1");
 
         discardButton.setText("Discard changes");
 
@@ -104,20 +175,20 @@ public class ReportDetailView extends javax.swing.JFrame {
 
         editButton.setText("Edit");
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout commentControlsPanelLayout = new javax.swing.GroupLayout(commentControlsPanel);
+        commentControlsPanel.setLayout(commentControlsPanelLayout);
+        commentControlsPanelLayout.setHorizontalGroup(
+            commentControlsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(commentControlsPanelLayout.createSequentialGroup()
                 .addComponent(discardButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(saveButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(editButton))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+        commentControlsPanelLayout.setVerticalGroup(
+            commentControlsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(commentControlsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(discardButton)
                 .addComponent(saveButton)
                 .addComponent(editButton))
@@ -130,19 +201,43 @@ public class ReportDetailView extends javax.swing.JFrame {
             .addGroup(editCommentPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(editCommentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, editCommentPanelLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jScrollPane3)
+                    .addGroup(editCommentPanelLayout.createSequentialGroup()
+                        .addGroup(editCommentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblDate)
+                            .addComponent(lblUser))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                        .addGroup(editCommentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(pickDate, javax.swing.GroupLayout.PREFERRED_SIZE, 339, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblUserName)))
+                    .addGroup(editCommentPanelLayout.createSequentialGroup()
+                        .addComponent(lblContent)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(editCommentPanelLayout.createSequentialGroup()
+                        .addComponent(lblCommentID)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(commentControlsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         editCommentPanelLayout.setVerticalGroup(
             editCommentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, editCommentPanelLayout.createSequentialGroup()
+            .addGroup(editCommentPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(editCommentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblCommentID)
+                    .addComponent(commentControlsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(15, 15, 15)
+                .addGroup(editCommentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblUser)
+                    .addComponent(lblUserName))
+                .addGap(18, 18, 18)
+                .addGroup(editCommentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(pickDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblDate))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 283, Short.MAX_VALUE)
+                .addComponent(lblContent)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -164,17 +259,25 @@ public class ReportDetailView extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel commentControlsPanel;
     private javax.swing.JPanel commentListPanel;
+    private javax.swing.JTextArea contentText;
     private javax.swing.JButton discardButton;
     private javax.swing.JButton editButton;
     private javax.swing.JPanel editCommentPanel;
     private javax.swing.JTextArea editField;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JLabel lblCommentID;
     private javax.swing.JLabel lblComments;
+    private javax.swing.JLabel lblContent;
+    private javax.swing.JLabel lblDate;
     private javax.swing.JLabel lblReportID;
+    private javax.swing.JLabel lblUser;
+    private javax.swing.JLabel lblUserName;
     private javax.swing.JList listComments;
+    private com.toedter.calendar.JDateChooser pickDate;
     private javax.swing.JSplitPane reportSplitPane;
     private javax.swing.JButton saveButton;
     // End of variables declaration//GEN-END:variables

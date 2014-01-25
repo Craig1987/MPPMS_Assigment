@@ -91,18 +91,21 @@ public class Asset extends Model {
         this.assetType = type;
     }
     
-    public void save() {
+    public boolean save() {
         if (id == 0) {
             id = getAllAssets().get(getAllAssets().size() - 1).getId() + 1;
         }
         
-        System.out.println("TODO: Implement persistence to XML | Models/Asset.java:81");
-        
-        if (allAssets != null) {
-            allAssets.clear();
+        XmlSaver xmlSaver =  new XmlSaver(getXmlFilePath(), getSaveableAttributes());
+        if (xmlSaver.save()) {
+            if (allAssets != null) {
+                allAssets.clear();
+            }
+            allAssets = null;
+            AppObservable.getInstance().notifyObserversToRefresh();
+            return true;
         }
-        allAssets = null;
-        AppObservable.getInstance().notifyObserversToRefresh();
+        return false;
     }
     
     @Override
@@ -124,13 +127,6 @@ public class Asset extends Model {
             }
         }
         return null;
-    }
-    
-    public boolean save() {
-        if (id == 0)
-            id = getAllAssets().get(getAllAssets().size() - 1).getId() + 1;
-        
-        return new XmlSaver(getXmlFilePath(), getSaveableAttributes()).save();
     }
     
     /**
