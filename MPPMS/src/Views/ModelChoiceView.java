@@ -149,6 +149,7 @@ public class ModelChoiceView extends javax.swing.JFrame {
         lbl_availableModels.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbl_availableModels.setText("Available [model]s");
 
+        lbl_title.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lbl_title.setText("Select [model]s");
 
         btn_saveChosenModels.setText("Save");

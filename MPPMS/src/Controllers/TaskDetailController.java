@@ -13,6 +13,9 @@ import java.awt.event.ActionListener;
 import java.util.Collection;
 import java.util.Observable;
 import java.util.Observer;
+import javax.swing.DefaultListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 public class TaskDetailController implements Observer {
     private final TaskDetailView view;
@@ -32,12 +35,14 @@ public class TaskDetailController implements Observer {
         refreshView();
         
         this.view.setEditMode(this.isNew);
+        this.view.setCanEditAsset(false);
         
         this.view.addAssignedToChoiceActionListener(new AssignedToChoiceActionListener());
         this.view.addAssetChoiceActionListener(new AssetChoiceActionListener());
         this.view.addAssetEditActionListener(new AssetEditActionListener());
         this.view.addSaveButtonActionListener(new SaveButtonActionListener());
         this.view.addEditButtonActionListener(new EditButtonActionListener());
+        this.view.addAssetsListSelectionListener(new AssetsListSelectionListener());
         if (!this.isNew) {
             this.view.addDiscardButtonActionListener(new DiscardButtonActionListener());
             this.view.addEditReportActionListener(new EditReportActionListener());
@@ -63,6 +68,10 @@ public class TaskDetailController implements Observer {
             this.task = Task.getTaskByID(this.task.getId());
             refreshView();
         }
+    }
+    
+    public Asset getSelectedAsset() {
+        return (Asset)this.view.getSelectedAsset();
     }
     
     class SaveButtonActionListener implements ActionListener {
@@ -165,6 +174,13 @@ public class TaskDetailController implements Observer {
         public void actionPerformed(ActionEvent ae) {
             ReportDetailController reportDetailController = new ReportDetailController(task.getReport(), view);
             reportDetailController.launch();
+        }
+    }
+    
+    class AssetsListSelectionListener implements ListSelectionListener {
+        @Override
+        public void valueChanged(ListSelectionEvent lse) {
+            view.setCanEditAsset(!((DefaultListSelectionModel)lse.getSource()).isSelectionEmpty());
         }
     }
 }

@@ -191,6 +191,15 @@ public class IndexView extends javax.swing.JFrame {
         return name;
     }
     
+    public void setSelectedTab(String tabName) {
+        for (int i = 0; i < this.tabbedPaneView.getTabCount(); i++) {
+            if (this.tabbedPaneView.getTitleAt(i).equals(tabName)) {
+                this.tabbedPaneView.setSelectedIndex(i);
+                break;
+            }
+        }
+    }
+    
     public void setDetailViewPanel(JPanel panel) {
         if (panel == null) {
             detailScrollPane.getViewport().add(new JPanel());

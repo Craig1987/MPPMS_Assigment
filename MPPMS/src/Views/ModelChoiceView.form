@@ -114,6 +114,9 @@
     </Component>
     <Component class="javax.swing.JLabel" name="lbl_title">
       <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Tahoma" size="12" style="1"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Select [model]s"/>
       </Properties>
     </Component>

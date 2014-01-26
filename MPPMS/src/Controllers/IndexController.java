@@ -23,8 +23,13 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 public class IndexController implements Observer {
-    IndexView view = new IndexView();
     private final User currentUser;
+    
+    private IndexView view = new IndexView();
+    private ProjectDetailController projectDetailController;
+    private TaskDetailController taskDetailController;
+    private ComponentDetailController componentDetailController;
+    private AssetDetailController assetDetailController;
     
     public IndexController(User currentUser) {
         this.currentUser = currentUser;
@@ -69,8 +74,11 @@ public class IndexController implements Observer {
         else {
             ProjectDetailView projectDetailView = new ProjectDetailView();
             view.setDetailViewPanel(projectDetailView);
-            ProjectDetailController controller = new ProjectDetailController(projectDetailView, view.getSelectedProject());
-            controller.initialise();
+            projectDetailView.addTaskEditButtonActionListener(new ProjectDetailTaskEditButtonActionListener());
+            projectDetailView.addComponentEditButtonActionListener(new ProjectDetailComponentEditButtonActionListener());
+            
+            projectDetailController = new ProjectDetailController(projectDetailView, view.getSelectedProject());
+            projectDetailController.initialise();
         }
     }
     
@@ -81,8 +89,10 @@ public class IndexController implements Observer {
         else {
             TaskDetailView taskDetailView = new TaskDetailView();
             view.setDetailViewPanel(taskDetailView);
-            TaskDetailController controller = new TaskDetailController(taskDetailView, view.getSelectedTask());
-            controller.initialise();
+            taskDetailView.addAssetEditButtonActionListener(new TaskDetailAssetEditButtonActionListener());
+            
+            taskDetailController = new TaskDetailController(taskDetailView, view.getSelectedTask());
+            taskDetailController.initialise();
         }
     }
     
@@ -93,8 +103,10 @@ public class IndexController implements Observer {
         else {
             ComponentDetailView componentDetailView = new ComponentDetailView();
             view.setDetailViewPanel(componentDetailView);
-            ComponentDetailController controller = new ComponentDetailController(componentDetailView, view.getSelectedComponent());
-            controller.initialise();
+            componentDetailView.addAssetEditButtonActionListener(new ComponentDetailAssetEditButtonActionListener());
+            
+            componentDetailController = new ComponentDetailController(componentDetailView, view.getSelectedComponent());
+            componentDetailController.initialise();
         }
     }
     
@@ -105,8 +117,8 @@ public class IndexController implements Observer {
         else {
             AssetDetailView assetDetailView = new AssetDetailView();
             view.setDetailViewPanel(assetDetailView);
-            AssetDetailController controller = new AssetDetailController(assetDetailView, view.getSelectedAsset());
-            controller.initialise();
+            assetDetailController = new AssetDetailController(assetDetailView, view.getSelectedAsset());
+            assetDetailController.initialise();
         }
     }
     
@@ -154,8 +166,8 @@ public class IndexController implements Observer {
             ProjectDetailView detailView = new ProjectDetailView();
             detailView.addDiscardButtonActionListener(new DiscardNewProjectActionListener());
             
-            ProjectDetailController controller = new ProjectDetailController(detailView, new Project());
-            controller.initialise();
+            projectDetailController = new ProjectDetailController(detailView, new Project());
+            projectDetailController.initialise();
             
             view.clearProjectSelection();
             view.setDetailViewPanel(detailView);
@@ -168,8 +180,8 @@ public class IndexController implements Observer {
             TaskDetailView detailView = new TaskDetailView();
             detailView.addDiscardButtonActionListener(new DiscardNewProjectActionListener());
             
-            TaskDetailController controller = new TaskDetailController(detailView, new Task());
-            controller.initialise();
+            taskDetailController = new TaskDetailController(detailView, new Task());
+            taskDetailController.initialise();
             
             view.clearTaskSelection();
             view.setDetailViewPanel(detailView);
@@ -182,8 +194,8 @@ public class IndexController implements Observer {
             ComponentDetailView detailView = new ComponentDetailView();
             detailView.addDiscardButtonActionListener(new DiscardNewProjectActionListener());
             
-            ComponentDetailController controller = new ComponentDetailController(detailView, new Component());
-            controller.initialise();
+            componentDetailController = new ComponentDetailController(detailView, new Component());
+            componentDetailController.initialise();
             
             view.clearComponentSelection();
             view.setDetailViewPanel(detailView);            
@@ -196,8 +208,8 @@ public class IndexController implements Observer {
             AssetDetailView detailView = new AssetDetailView();
             detailView.addDiscardButtonActionListener(new DiscardNewProjectActionListener());
             
-            AssetDetailController controller = new AssetDetailController(detailView, new Asset());
-            controller.initialise();
+            assetDetailController = new AssetDetailController(detailView, new Asset());
+            assetDetailController.initialise();
             
             view.clearAssetSelection();
             view.setDetailViewPanel(detailView);  
@@ -264,5 +276,37 @@ public class IndexController implements Observer {
         public void stateChanged(ChangeEvent ce) {
             valueChanged();
         }        
+    }
+    
+    class ProjectDetailTaskEditButtonActionListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            view.setSelectedTask(projectDetailController.getSelectedTask());
+            view.setSelectedTab("Tasks");
+        }
+    }
+    
+    class ProjectDetailComponentEditButtonActionListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            view.setSelectedComponent(projectDetailController.getSelectedComponent());
+            view.setSelectedTab("Components");
+        }
+    }
+    
+    class TaskDetailAssetEditButtonActionListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            view.setSelectedAsset(taskDetailController.getSelectedAsset());
+            view.setSelectedTab("Assets");
+        }
+    }
+    
+    class ComponentDetailAssetEditButtonActionListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            view.setSelectedAsset(componentDetailController.getSelectedAsset());
+            view.setSelectedTab("Assets");
+        }
     }
 }

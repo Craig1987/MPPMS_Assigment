@@ -1,8 +1,6 @@
 package Views;
 
 import Models.Comment;
-import Models.Report;
-import Models.SetOfComments;
 import java.awt.Component;
 import java.awt.event.ActionListener;
 import java.util.Date;
@@ -46,6 +44,7 @@ public class ReportDetailView extends javax.swing.JFrame {
     
     public void setContent(String content) {
         this.contentText.setText(content);
+        this.contentText.setCaretPosition(0);
     }
     
     public void setControlsEnabled(Boolean enabled) {
@@ -138,7 +137,7 @@ public class ReportDetailView extends javax.swing.JFrame {
                     .addComponent(jScrollPane1)
                     .addGroup(commentListPanelLayout.createSequentialGroup()
                         .addComponent(lblComments)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 148, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
                         .addComponent(lblReportID)))
                 .addContainerGap())
         );
@@ -168,6 +167,7 @@ public class ReportDetailView extends javax.swing.JFrame {
 
         contentText.setColumns(20);
         contentText.setFont(contentText.getFont());
+        contentText.setLineWrap(true);
         contentText.setRows(5);
         contentText.setWrapStyleWord(true);
         jScrollPane3.setViewportView(contentText);
@@ -211,7 +211,7 @@ public class ReportDetailView extends javax.swing.JFrame {
                         .addGroup(editCommentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblDate)
                             .addComponent(lblUser))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(editCommentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(pickDate, javax.swing.GroupLayout.PREFERRED_SIZE, 339, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lblUserName)))

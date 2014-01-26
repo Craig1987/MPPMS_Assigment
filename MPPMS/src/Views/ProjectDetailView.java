@@ -7,6 +7,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.ListModel;
+import javax.swing.event.ListSelectionListener;
 
 public class ProjectDetailView extends javax.swing.JPanel {
     
@@ -32,6 +33,14 @@ public class ProjectDetailView extends javax.swing.JPanel {
         teamChoiceButton.setEnabled(editMode);
         tasksChoiceButton.setEnabled(editMode);
         componentsChoiceButton.setEnabled(editMode);
+    }
+    
+    public void setCanEditTask(boolean canEdit) {
+        this.tasksEditButton.setEnabled(canEdit);
+    }
+    
+    public void setCanEditComponent(boolean canEdit) {
+        this.componentsEditButton.setEnabled(canEdit);
     }
     
     public void setIdLabelText(String text) {
@@ -105,12 +114,20 @@ public class ProjectDetailView extends javax.swing.JPanel {
         return getItemsFromList(listTasks);
     }
     
+    public Object getSelectedTask() {
+        return this.listTasks.getSelectedValue();
+    }
+    
     public void setProjectComponents(Object[] values) {
         this.listComponents.setModel(new DefaultComboBoxModel<>(values));
     }
     
     public Object[] getProjectComponents() {
         return getItemsFromList(listComponents);
+    }
+    
+    public Object getSelectedComponent() {
+        return this.listComponents.getSelectedValue();
     }
     
     public void addEditButtonActionListener(ActionListener listener) {
@@ -135,6 +152,22 @@ public class ProjectDetailView extends javax.swing.JPanel {
     
     public void addComponentsChoiceActionListener(ActionListener listener) {
         this.componentsChoiceButton.addActionListener(listener);
+    }
+    
+    public void addTaskEditButtonActionListener(ActionListener listener) {
+        this.tasksEditButton.addActionListener(listener);
+    }
+    
+    public void addComponentEditButtonActionListener(ActionListener listener) {
+        this.componentsEditButton.addActionListener(listener);
+    }
+    
+    public void addTasksListSelectionListener(ListSelectionListener listener) {
+        this.listTasks.getSelectionModel().addListSelectionListener(listener);
+    }
+    
+    public void addComponentsListSelectionListener(ListSelectionListener listener) {
+        this.listComponents.getSelectionModel().addListSelectionListener(listener);
     }
     
     private Object[] getItemsFromList(JList list) {

@@ -4,6 +4,7 @@ import java.awt.event.ActionListener;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JList;
 import javax.swing.ListModel;
+import javax.swing.event.ListSelectionListener;
 
 public class TaskDetailView extends javax.swing.JPanel {
 
@@ -23,6 +24,10 @@ public class TaskDetailView extends javax.swing.JPanel {
         editReportButton.setEnabled(editMode && !textReport.getText().equals("Blank report"));
         assignedToChoiceButton.setEnabled(editMode);
         assetChoiceButton.setEnabled(editMode);
+    }
+    
+    public void setCanEditAsset(boolean canEdit) {
+        assetEditButton.setEnabled(canEdit);
     }
     
     public void setIdLabelText(String text) {
@@ -84,6 +89,10 @@ public class TaskDetailView extends javax.swing.JPanel {
         return getItemsFromList(listAssets);
     }
     
+    public Object getSelectedAsset() {
+        return this.listAssets.getSelectedValue();
+    }
+    
     public void addAssignedToChoiceActionListener(ActionListener listener) {
         this.assignedToChoiceButton.addActionListener(listener);
     }
@@ -110,6 +119,14 @@ public class TaskDetailView extends javax.swing.JPanel {
     
     public void addEditReportActionListener(ActionListener listener) {
         this.editReportButton.addActionListener(listener);
+    }
+    
+    public void addAssetEditButtonActionListener(ActionListener listener) {
+        this.assetEditButton.addActionListener(listener);
+    }
+    
+    public void addAssetsListSelectionListener(ListSelectionListener listener) {
+        this.listAssets.getSelectionModel().addListSelectionListener(listener);
     }
     
     private Object[] getItemsFromList(JList list) {

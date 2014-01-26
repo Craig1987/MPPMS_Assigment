@@ -2,6 +2,7 @@ package Views;
 
 import java.awt.event.ActionListener;
 import javax.swing.ListModel;
+import javax.swing.event.ListSelectionListener;
 
 public class ComponentDetailView extends javax.swing.JPanel {
 
@@ -15,6 +16,10 @@ public class ComponentDetailView extends javax.swing.JPanel {
         editButton.setVisible(!editMode);
         descriptionArea.setEnabled(editMode);
         assetChoiceButton.setEnabled(editMode);
+    }
+    
+    public void setCanEditAsset(boolean canEdit) {
+        editAssetButton.setEnabled(canEdit);
     }
     
     public void setIdLabelText(String text) {
@@ -44,6 +49,10 @@ public class ComponentDetailView extends javax.swing.JPanel {
         return items;
     }
     
+    public Object getSelectedAsset() {
+        return listAssets.getSelectedValue();
+    }
+    
     public void addAssetChoiceActionListener(ActionListener listener) {
         this.assetChoiceButton.addActionListener(listener);
     }
@@ -58,6 +67,14 @@ public class ComponentDetailView extends javax.swing.JPanel {
     
     public void addDiscardButtonActionListener(ActionListener listener) {
         discardButton.addActionListener(listener);
+    }
+    
+    public void addAssetEditButtonActionListener(ActionListener listener) {
+        editAssetButton.addActionListener(listener);
+    }
+    
+    public void addAssetsListSelectionListener(ListSelectionListener listener) {
+        listAssets.getSelectionModel().addListSelectionListener(listener);
     }
     
     /**

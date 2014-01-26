@@ -10,6 +10,9 @@ import java.awt.event.ActionListener;
 import java.util.Collection;
 import java.util.Observable;
 import java.util.Observer;
+import javax.swing.DefaultListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 public class ComponentDetailController implements Observer {
     private final ComponentDetailView view;
@@ -29,10 +32,12 @@ public class ComponentDetailController implements Observer {
         refreshView();
         
         this.view.setEditMode(isNew);
+        this.view.setCanEditAsset(false);
         
         this.view.addAssetChoiceActionListener(new AssetChoiceActionListener());
         this.view.addSaveButtonActionListener(new SaveButtonActionListener());
         this.view.addEditButtonActionListener(new EditButtonActionListener());
+        this.view.addAssetsListSelectionListener(new AssetsListSelectionListener());
         if (!this.isNew) {
             this.view.addDiscardButtonActionListener(new DiscardButtonActionListener());
         }
@@ -44,6 +49,10 @@ public class ComponentDetailController implements Observer {
         this.view.setIdLabelText("ID: " + this.component.getId());
         this.view.setDescriptionText(this.component.getDescription());
         this.view.setAssets(this.component.getAssets().toArray());
+    }
+    
+    public Asset getSelectedAsset() {
+        return (Asset)this.view.getSelectedAsset();
     }
     
     @Override
@@ -110,5 +119,12 @@ public class ComponentDetailController implements Observer {
             modelChoiceController.closeView();
             view.setAssets(assets.toArray());
         }        
+    }
+    
+    class AssetsListSelectionListener implements ListSelectionListener {
+        @Override
+        public void valueChanged(ListSelectionEvent lse) {
+            view.setCanEditAsset(!((DefaultListSelectionModel)lse.getSource()).isSelectionEmpty());
+        }
     }
 }

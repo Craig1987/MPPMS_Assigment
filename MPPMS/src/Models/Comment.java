@@ -1,5 +1,6 @@
 package Models;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Comment {
@@ -17,7 +18,7 @@ public class Comment {
     
     @Override
     public String toString() {
-        return "ID: " + getId() + " - " + getContent();
+        return new SimpleDateFormat("dd MMM yyy").format(date) + " by " + user.toString();
     }
     
     public int getId() {

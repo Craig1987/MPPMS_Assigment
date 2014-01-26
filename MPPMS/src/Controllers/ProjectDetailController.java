@@ -14,6 +14,9 @@ import java.awt.event.ActionListener;
 import java.util.Collection;
 import java.util.Observable;
 import java.util.Observer;
+import javax.swing.DefaultListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 public class ProjectDetailController implements Observer {
     private final ProjectDetailView view;
@@ -33,6 +36,8 @@ public class ProjectDetailController implements Observer {
         refreshView();
             
         this.view.setEditMode(this.isNew);
+        this.view.setCanEditTask(false);
+        this.view.setCanEditComponent(false);
 
         // Add event listeners
         this.view.addTeamChoiceActionListener(new TeamChoiceActionListener());
@@ -40,6 +45,8 @@ public class ProjectDetailController implements Observer {
         this.view.addComponentsChoiceActionListener(new ComponentsChoiceActionListener());        
         this.view.addSaveButtonActionListener(new SaveButtonActionListener());
         this.view.addEditButtonActionListener(new EditButtonActionListener());
+        this.view.addTasksListSelectionListener(new TasksListSelectionListener());
+        this.view.addComponentsListSelectionListener(new ComponentsListSelectionListener());
         if (!this.isNew) {
             this.view.addDiscardButtonActionListener(new DiscardButtonActionListener());
         }
@@ -58,6 +65,14 @@ public class ProjectDetailController implements Observer {
         this.view.setTeam(project.getTeam().toArray());
         this.view.setTasks(project.getTasks().toArray());
         this.view.setProjectComponents(project.getComponents().toArray());
+    }
+    
+    public Task getSelectedTask() {
+        return (Task)this.view.getSelectedTask();
+    }
+    
+    public Component getSelectedComponent() {
+        return (Component)this.view.getSelectedComponent();
     }
 
     @Override
@@ -180,5 +195,19 @@ public class ProjectDetailController implements Observer {
                     break;
             }
         }        
+    }
+    
+    class TasksListSelectionListener implements ListSelectionListener {
+        @Override
+        public void valueChanged(ListSelectionEvent lse) {
+            view.setCanEditTask(!((DefaultListSelectionModel)lse.getSource()).isSelectionEmpty());
+        }
+    }
+    
+    class ComponentsListSelectionListener implements ListSelectionListener {
+        @Override
+        public void valueChanged(ListSelectionEvent lse) {
+            view.setCanEditComponent(!((DefaultListSelectionModel)lse.getSource()).isSelectionEmpty());
+        }
     }
 }
