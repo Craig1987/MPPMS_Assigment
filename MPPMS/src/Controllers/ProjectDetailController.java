@@ -71,6 +71,9 @@ public class ProjectDetailController implements Observer {
     class SaveButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            if (modelChoiceController != null) {
+                modelChoiceController.closeView();
+            }
             view.setEditMode(false);
             isNew = false;
             
@@ -108,6 +111,9 @@ public class ProjectDetailController implements Observer {
     class DiscardButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            if (modelChoiceController != null) {
+                modelChoiceController.closeView();
+            }
             view.setEditMode(false);
             refreshView();
         }        
@@ -123,7 +129,7 @@ public class ProjectDetailController implements Observer {
     class TeamChoiceActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ae) {
-            modelChoiceController = new ModelChoiceController(User.getAllUsers(), project.getTeam());
+            modelChoiceController = new ModelChoiceController((Collection)User.getAllUsers().clone(), project.getTeam(), view);
             modelChoiceController.addSaveButtonActionListener(new ModelChoiceSaveActionListener());
             modelChoiceController.launch();
         }        
@@ -132,7 +138,7 @@ public class ProjectDetailController implements Observer {
     class TasksChoiceActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ae) {
-            modelChoiceController = new ModelChoiceController(Task.getAllTasks(), project.getTasks());
+            modelChoiceController = new ModelChoiceController((Collection)Task.getAllTasks().clone(), project.getTasks(), view);
             modelChoiceController.addSaveButtonActionListener(new ModelChoiceSaveActionListener());
             modelChoiceController.launch();
         }        
@@ -141,7 +147,7 @@ public class ProjectDetailController implements Observer {
     class ComponentsChoiceActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ae) {
-            modelChoiceController = new ModelChoiceController(Component.getAllComponents(), project.getComponents());
+            modelChoiceController = new ModelChoiceController((Collection)Component.getAllComponents().clone(), project.getComponents(), view);
             modelChoiceController.addSaveButtonActionListener(new ModelChoiceSaveActionListener());
             modelChoiceController.launch();
         }        

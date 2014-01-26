@@ -24,12 +24,20 @@ public class ModelChoiceView extends javax.swing.JFrame {
         return availableModels.get(selectedIndex);
     }
     
+    public void setSelectedAvailableModel(Model model) {
+        listbox_availableModels.setSelectedValue(model, true);
+    }
+    
     public Model getSelectedChosenModel() throws NoModelSelectedException {
         int selectedIndex = listbox_chosenModels.getSelectedIndex();        
         if (selectedIndex < 0) {
             throw new NoModelSelectedException();
         }        
         return chosenModels.get(selectedIndex);
+    }
+    
+    public void setSelectedChosenModel(Model model) {
+        listbox_chosenModels.setSelectedValue(model, true);
     }
     
     public ArrayList<Model> getChosenModels(){
@@ -129,6 +137,11 @@ public class ModelChoiceView extends javax.swing.JFrame {
         btn_removeSelectedModel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowDeactivated(java.awt.event.WindowEvent evt) {
+                formWindowDeactivated(evt);
+            }
+        });
 
         listbox_chosenModels.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(listbox_chosenModels);
@@ -218,6 +231,13 @@ public class ModelChoiceView extends javax.swing.JFrame {
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
         this.dispose();
     }//GEN-LAST:event_cancelButtonActionPerformed
+
+    private void formWindowDeactivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowDeactivated
+        // Dispose of this JFrame if it's focus is lost to another JFrame belonging to this application
+        if(evt.getOppositeWindow() != null){
+            this.dispose();
+        }
+    }//GEN-LAST:event_formWindowDeactivated
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_addSelectedModel;

@@ -68,6 +68,9 @@ public class TaskDetailController implements Observer {
     class SaveButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            if (modelChoiceController != null) {
+                modelChoiceController.closeView();
+            }
             view.setEditMode(false);
             isNew = false;
             
@@ -97,6 +100,9 @@ public class TaskDetailController implements Observer {
     class DiscardButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            if (modelChoiceController != null) {
+                modelChoiceController.closeView();
+            }
             view.setEditMode(false);
             refreshView();
         }        
@@ -112,7 +118,7 @@ public class TaskDetailController implements Observer {
     class AssignedToChoiceActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ae) {
-            modelChoiceController = new ModelChoiceController(User.getAllUsers(), task.getAssignedTo());
+            modelChoiceController = new ModelChoiceController((Collection)User.getAllUsers().clone(), task.getAssignedTo(), view);
             modelChoiceController.addSaveButtonActionListener(new ModelChoiceAssignedToSaveActionListener());
             modelChoiceController.launch();
         }        
@@ -121,7 +127,7 @@ public class TaskDetailController implements Observer {
     class AssetChoiceActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ae) {
-            modelChoiceController = new ModelChoiceController(Asset.getAllAssets(), task.getAssets());
+            modelChoiceController = new ModelChoiceController((Collection)Asset.getAllAssets().clone(), task.getAssets(), view);
             modelChoiceController.addSaveButtonActionListener(new ModelChoiceAssetsSaveActionListener());
             modelChoiceController.launch();
         }

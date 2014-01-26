@@ -5,6 +5,7 @@ import Models.Report;
 import Views.ReportDetailView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JPanel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -12,13 +13,10 @@ public class ReportDetailController {
     private final ReportDetailView view = new ReportDetailView();
     private final Report report;
     
-    public ReportDetailController(Report report) {
+    public ReportDetailController(Report report, JPanel locationParent) {
         this.report = report;
         
-        view.addCommentsListSelectionListener(new CommentsListSelectionListener());
-        view.addEditButtonActionListener(new EditButtonActionListener());
-        view.addDiscardButtonActionListener(new DiscardChangesActionListener());
-        view.addSaveButtonActionListener(new SaveCommentChangesActionListener());
+        this.view.setLocationRelativeTo(locationParent);
     }
     
     public void launch() {
@@ -26,6 +24,12 @@ public class ReportDetailController {
         view.setReportIdLabelText("Report ID: " + report.getId());
         view.setControlsEnabled(false);
         view.setPanelVisibility(false);
+        
+        view.addCommentsListSelectionListener(new CommentsListSelectionListener());
+        view.addEditButtonActionListener(new EditButtonActionListener());
+        view.addDiscardButtonActionListener(new DiscardChangesActionListener());
+        view.addSaveButtonActionListener(new SaveCommentChangesActionListener());
+        
         view.setVisible(true);
     }
     

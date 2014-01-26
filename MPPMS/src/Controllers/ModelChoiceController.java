@@ -1,12 +1,20 @@
 package Controllers;
 
+import Application.AppObservable;
 import Exceptions.NoModelSelectedException;
+import Models.Asset;
+import Models.Component;
 import Models.Model;
+import Models.Task;
+import Models.User;
 import Views.ModelChoiceView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Collection;
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
+import javax.swing.JPanel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -15,7 +23,7 @@ import javax.swing.event.ListSelectionListener;
  * IMPORTANT: To use a model with this controller/view it must extend Model
  * 
  */
-public class ModelChoiceController {
+public class ModelChoiceController implements Observer {
     private final ModelChoiceView view = new ModelChoiceView();
     private final ModelType modelType;
     
@@ -28,8 +36,10 @@ public class ModelChoiceController {
         Asset
     }
     
-    public ModelChoiceController(Collection allTheModels) {
+    public ModelChoiceController(Collection allTheModels, JPanel locationParent) {
         allModels = (ArrayList<Model>) allTheModels;
+        
+        view.setLocationRelativeTo(locationParent);
         
         view.setAvailableModels(allModels);
         view.setChosenModels(new ArrayList<Model>());
@@ -44,7 +54,7 @@ public class ModelChoiceController {
         due to the way ArrayList.remove removes based on object ID rather than
         looking at it's fields
     */
-    public ModelChoiceController(Collection allTheModels, Collection preChosenModels) {
+    public ModelChoiceController(Collection allTheModels, Collection preChosenModels, JPanel locationParent) {
         allModels = (ArrayList<Model>) allTheModels;
         
         ArrayList<Model> remainingModels = new ArrayList<>();
@@ -52,6 +62,8 @@ public class ModelChoiceController {
         
         remainingModels.addAll(allTheModels);
         remainingModels.removeAll(preChosenModels);
+        
+        view.setLocationRelativeTo(locationParent);
         
         view.setAvailableModels(remainingModels);
         view.setChosenModels(preChosen);
@@ -73,6 +85,8 @@ public class ModelChoiceController {
         view.addAvailableModelsListSelectionListener(new AvailableModelsListSelectionListener());
         
         view.setVisible(true);
+        
+        AppObservable.getInstance().addObserver(this);
     }
     
     public void closeView() {
@@ -85,6 +99,10 @@ public class ModelChoiceController {
     
     public ArrayList<Model> getChosenModels() {
         return view.getChosenModels();
+    }
+    
+    public ArrayList<Model> getAvailableModels() {
+        return view.getAvailableModels();
     }
     
     public ModelType getModelType() {
@@ -102,6 +120,153 @@ public class ModelChoiceController {
         view.setTitleLabel("Select " + this.modelType + "s");
         view.setAvailableModelsLabel("Available " + this.modelType + "s");
         view.setChosenModelsLabel("Selected " + this.modelType + "s");
+    }
+
+    @Override
+    public void update(Observable o, Object o1) {
+        Model selectedChosen = null;
+        Model selectedAvailable = null;
+        
+        this.allModels.clear();
+        
+        // Update selected models
+        ArrayList<Model> updatedSelected = new ArrayList();
+        for (Model model : getChosenModels()) {
+            switch (this.getModelType()) {
+                case User:
+                    User user = User.getUserByUsername(((User)model).getUsername());
+                    updatedSelected.add(user);
+                    this.allModels.add(user);
+                    // Remember the user's JList selection
+                    try {
+                        selectedChosen = User.getUserByUsername(((User)view.getSelectedChosenModel()).getUsername());
+                    }
+                    catch (NoModelSelectedException ex) { }
+                    break;
+                case Task:
+                    Task task = Task.getTaskByID(((Task)model).getId());
+                    updatedSelected.add(task);
+                    this.allModels.add(task);
+                    // Remember the user's JList selection
+                    try {
+                        selectedChosen = Task.getTaskByID(((Task)view.getSelectedChosenModel()).getId());
+                    }
+                    catch (NoModelSelectedException ex) { }
+                    break;
+                case Component:
+                    Component component = Component.getComponentByID(((Component)model).getId());
+                    updatedSelected.add(component);
+                    this.allModels.add(component);
+                    // Remember the user's JList selection
+                    try {
+                        selectedChosen = Component.getComponentByID(((Component)view.getSelectedChosenModel()).getId());
+                    }
+                    catch (NoModelSelectedException ex) { }
+                    break;
+                case Asset:
+                    Asset asset = Asset.getAssetByID(((Asset)model).getId());
+                    updatedSelected.add(asset);
+                    this.allModels.add(asset);
+                    // Remember the user's JList selection
+                    try {
+                        selectedChosen = Asset.getAssetByID(((Asset)view.getSelectedChosenModel()).getId());
+                    }
+                    catch (NoModelSelectedException ex) { }
+                    break;
+            }
+        }
+        
+        // Update available models
+        ArrayList<Model> updatedAvailable = new ArrayList();
+        for (Model model : getAvailableModels()) {
+            switch (this.getModelType()) {
+                case User:
+                    User user = User.getUserByUsername(((User)model).getUsername());
+                    updatedAvailable.add(user);
+                    this.allModels.add(user);
+                    // Remember the user's JList selection
+                    try {
+                        selectedAvailable = User.getUserByUsername(((User)view.getSelectedChosenModel()).getUsername());
+                    }
+                    catch (NoModelSelectedException ex) { }
+                    break;
+                case Task:
+                    Task task = Task.getTaskByID(((Task)model).getId());
+                    updatedAvailable.add(task);
+                    this.allModels.add(task);
+                    // Remember the user's JList selection
+                    try {
+                        selectedAvailable = Task.getTaskByID(((Task)view.getSelectedChosenModel()).getId());
+                    }
+                    catch (NoModelSelectedException ex) { }
+                    break;
+                case Component:
+                    Component component = Component.getComponentByID(((Component)model).getId());
+                    updatedAvailable.add(component);
+                    this.allModels.add(component);
+                    // Remember the user's JList selection
+                    try {
+                        selectedAvailable = Component.getComponentByID(((Component)view.getSelectedChosenModel()).getId());
+                    }
+                    catch (NoModelSelectedException ex) { }
+                    break;
+                case Asset:
+                    Asset asset = Asset.getAssetByID(((Asset)model).getId());
+                    updatedAvailable.add(asset);
+                    this.allModels.add(asset);
+                    // Remember the user's JList selection
+                    try {
+                        selectedAvailable = Asset.getAssetByID(((Asset)view.getSelectedChosenModel()).getId());
+                    }
+                    catch (NoModelSelectedException ex) { }
+                    break;
+            }
+        }
+        
+        // Check for any newly added models
+        // Add them to allModels and available models if any
+        switch (this.getModelType()) {
+            case User:
+                for (User user : User.getAllUsers()) {
+                    if (!this.allModels.contains(user)) {
+                        updatedAvailable.add(user);
+                        this.allModels.add(user);
+                    }
+                }
+                break;
+            case Task:
+                for (Task task : Task.getAllTasks()) {
+                    if (!this.allModels.contains(task)) {
+                        updatedAvailable.add(task);
+                        this.allModels.add(task);
+                    }
+                }
+                break;
+            case Component:
+                for (Component component : Component.getAllComponents()) {
+                    if (!this.allModels.contains(component)) {
+                        updatedAvailable.add(component);
+                        this.allModels.add(component);
+                    }
+                }
+                break;
+            case Asset:
+                for (Asset asset : Asset.getAllAssets()) {
+                    if (!this.allModels.contains(asset)) {
+                        updatedAvailable.add(asset);
+                        this.allModels.add(asset);
+                    }
+                }
+                break;
+        }
+        
+        // Set the freshly updated models in the UI
+        this.view.setChosenModels(updatedSelected);
+        this.view.setAvailableModels(updatedAvailable);
+        
+        // Persist the user's previous selections
+        this.view.setSelectedChosenModel(selectedChosen);
+        this.view.setSelectedAvailableModel(selectedAvailable);
     }
     
     class AddModelButtonActionListener implements ActionListener {

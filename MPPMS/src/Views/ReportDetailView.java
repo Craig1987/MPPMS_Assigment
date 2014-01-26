@@ -108,6 +108,11 @@ public class ReportDetailView extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("MPPMS - Comments");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowDeactivated(java.awt.event.WindowEvent evt) {
+                formWindowDeactivated(evt);
+            }
+        });
 
         reportSplitPane.setDividerLocation(200);
 
@@ -257,6 +262,13 @@ public class ReportDetailView extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void formWindowDeactivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowDeactivated
+        // Dispose of this JFrame if it's focus is lost to another JFrame belonging to this application
+        if(evt.getOppositeWindow() != null){
+            this.dispose();
+        }
+    }//GEN-LAST:event_formWindowDeactivated
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel commentControlsPanel;
@@ -265,8 +277,6 @@ public class ReportDetailView extends javax.swing.JFrame {
     private javax.swing.JButton discardButton;
     private javax.swing.JButton editButton;
     private javax.swing.JPanel editCommentPanel;
-    private javax.swing.JTextArea editField;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel lblCommentID;

@@ -177,7 +177,10 @@ public class Project {
             allProjects.clear();
         }
         allProjects = null;
+        
+        SetOfUsers users = User.getAllUsers();
         AppObservable.getInstance().notifyObserversToRefresh();
+        users = User.getAllUsers();
     }
     
     private static void populateProjects() {

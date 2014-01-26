@@ -57,6 +57,9 @@ public class ComponentDetailController implements Observer {
     class SaveButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            if (modelChoiceController != null) {
+                modelChoiceController.closeView();
+            }
             view.setEditMode(false);
             isNew = false;
             
@@ -75,6 +78,9 @@ public class ComponentDetailController implements Observer {
     class DiscardButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            if (modelChoiceController != null) {
+                modelChoiceController.closeView();
+            }
             view.setEditMode(false);
             refreshView();
         }        
@@ -90,7 +96,7 @@ public class ComponentDetailController implements Observer {
     class AssetChoiceActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ae) {
-            modelChoiceController = new ModelChoiceController(Asset.getAllAssets(), component.getAssets());
+            modelChoiceController = new ModelChoiceController((Collection)Asset.getAllAssets().clone(), component.getAssets(), view);
             modelChoiceController.addSaveButtonActionListener(new ModelChoiceSaveActionListener());
             modelChoiceController.launch();
         }        

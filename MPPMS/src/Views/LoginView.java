@@ -10,7 +10,7 @@ public class LoginView extends javax.swing.JFrame {
     public LoginView() {
         initComponents();
         this.setIconImage(new ImageIcon(getClass().getResource("/resources/icon.png")).getImage());
-        this.setLocationRelativeTo(null); 
+        this.setLocationRelativeTo(null);
     }
     
     public void addLoginButtonActionListener(ActionListener listener) {
