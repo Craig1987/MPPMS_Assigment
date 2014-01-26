@@ -163,7 +163,7 @@ public class TaskDetailController implements Observer {
     class EditReportActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ae) {
-            ReportDetailController reportDetailController = new ReportDetailController(task.getReport());
+            ReportDetailController reportDetailController = new ReportDetailController(task.getReport(), view);
             reportDetailController.launch();
         }
     }
