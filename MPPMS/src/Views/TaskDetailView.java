@@ -197,8 +197,6 @@ public class TaskDetailView extends javax.swing.JPanel {
 
         lblPriority.setText("Priority:");
 
-        textTaskTitle.setFocusable(false);
-
         lblTaskTitle.setText("Title:");
 
         assignedToChoiceButton.setText("Add / Remove");

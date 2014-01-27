@@ -94,8 +94,7 @@ public class IndexController implements Observer {
             view.setDetailViewPanel(taskDetailView);
             taskDetailView.addAssetEditButtonActionListener(new TaskDetailAssetEditButtonActionListener());
             
-            boolean canEdit = (this.currentUser.getRole() == Role.ProjectManager || this.currentUser.getRole() == Role.ProjectCoordinator);
-            taskDetailController = new TaskDetailController(taskDetailView, view.getSelectedTask(), canEdit);
+            taskDetailController = new TaskDetailController(taskDetailView, view.getSelectedTask(), currentUser);
             taskDetailController.initialise();
         }
     }
@@ -184,7 +183,7 @@ public class IndexController implements Observer {
             TaskDetailView detailView = new TaskDetailView();
             detailView.addDiscardButtonActionListener(new DiscardNewProjectActionListener());
             
-            taskDetailController = new TaskDetailController(detailView, new Task());
+            taskDetailController = new TaskDetailController(detailView, new Task(), currentUser);
             taskDetailController.initialise();
             
             view.clearTaskSelection();

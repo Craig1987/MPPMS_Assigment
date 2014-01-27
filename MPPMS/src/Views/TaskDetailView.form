@@ -211,9 +211,6 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="textTaskTitle">
-      <Properties>
-        <Property name="focusable" type="boolean" value="false"/>
-      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="lblTaskTitle">
       <Properties>

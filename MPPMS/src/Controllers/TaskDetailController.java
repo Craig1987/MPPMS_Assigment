@@ -7,6 +7,7 @@ import Models.SetOfAssets;
 import Models.SetOfUsers;
 import Models.Task;
 import Models.User;
+import Models.User.Role;
 import Views.TaskDetailView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,24 +23,19 @@ import javax.swing.event.ListSelectionListener;
 public class TaskDetailController implements Observer {
     private final TaskDetailView view;
     private final boolean canEdit;
+    private final User currentUser;
     
     private Task task;
     private boolean isNew;
     
     private ModelChoiceController modelChoiceController;
     
-    public TaskDetailController(TaskDetailView view, Task task) {
+    public TaskDetailController(TaskDetailView view, Task task, User currentUser) {
         this.view = view;
         this.task = task;
-        this.isNew = true;
-        this.canEdit = false;
-    }
-    
-    public TaskDetailController(TaskDetailView view, Task task, boolean canEdit) {
-        this.view = view;
-        this.task = task;
-        this.isNew = false;
-        this.canEdit = canEdit;
+        this.isNew = task.getId() == 0;
+        this.canEdit = (currentUser.getRole() == Role.ProjectManager || currentUser.getRole() == Role.ProjectCoordinator);;
+        this.currentUser = currentUser;
     }
     
     public void initialise() {
@@ -203,7 +199,7 @@ public class TaskDetailController implements Observer {
     class EditReportActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ae) {
-            ReportDetailController reportDetailController = new ReportDetailController(task.getReport(), view);
+            ReportDetailController reportDetailController = new ReportDetailController(task.getReport(), view, currentUser);
             reportDetailController.launch();
         }
     }
