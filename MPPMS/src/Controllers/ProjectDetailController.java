@@ -11,10 +11,12 @@ import Models.User;
 import Views.ProjectDetailView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.DefaultListSelectionModel;
+import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -86,6 +88,24 @@ public class ProjectDetailController implements Observer {
     public Component getSelectedComponent() {
         return (Component)this.view.getSelectedComponent();
     }
+    
+    private boolean validateUserInputs() {
+        ArrayList<String> errors = new ArrayList();
+        
+        if (this.view.getProjectTitle().equals("")) {
+            errors.add("\t - Enter a title");
+        }
+        
+        if (errors.size() > 0) {
+            String errorMsg = "Unable to save new Asset.\nDetails:";
+            for (String error : errors) {
+                errorMsg += "\n" + error;
+            }
+            JOptionPane.showMessageDialog(this.view, errorMsg, "Unable to Save", JOptionPane.INFORMATION_MESSAGE);
+            return false;
+        }
+        return true;
+    }
 
     @Override
     public void update(Observable o, Object o1) {
@@ -98,40 +118,42 @@ public class ProjectDetailController implements Observer {
     class SaveButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (modelChoiceController != null) {
-                modelChoiceController.closeView();
+            if (validateUserInputs()) {
+                Object[] objects = view.getTeam();
+                SetOfUsers team = new SetOfUsers();
+                for (Object object : objects) {
+                    team.add((User)object);
+                }
+
+                objects = view.getTasks();
+                SetOfTasks tasks = new SetOfTasks();
+                for (Object object : objects) {
+                    tasks.add((Task)object);
+                }
+
+                objects = view.getProjectComponents();
+                SetOfComponents components = new SetOfComponents();
+                for (Object object : objects) {
+                    components.add((Component)object);
+                }
+
+                Project newProject = new Project(project.getId(), view.getCreationDate());
+                newProject.setDeadline(view.getDeadlineDate());
+                newProject.setTitle(view.getProjectTitle());
+                newProject.setPriority(Project.Priority.valueOf(view.getPriority().toString()));
+                newProject.setManager((User)view.getManager());
+                newProject.setCoordinator((User)view.getCoordinator());
+                newProject.setTeam(team);
+                newProject.setTasks(tasks);
+                newProject.setComponents(components);
+                if (newProject.save()) {
+                    if (modelChoiceController != null) {
+                        modelChoiceController.closeView();
+                    }
+                    view.setEditMode(false, canEdit);
+                    isNew = false;
+                }
             }
-            view.setEditMode(false, canEdit);
-            isNew = false;
-            
-            Object[] objects = view.getTeam();
-            SetOfUsers team = new SetOfUsers();
-            for (Object object : objects) {
-                team.add((User)object);
-            }
-            
-            objects = view.getTasks();
-            SetOfTasks tasks = new SetOfTasks();
-            for (Object object : objects) {
-                tasks.add((Task)object);
-            }
-            
-            objects = view.getProjectComponents();
-            SetOfComponents components = new SetOfComponents();
-            for (Object object : objects) {
-                components.add((Component)object);
-            }
-            
-            Project newProject = new Project(project.getId(), view.getCreationDate());
-            newProject.setDeadline(view.getDeadlineDate());
-            newProject.setTitle(view.getProjectTitle());
-            newProject.setPriority(Project.Priority.valueOf(view.getPriority().toString()));
-            newProject.setManager((User)view.getManager());
-            newProject.setCoordinator((User)view.getCoordinator());
-            newProject.setTeam(team);
-            newProject.setTasks(tasks);
-            newProject.setComponents(components);
-            newProject.save();
         }        
     }
     

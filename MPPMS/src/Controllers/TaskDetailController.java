@@ -10,10 +10,12 @@ import Models.User;
 import Views.TaskDetailView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.DefaultListSelectionModel;
+import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -70,6 +72,24 @@ public class TaskDetailController implements Observer {
         view.setAssignedTo(task.getAssignedTo().toArray());
         view.setAssets(task.getAssets().toArray());
     }
+    
+    private boolean validateUserInputs() {
+        ArrayList<String> errors = new ArrayList();
+        
+        if (this.view.getTaskTitle().equals("")) {
+            errors.add("\t - Enter a title");
+        }
+        
+        if (errors.size() > 0) {
+            String errorMsg = "Unable to save new Asset.\nDetails:";
+            for (String error : errors) {
+                errorMsg += "\n" + error;
+            }
+            JOptionPane.showMessageDialog(this.view, errorMsg, "Unable to Save", JOptionPane.INFORMATION_MESSAGE);
+            return false;
+        }
+        return true;
+    }
 
     @Override
     public void update(Observable o, Object o1) {
@@ -86,32 +106,34 @@ public class TaskDetailController implements Observer {
     class SaveButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (modelChoiceController != null) {
-                modelChoiceController.closeView();
+            if (validateUserInputs()) {
+                Object[] objects = view.getAssignedTo();
+                SetOfUsers assignedTo = new SetOfUsers();
+                for (Object object : objects) {
+                    assignedTo.add((User)object);
+                }
+
+                objects = view.getAssets();
+                SetOfAssets assets = new SetOfAssets();
+                for (Object object : objects) {
+                    assets.add((Asset)object);
+                }
+
+                Task newTask = new Task(task.getId(), Task.TaskType.valueOf(view.getTaskType().toString()));
+                newTask.setTitle(view.getTaskTitle());            
+                newTask.setPriority(Task.Priority.valueOf(view.getPriority().toString()));
+                newTask.setStatus(Task.Status.valueOf(view.getStatus().toString()));
+                newTask.setReport(Report.getReportByID(task.getReport().getId()));
+                newTask.setAssignedTo(assignedTo);
+                newTask.setAssets(assets);
+                if (newTask.save()) {
+                    if (modelChoiceController != null) {
+                        modelChoiceController.closeView();
+                    }
+                    view.setEditMode(false, canEdit);
+                    isNew = false;
+                }
             }
-            view.setEditMode(false, canEdit);
-            isNew = false;
-            
-            Object[] objects = view.getAssignedTo();
-            SetOfUsers assignedTo = new SetOfUsers();
-            for (Object object : objects) {
-                assignedTo.add((User)object);
-            }
-            
-            objects = view.getAssets();
-            SetOfAssets assets = new SetOfAssets();
-            for (Object object : objects) {
-                assets.add((Asset)object);
-            }
-            
-            Task newTask = new Task(task.getId(), Task.TaskType.valueOf(view.getTaskType().toString()));
-            newTask.setTitle(view.getTaskTitle());            
-            newTask.setPriority(Task.Priority.valueOf(view.getPriority().toString()));
-            newTask.setStatus(Task.Status.valueOf(view.getStatus().toString()));
-            newTask.setReport(Report.getReportByID(task.getReport().getId()));
-            newTask.setAssignedTo(assignedTo);
-            newTask.setAssets(assets);
-            newTask.save();
         }        
     }
     

@@ -167,7 +167,7 @@ public class Project {
         return null;
     }
     
-    public void save() {
+    public boolean save() {
         if (id == 0){
             id = getAllProjects().get(getAllProjects().size() - 1).getId();
         }
@@ -180,9 +180,9 @@ public class Project {
         }
         allProjects = null;
         
-        SetOfUsers users = User.getAllUsers();
         AppObservable.getInstance().notifyObserversToRefresh();
-        users = User.getAllUsers();
+        
+        return false;
     }
     
     private static void populateProjects() {

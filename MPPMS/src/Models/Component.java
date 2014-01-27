@@ -80,7 +80,7 @@ public class Component extends Model {
         return null;
     }
     
-    public void save() {
+    public boolean save() {
         if (id == 0) {
             id = getAllComponents().get(getAllComponents().size() - 1).getId() + 1;
         }
@@ -92,6 +92,8 @@ public class Component extends Model {
         }
         allComponents = null;
         AppObservable.getInstance().notifyObserversToRefresh();
+        
+        return false;
     }
     
     private static void populateComponents() {

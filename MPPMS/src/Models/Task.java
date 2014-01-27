@@ -153,7 +153,7 @@ public class Task extends Model {
         return tasks;
     }
     
-    public void save() {
+    public boolean save() {
         if (id == 0) {
             id = getAllTasks().get(getAllTasks().size() - 1).getId() + 1;
         }
@@ -165,6 +165,8 @@ public class Task extends Model {
         }
         allTasks = null;
         AppObservable.getInstance().notifyObserversToRefresh();
+        
+        return false;
     }
 
     

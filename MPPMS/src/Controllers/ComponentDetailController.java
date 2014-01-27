@@ -7,10 +7,12 @@ import Models.SetOfAssets;
 import Views.ComponentDetailView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.DefaultListSelectionModel;
+import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -55,6 +57,27 @@ public class ComponentDetailController implements Observer {
         return (Asset)this.view.getSelectedAsset();
     }
     
+    private boolean validateUserInputs() {
+        ArrayList<String> errors = new ArrayList();
+        
+        if (this.view.getDescription().equals("")) {
+            errors.add("\t - Enter a description");
+        }
+        if (this.view.getAssets().length == 0) {
+            errors.add("\t - Add at least one Asset");
+        }
+        
+        if (errors.size() > 0) {
+            String errorMsg = "Unable to save new Asset.\nDetails:";
+            for (String error : errors) {
+                errorMsg += "\n" + error;
+            }
+            JOptionPane.showMessageDialog(this.view, errorMsg, "Unable to Save", JOptionPane.INFORMATION_MESSAGE);
+            return false;
+        }
+        return true;
+    }
+    
     @Override
     public void update(Observable o, Object o1) {
         if (!this.isNew) {
@@ -66,21 +89,23 @@ public class ComponentDetailController implements Observer {
     class SaveButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (modelChoiceController != null) {
-                modelChoiceController.closeView();
+            if (validateUserInputs()) {
+                Object[] objects = view.getAssets();
+                SetOfAssets assets = new SetOfAssets();
+                for (Object object : objects) {
+                    assets.add((Asset)object);
+                }
+
+                Component newComponent = new Component(component.getId(), view.getDescription());
+                newComponent.setAssets(assets);            
+                if (newComponent.save()) {
+                    if (modelChoiceController != null) {
+                        modelChoiceController.closeView();
+                    }
+                    view.setEditMode(false);
+                    isNew = false;
+                }
             }
-            view.setEditMode(false);
-            isNew = false;
-            
-            Object[] objects = view.getAssets();
-            SetOfAssets assets = new SetOfAssets();
-            for (Object object : objects) {
-                assets.add((Asset)object);
-            }
-            
-            Component newComponent = new Component(component.getId(), view.getDescription());
-            newComponent.setAssets(assets);            
-            newComponent.save();
         }        
     }
     

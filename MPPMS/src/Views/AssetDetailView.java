@@ -36,7 +36,12 @@ public class AssetDetailView extends javax.swing.JPanel {
     }
     
     public int getLength() {
-        return Integer.parseInt(this.lengthText.getText());
+        try {
+            return Integer.parseInt(this.lengthText.getText());
+        }
+        catch (NumberFormatException nfEx) {
+            return -1;
+        }
     }
     
     public void setType(Object[] items, Object selectedItem) {
