@@ -1,6 +1,7 @@
 package Views;
 
 import java.awt.event.ActionListener;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.event.ListSelectionListener;
 
 public class ProjectOverviewView extends javax.swing.JFrame {
@@ -9,20 +10,51 @@ public class ProjectOverviewView extends javax.swing.JFrame {
         initComponents();
     }
     
-    public void setInfoLabel(String text) {
-        this.infoLabel.setText(text);
+    public void setProjects(Object[] items, Object selectedItem) {
+        this.projectCombo.setModel(new DefaultComboBoxModel<>(items));
+        this.projectCombo.setSelectedItem(selectedItem);
+    }
+    
+    public Object getSelectedProject() {
+        return this.projectCombo.getSelectedItem();
+    }
+    
+    public void setSelectedProject(Object task) {
+        this.projectCombo.setSelectedItem(task);
+    }
+    
+    public void setOptions(Object[] items, Object selectedItem) {
+        this.optionCombo.setModel(new DefaultComboBoxModel<>(items));
+        this.optionCombo.setSelectedItem(selectedItem);
+    }
+    
+    public Object getOption() {
+        return this.optionCombo.getSelectedItem();
     }
     
     public void setOptionLabel(String text) {
         this.optionLabel.setText(text);
     }
     
-    public void setTasks(Object[] tasks) {
+    public void setTasks(Object[] tasks, Object task) {
         this.tasksList.setListData(tasks);
+        this.tasksList.setSelectedValue(task, true);
+    }
+    
+    public Object getSelectedTask() {
+        return this.tasksList.getSelectedValue();
+    }
+    
+    public void setSelectedTask(Object task) {
+        this.tasksList.setSelectedValue(task, true);
     }
     
     public void setViewButtonEnabled(boolean enable) {
         this.viewButton.setEnabled(enable);
+    }
+    
+    public void addProjectComboActionListener(ActionListener listener) {
+        this.projectCombo.addActionListener(listener);
     }
     
     public void addOptionComboActionListener(ActionListener listener) {
@@ -47,28 +79,30 @@ public class ProjectOverviewView extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        infoLabel = new javax.swing.JLabel();
         optionCombo = new javax.swing.JComboBox();
         jLabel2 = new javax.swing.JLabel();
         optionLabel = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tasksList = new javax.swing.JList();
         viewButton = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        projectCombo = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel1.setText("Project Overview");
 
-        infoLabel.setText("project.toString()");
-
         jLabel2.setText("View:");
 
         optionLabel.setText("Tasks 'In Progress' for this Project");
 
+        tasksList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(tasksList);
 
         viewButton.setText("View");
+
+        jLabel3.setText("Project:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -77,20 +111,23 @@ public class ProjectOverviewView extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(optionCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(viewButton))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
-                            .addComponent(infoLabel)
                             .addComponent(optionLabel))
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(viewButton)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(optionCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(projectCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -99,15 +136,17 @@ public class ProjectOverviewView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(infoLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(projectCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(8, 8, 8)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(optionCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(optionLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(viewButton)
                 .addContainerGap())
@@ -117,12 +156,13 @@ public class ProjectOverviewView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel infoLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JComboBox optionCombo;
     private javax.swing.JLabel optionLabel;
+    private javax.swing.JComboBox projectCombo;
     private javax.swing.JList tasksList;
     private javax.swing.JButton viewButton;
     // End of variables declaration//GEN-END:variables

@@ -52,6 +52,7 @@ public class ProjectDetailController implements Observer {
         this.view.setEditMode(this.isNew, this.canEdit);
         this.view.setCanEditTask(false);
         this.view.setCanEditComponent(false);
+        this.view.setCanViewOverview(this.canEdit && !this.isNew);
 
         // Add event listeners
         this.view.addTeamChoiceActionListener(new TeamChoiceActionListener());

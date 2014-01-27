@@ -8,7 +8,7 @@
             <Username>Joe90</Username>
             <Userrname>Gail</Userrname>
         </AssignedTo>
-        <Status>Ongoing</Status>
+        <Status>In_Progress</Status>
         <Priority>Low</Priority>
         <ReportID>1</ReportID>
         <Assets>
@@ -61,7 +61,7 @@
             <Userrname>Zed</Userrname>
             <Userrname>Co</Userrname>
         </AssignedTo>
-        <Status>Ongoing</Status>
+        <Status>In_Progress</Status>
         <Priority>High</Priority>
         <ReportID>1</ReportID>
         <Assets>

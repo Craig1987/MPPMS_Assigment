@@ -26,8 +26,8 @@ public class User extends Model {
     public enum Role {
         ProjectCoordinator,
         ProjectManager,
-        QATeamLeader,
-        QATeamMember,
+        QCTeamLeader,
+        QCTeamMember,
         Client
     }
     
