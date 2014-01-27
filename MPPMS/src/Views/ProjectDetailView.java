@@ -5,7 +5,6 @@ import java.util.Calendar;
 import java.util.Date;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.ListModel;
 import javax.swing.event.ListSelectionListener;
 
@@ -20,10 +19,10 @@ public class ProjectDetailView extends javax.swing.JPanel {
         this.pickDeadlineDate.setMinSelectableDate(calendar.getTime());
     }
     
-    public void setEditMode(boolean editMode) {
+    public void setEditMode(boolean editMode, boolean canEditProject) {
         saveButton.setVisible(editMode);
         discardButton.setVisible(editMode);
-        editButton.setVisible(!editMode);
+        editButton.setVisible(!editMode && canEditProject);
         textProjectTitle.setEnabled(editMode);
         managerCombo.setEnabled(editMode);
         coordinatorCombo.setEnabled(editMode);

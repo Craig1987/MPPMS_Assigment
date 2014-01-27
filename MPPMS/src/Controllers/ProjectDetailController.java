@@ -20,6 +20,8 @@ import javax.swing.event.ListSelectionListener;
 
 public class ProjectDetailController implements Observer {
     private final ProjectDetailView view;
+    private final boolean canEdit;
+    private final boolean canEditTasks;
     
     private Project project;    
     private boolean isNew;
@@ -29,13 +31,23 @@ public class ProjectDetailController implements Observer {
     public ProjectDetailController(ProjectDetailView view, Project project) {
         this.view = view;        
         this.project = project;
-        this.isNew = project.getId() < 1;
+        this.isNew = true;
+        this.canEdit = true;
+        this.canEditTasks = true;
+    }
+    
+    public ProjectDetailController(ProjectDetailView view, Project project, boolean canEdit, boolean canEditTasks) {
+        this.view = view;        
+        this.project = project;
+        this.isNew = false;
+        this.canEdit = canEdit;
+        this.canEditTasks = canEditTasks;
     }
     
     public void initialise() {
         refreshView();
             
-        this.view.setEditMode(this.isNew);
+        this.view.setEditMode(this.isNew, this.canEdit);
         this.view.setCanEditTask(false);
         this.view.setCanEditComponent(false);
 
@@ -89,7 +101,7 @@ public class ProjectDetailController implements Observer {
             if (modelChoiceController != null) {
                 modelChoiceController.closeView();
             }
-            view.setEditMode(false);
+            view.setEditMode(false, canEdit);
             isNew = false;
             
             Object[] objects = view.getTeam();
@@ -129,7 +141,7 @@ public class ProjectDetailController implements Observer {
             if (modelChoiceController != null) {
                 modelChoiceController.closeView();
             }
-            view.setEditMode(false);
+            view.setEditMode(false, canEdit);
             refreshView();
         }        
     }
@@ -137,7 +149,7 @@ public class ProjectDetailController implements Observer {
     class EditButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {   
-            view.setEditMode(true);
+            view.setEditMode(true, canEdit);
         }        
     }
     
@@ -200,7 +212,7 @@ public class ProjectDetailController implements Observer {
     class TasksListSelectionListener implements ListSelectionListener {
         @Override
         public void valueChanged(ListSelectionEvent lse) {
-            view.setCanEditTask(!((DefaultListSelectionModel)lse.getSource()).isSelectionEmpty());
+            view.setCanEditTask(!((DefaultListSelectionModel)lse.getSource()).isSelectionEmpty() && canEditTasks);
         }
     }
     

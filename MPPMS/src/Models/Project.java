@@ -1,6 +1,7 @@
 package Models;
 
 import Application.AppObservable;
+import Models.User.Role;
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
@@ -21,9 +22,9 @@ import org.xml.sax.SAXException;
 public class Project {
     private static SetOfProjects allProjects = null;
     
-    private int id;
-    private Date creationDate;
+    private final Date creationDate;
     
+    private int id;
     private String title;    
     private User manager;
     private User coordinator;
@@ -149,7 +150,8 @@ public class Project {
     public static SetOfProjects getProjectsForUser(User user) {
         SetOfProjects projects = new SetOfProjects();
         for (Project project : getAllProjects()) {
-            if (project.getManager() == user || project.getCoordinator() == user || project.getTeam().contains(user)) {
+            if (user.getRole() == Role.ProjectManager || project.getManager() == user 
+                    || project.getCoordinator() == user || project.getTeam().contains(user)) {
                 projects.add(project);
             }
         }

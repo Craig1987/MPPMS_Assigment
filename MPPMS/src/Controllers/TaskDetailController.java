@@ -19,6 +19,7 @@ import javax.swing.event.ListSelectionListener;
 
 public class TaskDetailController implements Observer {
     private final TaskDetailView view;
+    private final boolean canEdit;
     
     private Task task;
     private boolean isNew;
@@ -28,13 +29,21 @@ public class TaskDetailController implements Observer {
     public TaskDetailController(TaskDetailView view, Task task) {
         this.view = view;
         this.task = task;
-        this.isNew = this.task.getId() < 1;
+        this.isNew = true;
+        this.canEdit = false;
+    }
+    
+    public TaskDetailController(TaskDetailView view, Task task, boolean canEdit) {
+        this.view = view;
+        this.task = task;
+        this.isNew = false;
+        this.canEdit = canEdit;
     }
     
     public void initialise() {
         refreshView();
         
-        this.view.setEditMode(this.isNew);
+        this.view.setEditMode(this.isNew, this.canEdit);
         this.view.setCanEditAsset(false);
         
         this.view.addAssignedToChoiceActionListener(new AssignedToChoiceActionListener());
@@ -80,7 +89,7 @@ public class TaskDetailController implements Observer {
             if (modelChoiceController != null) {
                 modelChoiceController.closeView();
             }
-            view.setEditMode(false);
+            view.setEditMode(false, canEdit);
             isNew = false;
             
             Object[] objects = view.getAssignedTo();
@@ -112,7 +121,7 @@ public class TaskDetailController implements Observer {
             if (modelChoiceController != null) {
                 modelChoiceController.closeView();
             }
-            view.setEditMode(false);
+            view.setEditMode(false, canEdit);
             refreshView();
         }        
     }
@@ -120,7 +129,7 @@ public class TaskDetailController implements Observer {
     class EditButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {   
-            view.setEditMode(true);
+            view.setEditMode(true, canEdit);
         }        
     }
     

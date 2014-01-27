@@ -1,6 +1,7 @@
 package Models;
 
 import Application.AppObservable;
+import Models.User.Role;
 import java.io.File;
 import java.io.IOException;
 import javax.xml.parsers.DocumentBuilder;
@@ -145,7 +146,7 @@ public class Task extends Model {
     public static SetOfTasks getTasksForUser(User user) {
         SetOfTasks tasks = new SetOfTasks();
         for (Task task : getAllTasks()) {
-            if (task.getAssignedTo().contains(user)) {
+            if (task.getAssignedTo().contains(user) || user.getRole() == Role.ProjectManager || user.getRole() == Role.ProjectCoordinator) {
                 tasks.add(task);
             }
         }

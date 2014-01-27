@@ -2,7 +2,6 @@ package Views;
 
 import Models.Asset;
 import Models.Component;
-import Models.Model;
 import Models.Project;
 import Models.SetOfAssets;
 import Models.SetOfComponents;
@@ -32,6 +31,14 @@ public class IndexView extends javax.swing.JFrame {
     
     public void setWelcomeMessage(String message) {
         this.welcomeLabel.setText(message);
+    }
+    
+    public void setCreateProjectButtonEnabled(boolean enabled) {
+        this.newProjectButton.setEnabled(enabled);
+    }
+    
+    public void setCreateTaskButtonEnabled(boolean enabled) {
+        this.newTaskButton.setEnabled(enabled);
     }
     
     public void setProjectsTableData(SetOfProjects projects) {

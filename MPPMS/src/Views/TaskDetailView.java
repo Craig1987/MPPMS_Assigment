@@ -12,10 +12,10 @@ public class TaskDetailView extends javax.swing.JPanel {
         initComponents();
     }
     
-    public void setEditMode(boolean editMode) {
+    public void setEditMode(boolean editMode, boolean canEditTask) {
         saveButton.setVisible(editMode);
         discardButton.setVisible(editMode);
-        editButton.setVisible(!editMode);
+        editButton.setVisible(!editMode && canEditTask);
         textTaskTitle.setEnabled(editMode);
         cmboTaskType.setEnabled(editMode);
         cmboPriority.setEnabled(editMode);

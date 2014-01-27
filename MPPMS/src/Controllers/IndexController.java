@@ -6,6 +6,7 @@ import Models.Component;
 import Models.Project;
 import Models.Task;
 import Models.User;
+import Models.User.Role;
 import Views.AssetDetailView;
 import Views.ComponentDetailView;
 import Views.ProjectDetailView;
@@ -25,7 +26,7 @@ import javax.swing.event.ListSelectionListener;
 public class IndexController implements Observer {
     private final User currentUser;
     
-    private IndexView view = new IndexView();
+    private final IndexView view = new IndexView();
     private ProjectDetailController projectDetailController;
     private TaskDetailController taskDetailController;
     private ComponentDetailController componentDetailController;
@@ -38,21 +39,21 @@ public class IndexController implements Observer {
     public void launch() {
         populateTables();
         
-        this.view.setWelcomeMessage("Welcome, " + currentUser.getName() + "!");        
+        this.view.setWelcomeMessage("Welcome, " + currentUser.getName() + "!");
+        
+        this.view.setCreateProjectButtonEnabled(this.currentUser.getRole() == Role.ProjectManager);
+        this.view.setCreateTaskButtonEnabled(this.currentUser.getRole() == Role.ProjectManager);
         
         this.view.addNewProjectButtonActionListener(new NewProjectButtonActionListener());
         this.view.addNewTaskButtonActionListener(new NewTaskButtonActionListener());
         this.view.addNewComponentButtonActionListener(new NewComponentButtonActionListener());
-        this.view.addNewAssetButtonActionListener(new NewAssetButtonActionListener());
-        
+        this.view.addNewAssetButtonActionListener(new NewAssetButtonActionListener());        
         this.view.addUserMenuLogOutActionListener(new UserMenuLogOutActionListener());
-        this.view.addApplicationMenuExitActionListener(new ApplicationMenuExitActionListener());
-        
+        this.view.addApplicationMenuExitActionListener(new ApplicationMenuExitActionListener());        
         this.view.addProjectsTableListSelectionListener(new ProjectsTableListSelectionListener());
         this.view.addTasksTableListSelectionListener(new TasksTableListSelectionListener());
         this.view.addComponentsTableListSelectionListener(new ComponentsTableListSelectionListener());
-        this.view.addAssetsTableListSelectionListener(new AssetsTableListSelectionListener());
-        
+        this.view.addAssetsTableListSelectionListener(new AssetsTableListSelectionListener());        
         this.view.addTabChangeListener(new TabChangeListener());
         
         this.view.setVisible(true);
@@ -77,7 +78,9 @@ public class IndexController implements Observer {
             projectDetailView.addTaskEditButtonActionListener(new ProjectDetailTaskEditButtonActionListener());
             projectDetailView.addComponentEditButtonActionListener(new ProjectDetailComponentEditButtonActionListener());
             
-            projectDetailController = new ProjectDetailController(projectDetailView, view.getSelectedProject());
+            boolean canEdit = currentUser.getRole() == Role.ProjectManager;
+            boolean canEditTasks = canEdit || currentUser.getRole() == Role.ProjectCoordinator;
+            projectDetailController = new ProjectDetailController(projectDetailView, view.getSelectedProject(), canEdit, canEditTasks);
             projectDetailController.initialise();
         }
     }
@@ -91,7 +94,8 @@ public class IndexController implements Observer {
             view.setDetailViewPanel(taskDetailView);
             taskDetailView.addAssetEditButtonActionListener(new TaskDetailAssetEditButtonActionListener());
             
-            taskDetailController = new TaskDetailController(taskDetailView, view.getSelectedTask());
+            boolean canEdit = (this.currentUser.getRole() == Role.ProjectManager || this.currentUser.getRole() == Role.ProjectCoordinator);
+            taskDetailController = new TaskDetailController(taskDetailView, view.getSelectedTask(), canEdit);
             taskDetailController.initialise();
         }
     }
