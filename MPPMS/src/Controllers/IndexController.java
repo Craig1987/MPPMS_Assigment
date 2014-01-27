@@ -44,7 +44,9 @@ public class IndexController implements Observer {
         this.view.setWelcomeMessage("Welcome, " + currentUser.getName() + "!");
         
         this.view.setCreateProjectButtonEnabled(this.currentUser.getRole() == Role.ProjectManager);
-        this.view.setCreateTaskButtonEnabled(this.currentUser.getRole() == Role.ProjectManager);
+        this.view.setCreateTaskButtonEnabled(this.currentUser.getRole() == Role.ProjectManager ||
+                                                this.currentUser.getRole() == Role.ProjectCoordinator ||
+                                                this.currentUser.getRole() == Role.QCTeamLeader);
         
         this.view.addNewProjectButtonActionListener(new NewProjectButtonActionListener());
         this.view.addNewTaskButtonActionListener(new NewTaskButtonActionListener());
@@ -82,7 +84,7 @@ public class IndexController implements Observer {
             projectDetailView.addOverviewButtonActionListener(new ProjectDetailOverviewButtonActionListener());
             
             boolean canEdit = currentUser.getRole() == Role.ProjectManager;
-            boolean canEditTasks = canEdit || currentUser.getRole() == Role.ProjectCoordinator;
+            boolean canEditTasks = canEdit || currentUser.getRole() == Role.ProjectCoordinator || currentUser.getRole() == Role.QCTeamLeader;
             projectDetailController = new ProjectDetailController(projectDetailView, view.getSelectedProject(), canEdit, canEditTasks);
             projectDetailController.initialise();
         }

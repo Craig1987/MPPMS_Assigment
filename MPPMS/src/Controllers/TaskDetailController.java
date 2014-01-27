@@ -34,7 +34,9 @@ public class TaskDetailController implements Observer {
         this.view = view;
         this.task = task;
         this.isNew = task.getId() == 0;
-        this.canEdit = (currentUser.getRole() == Role.ProjectManager || currentUser.getRole() == Role.ProjectCoordinator);
+        this.canEdit = (currentUser.getRole() == Role.ProjectManager || 
+                        currentUser.getRole() == Role.ProjectCoordinator || 
+                        currentUser.getRole() == Role.QCTeamLeader);
         this.currentUser = currentUser;
     }
     
