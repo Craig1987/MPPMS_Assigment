@@ -167,6 +167,11 @@ public class Project {
         return null;
     }
     
+    @Override
+    public String toString() {
+        return "(ID: " + getId() + ") " + getTitle();
+    }
+    
     public boolean save() {
         if (id == 0){
             id = getAllProjects().get(getAllProjects().size() - 1).getId();

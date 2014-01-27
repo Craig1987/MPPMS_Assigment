@@ -34,7 +34,8 @@ public class Task extends Model {
     
     public enum Status {
         New,
-        Ongoing,
+        Assigned,
+        In_Progress,
         Completed
     }
     public enum Priority {
@@ -147,6 +148,16 @@ public class Task extends Model {
         SetOfTasks tasks = new SetOfTasks();
         for (Task task : getAllTasks()) {
             if (task.getAssignedTo().contains(user) || user.getRole() == Role.ProjectManager || user.getRole() == Role.ProjectCoordinator) {
+                tasks.add(task);
+            }
+        }
+        return tasks;
+    }
+    
+    public static SetOfTasks getTasksByStatus(Status status) {
+        SetOfTasks tasks = new SetOfTasks();
+        for (Task task : getAllTasks()) {
+            if (task.getStatus() == status) {
                 tasks.add(task);
             }
         }

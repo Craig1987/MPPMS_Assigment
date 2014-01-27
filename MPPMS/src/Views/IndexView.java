@@ -299,7 +299,7 @@ public class IndexView extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("MPPMS - Home");
-        setPreferredSize(new java.awt.Dimension(900, 555));
+        setPreferredSize(new java.awt.Dimension(1000, 555));
 
         projectSplitPane.setBorder(null);
         projectSplitPane.setDividerLocation(450);
@@ -310,7 +310,7 @@ public class IndexView extends javax.swing.JFrame {
         detailPanel.setLayout(detailPanelLayout);
         detailPanelLayout.setHorizontalGroup(
             detailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(detailScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 445, Short.MAX_VALUE)
+            .addComponent(detailScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 545, Short.MAX_VALUE)
         );
         detailPanelLayout.setVerticalGroup(
             detailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

@@ -11,6 +11,7 @@ import Views.AssetDetailView;
 import Views.ComponentDetailView;
 import Views.ProjectDetailView;
 import Views.IndexView;
+import Views.ProjectOverviewView;
 import Views.TaskDetailView;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
@@ -31,6 +32,7 @@ public class IndexController implements Observer {
     private TaskDetailController taskDetailController;
     private ComponentDetailController componentDetailController;
     private AssetDetailController assetDetailController;
+    private ProjectOverviewController projectOverviewController;
     
     public IndexController(User currentUser) {
         this.currentUser = currentUser;
@@ -77,6 +79,7 @@ public class IndexController implements Observer {
             view.setDetailViewPanel(projectDetailView);
             projectDetailView.addTaskEditButtonActionListener(new ProjectDetailTaskEditButtonActionListener());
             projectDetailView.addComponentEditButtonActionListener(new ProjectDetailComponentEditButtonActionListener());
+            projectDetailView.addOverviewButtonActionListener(new ProjectDetailOverviewButtonActionListener());
             
             boolean canEdit = currentUser.getRole() == Role.ProjectManager;
             boolean canEditTasks = canEdit || currentUser.getRole() == Role.ProjectCoordinator;
@@ -310,6 +313,14 @@ public class IndexController implements Observer {
         public void actionPerformed(ActionEvent e) {
             view.setSelectedAsset(componentDetailController.getSelectedAsset());
             view.setSelectedTab("Assets");
+        }
+    }
+    
+    class ProjectDetailOverviewButtonActionListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            projectOverviewController = new ProjectOverviewController(view.getSelectedProject(), new ProjectOverviewView());
+            projectOverviewController.launch();
         }
     }
 }

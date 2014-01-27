@@ -34,6 +34,10 @@ public class ProjectDetailView extends javax.swing.JPanel {
         componentsChoiceButton.setEnabled(editMode);
     }
     
+    public void setCanViewOverview(boolean b) {
+        this.overviewButton.setVisible(b);
+    }
+    
     public void setCanEditTask(boolean canEdit) {
         this.tasksEditButton.setEnabled(canEdit);
     }
@@ -169,6 +173,10 @@ public class ProjectDetailView extends javax.swing.JPanel {
         this.listComponents.getSelectionModel().addListSelectionListener(listener);
     }
     
+    public void addOverviewButtonActionListener(ActionListener listener) {
+        this.overviewButton.addActionListener(listener);
+    }
+    
     private Object[] getItemsFromList(JList list) {
         ListModel model = list.getModel();
         Object[] items = new Object[model.getSize()];
@@ -212,15 +220,16 @@ public class ProjectDetailView extends javax.swing.JPanel {
         teamChoiceButton = new javax.swing.JButton();
         tasksEditButton = new javax.swing.JButton();
         componentsChoiceButton = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
-        discardButton = new javax.swing.JButton();
-        saveButton = new javax.swing.JButton();
-        editButton = new javax.swing.JButton();
         managerCombo = new javax.swing.JComboBox();
         coordinatorCombo = new javax.swing.JComboBox();
         componentsEditButton = new javax.swing.JButton();
         pickCreationDate = new com.toedter.calendar.JDateChooser();
         pickDeadlineDate = new com.toedter.calendar.JDateChooser();
+        overviewButton = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        discardButton = new javax.swing.JButton();
+        saveButton = new javax.swing.JButton();
+        editButton = new javax.swing.JButton();
 
         lblProjectDetails.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblProjectDetails.setText("Project Details");
@@ -252,6 +261,7 @@ public class ProjectDetailView extends javax.swing.JPanel {
         lblComponents.setText("Components:");
 
         listComponents.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        listComponents.setAutoscrolls(false);
         jScrollPane3.setViewportView(listComponents);
 
         tasksChoiceButton.setText("Add / Remove");
@@ -261,6 +271,14 @@ public class ProjectDetailView extends javax.swing.JPanel {
         tasksEditButton.setText("Edit");
 
         componentsChoiceButton.setText("Add / Remove");
+
+        componentsEditButton.setText("Edit");
+
+        pickCreationDate.setDateFormatString("dd MMM yyyy");
+
+        pickDeadlineDate.setDateFormatString("dd MMM yyyy");
+
+        overviewButton.setText("Project overview");
 
         discardButton.setText("Discard changes");
 
@@ -287,12 +305,6 @@ public class ProjectDetailView extends javax.swing.JPanel {
                 .addComponent(editButton))
         );
 
-        componentsEditButton.setText("Edit");
-
-        pickCreationDate.setDateFormatString("dd MMM yyyy");
-
-        pickDeadlineDate.setDateFormatString("dd MMM yyyy");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -302,17 +314,13 @@ public class ProjectDetailView extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                            .addComponent(jScrollPane2)
+                            .addComponent(jScrollPane1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(teamChoiceButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(tasksEditButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(tasksChoiceButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblProjectDetails)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(lblID))
@@ -342,7 +350,13 @@ public class ProjectDetailView extends javax.swing.JPanel {
                             .addComponent(componentsEditButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblComponents)
-                        .addGap(257, 257, 257)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblProjectDetails)
+                        .addGap(18, 18, 18)
+                        .addComponent(overviewButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -350,7 +364,9 @@ public class ProjectDetailView extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblProjectDetails)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblProjectDetails)
+                        .addComponent(overviewButton))
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblID)
@@ -403,7 +419,7 @@ public class ProjectDetailView extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(componentsEditButton))))
                     .addComponent(pickDeadlineDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -434,6 +450,7 @@ public class ProjectDetailView extends javax.swing.JPanel {
     private javax.swing.JList listTasks;
     private javax.swing.JList listTeam;
     private javax.swing.JComboBox managerCombo;
+    private javax.swing.JButton overviewButton;
     private com.toedter.calendar.JDateChooser pickCreationDate;
     private com.toedter.calendar.JDateChooser pickDeadlineDate;
     private javax.swing.JButton saveButton;

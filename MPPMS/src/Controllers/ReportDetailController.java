@@ -19,7 +19,6 @@ public class ReportDetailController implements Observer {
     private final ReportDetailView view = new ReportDetailView();
     private final Report report;
     private final User currentUser;
-    private boolean isNew;
     
     public ReportDetailController(Report report, JPanel locationParent, User currentUser) {
         this.report = report;
