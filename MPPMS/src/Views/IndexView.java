@@ -232,6 +232,10 @@ public class IndexView extends javax.swing.JFrame {
         newAssetButton.addActionListener(listener);
     }
     
+    public void addImportAssetsButtonActionListener(ActionListener listener) {
+        btnImportAssets.addActionListener(listener);
+    }
+    
     public void addUserMenuLogOutActionListener(ActionListener listener) {
         userMenuLogOut.addActionListener(listener);
     }
@@ -290,6 +294,7 @@ public class IndexView extends javax.swing.JFrame {
         assetsScrollPane = new javax.swing.JScrollPane();
         assetsTable = new javax.swing.JTable();
         newAssetButton = new javax.swing.JButton();
+        btnImportAssets = new javax.swing.JButton();
         welcomeLabel = new javax.swing.JLabel();
         projectMenuBar = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -462,22 +467,29 @@ public class IndexView extends javax.swing.JFrame {
 
         newAssetButton.setText("Create New Asset");
 
+        btnImportAssets.setText("Import Assets");
+
         javax.swing.GroupLayout assetsTablePanelLayout = new javax.swing.GroupLayout(assetsTablePanel);
         assetsTablePanel.setLayout(assetsTablePanelLayout);
         assetsTablePanelLayout.setHorizontalGroup(
             assetsTablePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, assetsTablePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(assetsTablePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(assetsTablePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(assetsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 425, Short.MAX_VALUE)
-                    .addComponent(newAssetButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(assetsTablePanelLayout.createSequentialGroup()
+                        .addComponent(newAssetButton, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnImportAssets, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         assetsTablePanelLayout.setVerticalGroup(
             assetsTablePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, assetsTablePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(newAssetButton)
+                .addGroup(assetsTablePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(newAssetButton)
+                    .addComponent(btnImportAssets))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(assetsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 362, Short.MAX_VALUE)
                 .addContainerGap())
@@ -553,6 +565,7 @@ public class IndexView extends javax.swing.JFrame {
     private javax.swing.JScrollPane assetsScrollPane;
     private javax.swing.JTable assetsTable;
     private javax.swing.JPanel assetsTablePanel;
+    private javax.swing.JButton btnImportAssets;
     private javax.swing.JScrollPane componentsScrollPane;
     private javax.swing.JTable componentsTable;
     private javax.swing.JPanel componentsTablePanel;

@@ -9,6 +9,7 @@ import Models.User;
 import Models.User.Role;
 import Views.AssetDetailView;
 import Views.ComponentDetailView;
+import Views.ImportAssetsView;
 import Views.ProjectDetailView;
 import Views.IndexView;
 import Views.TaskDetailView;
@@ -31,6 +32,7 @@ public class IndexController implements Observer {
     private TaskDetailController taskDetailController;
     private ComponentDetailController componentDetailController;
     private AssetDetailController assetDetailController;
+    private ImportAssetsController importAssetsController;
     
     public IndexController(User currentUser) {
         this.currentUser = currentUser;
@@ -47,7 +49,8 @@ public class IndexController implements Observer {
         this.view.addNewProjectButtonActionListener(new NewProjectButtonActionListener());
         this.view.addNewTaskButtonActionListener(new NewTaskButtonActionListener());
         this.view.addNewComponentButtonActionListener(new NewComponentButtonActionListener());
-        this.view.addNewAssetButtonActionListener(new NewAssetButtonActionListener());        
+        this.view.addNewAssetButtonActionListener(new NewAssetButtonActionListener());   
+        this.view.addImportAssetsButtonActionListener(new ImportAssetsButtonActionListener());
         this.view.addUserMenuLogOutActionListener(new UserMenuLogOutActionListener());
         this.view.addApplicationMenuExitActionListener(new ApplicationMenuExitActionListener());        
         this.view.addProjectsTableListSelectionListener(new ProjectsTableListSelectionListener());
@@ -216,6 +219,20 @@ public class IndexController implements Observer {
             
             view.clearAssetSelection();
             view.setDetailViewPanel(detailView);  
+        }
+    }
+    
+    class ImportAssetsButtonActionListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            ImportAssetsView detailView = new ImportAssetsView();
+            //detailView.addDiscardButtonActionListener(new DiscardNewProjectActionListener());
+            
+            importAssetsController = new ImportAssetsController(detailView);
+            importAssetsController.initialise();
+            
+            view.clearAssetSelection();
+            view.setDetailViewPanel(detailView);
         }
     }
     
