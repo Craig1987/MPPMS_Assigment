@@ -19,16 +19,18 @@ import javax.swing.event.ListSelectionListener;
 
 public class TaskDetailController implements Observer {
     private final TaskDetailView view;
+    private final User currentUser;
     
     private Task task;
     private boolean isNew;
     
     private ModelChoiceController modelChoiceController;
     
-    public TaskDetailController(TaskDetailView view, Task task) {
+    public TaskDetailController(TaskDetailView view, Task task, User currentUser) {
         this.view = view;
         this.task = task;
         this.isNew = this.task.getId() < 1;
+        this.currentUser = currentUser;
     }
     
     public void initialise() {
@@ -172,7 +174,7 @@ public class TaskDetailController implements Observer {
     class EditReportActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ae) {
-            ReportDetailController reportDetailController = new ReportDetailController(task.getReport(), view);
+            ReportDetailController reportDetailController = new ReportDetailController(task.getReport(), view, currentUser);
             reportDetailController.launch();
         }
     }

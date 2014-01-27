@@ -90,6 +90,15 @@ public class Report {
         return null;
     }
     
+    public Comment getCommentByID(int id) {
+        for (Comment comment : getAllComments()) {
+            if (comment.getId() == id) {
+                return comment;
+            }
+        }
+        return null;
+    }
+    
     private static void populateReports() {
         try 
         {

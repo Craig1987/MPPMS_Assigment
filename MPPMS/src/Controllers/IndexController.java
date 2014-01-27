@@ -91,7 +91,7 @@ public class IndexController implements Observer {
             view.setDetailViewPanel(taskDetailView);
             taskDetailView.addAssetEditButtonActionListener(new TaskDetailAssetEditButtonActionListener());
             
-            taskDetailController = new TaskDetailController(taskDetailView, view.getSelectedTask());
+            taskDetailController = new TaskDetailController(taskDetailView, view.getSelectedTask(), currentUser);
             taskDetailController.initialise();
         }
     }
@@ -180,7 +180,7 @@ public class IndexController implements Observer {
             TaskDetailView detailView = new TaskDetailView();
             detailView.addDiscardButtonActionListener(new DiscardNewProjectActionListener());
             
-            taskDetailController = new TaskDetailController(detailView, new Task());
+            taskDetailController = new TaskDetailController(detailView, new Task(), currentUser);
             taskDetailController.initialise();
             
             view.clearTaskSelection();

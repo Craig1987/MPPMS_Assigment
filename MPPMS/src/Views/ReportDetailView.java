@@ -9,6 +9,8 @@ import javax.swing.event.ListSelectionListener;
 
 public class ReportDetailView extends javax.swing.JFrame {
     
+    private int id;
+    
     public ReportDetailView() {
         initComponents();
         this.setIconImage(new ImageIcon(getClass().getResource("/resources/icon.png")).getImage());
@@ -20,6 +22,22 @@ public class ReportDetailView extends javax.swing.JFrame {
             return null;
         }
         return (Comment)(listComments.getSelectedValue());
+    }
+    
+    public void setSelectedComment(int commentID) {
+        this.listComments.setSelectedIndex(commentID);
+    }
+    
+    public void setCommentID(int id) {
+        this.id = id;
+    }
+    
+    public int getCommentID() {
+        return id;
+    }
+    
+    public String getContent() {
+        return contentText.getText();
     }
     
     public void setListOfComments(Object[] comments) {
@@ -34,8 +52,8 @@ public class ReportDetailView extends javax.swing.JFrame {
         this.lblCommentID.setText(text);
     }
     
-    public void setCommentDate(Date date) {
-        this.pickDate.setDate(date);
+    public void setCommentDate(String date) {
+        this.lblDisplayDate.setText(date);
     }
     
     public void setUser(String user) {
@@ -47,17 +65,29 @@ public class ReportDetailView extends javax.swing.JFrame {
         this.contentText.setCaretPosition(0);
     }
     
-    public void setControlsEnabled(Boolean enabled) {
-        this.pickDate.setEnabled(enabled);
-        this.lblUserName.setVisible(enabled);
+    public void setUsername(String username) {
+        this.lblUserName.setText(username);
+    }
+    
+    public void setControlsEnabled(boolean enabled) {
         this.contentText.setEnabled(enabled);
     }
     
-    public void setPanelVisibility(Boolean visibility) {
+    public void setPanelVisibility(boolean visibility) {
         Component [] com = this.editCommentPanel.getComponents();
         for (Component com1 : com) {
             com1.setVisible(visibility);
         }
+    }
+    
+    public void clearCommentSelection() {
+        this.listComments.clearSelection();
+    }
+    
+    public void setEditMode(boolean edit) {
+        this.discardButton.setVisible(edit);
+        this.saveButton.setVisible(edit);
+        this.editButton.setVisible(!edit);
     }
     
      public void addEditButtonActionListener(ActionListener listener) {
@@ -75,6 +105,10 @@ public class ReportDetailView extends javax.swing.JFrame {
     public void addCommentsListSelectionListener(ListSelectionListener listener) {
         this.listComments.addListSelectionListener(listener);
     }
+    
+    public void addNewCommentActionListener(ActionListener listener) {
+        this.btnNewComment.addActionListener(listener);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -91,9 +125,9 @@ public class ReportDetailView extends javax.swing.JFrame {
         lblReportID = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         listComments = new javax.swing.JList();
+        btnNewComment = new javax.swing.JButton();
         editCommentPanel = new javax.swing.JPanel();
         lblCommentID = new javax.swing.JLabel();
-        pickDate = new com.toedter.calendar.JDateChooser();
         lblDate = new javax.swing.JLabel();
         lblContent = new javax.swing.JLabel();
         lblUser = new javax.swing.JLabel();
@@ -104,6 +138,7 @@ public class ReportDetailView extends javax.swing.JFrame {
         discardButton = new javax.swing.JButton();
         saveButton = new javax.swing.JButton();
         editButton = new javax.swing.JButton();
+        lblDisplayDate = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("MPPMS - Comments");
@@ -127,6 +162,8 @@ public class ReportDetailView extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(listComments);
 
+        btnNewComment.setText("New Comment");
+
         javax.swing.GroupLayout commentListPanelLayout = new javax.swing.GroupLayout(commentListPanel);
         commentListPanel.setLayout(commentListPanelLayout);
         commentListPanelLayout.setHorizontalGroup(
@@ -134,6 +171,7 @@ public class ReportDetailView extends javax.swing.JFrame {
             .addGroup(commentListPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(commentListPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnNewComment, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane1)
                     .addGroup(commentListPanelLayout.createSequentialGroup()
                         .addComponent(lblComments)
@@ -148,16 +186,16 @@ public class ReportDetailView extends javax.swing.JFrame {
                 .addGroup(commentListPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblComments)
                     .addComponent(lblReportID))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 291, Short.MAX_VALUE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnNewComment)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(16, 16, 16))
         );
 
         reportSplitPane.setLeftComponent(commentListPanel);
 
         lblCommentID.setText("ID:");
-
-        pickDate.setDateFormatString("dd MMM yyyy");
 
         lblDate.setText("Date:");
 
@@ -199,6 +237,8 @@ public class ReportDetailView extends javax.swing.JFrame {
                 .addComponent(editButton))
         );
 
+        lblDisplayDate.setText("jLabel1");
+
         javax.swing.GroupLayout editCommentPanelLayout = new javax.swing.GroupLayout(editCommentPanel);
         editCommentPanel.setLayout(editCommentPanelLayout);
         editCommentPanelLayout.setHorizontalGroup(
@@ -211,10 +251,12 @@ public class ReportDetailView extends javax.swing.JFrame {
                         .addGroup(editCommentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblDate)
                             .addComponent(lblUser))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(editCommentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(pickDate, javax.swing.GroupLayout.PREFERRED_SIZE, 339, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblUserName)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
+                        .addGroup(editCommentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(editCommentPanelLayout.createSequentialGroup()
+                                .addComponent(lblUserName)
+                                .addGap(305, 305, 305))
+                            .addComponent(lblDisplayDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(editCommentPanelLayout.createSequentialGroup()
                         .addComponent(lblContent)
                         .addGap(0, 0, Short.MAX_VALUE))
@@ -236,13 +278,13 @@ public class ReportDetailView extends javax.swing.JFrame {
                     .addComponent(lblUser)
                     .addComponent(lblUserName))
                 .addGap(18, 18, 18)
-                .addGroup(editCommentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pickDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblDate))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(editCommentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblDate)
+                    .addComponent(lblDisplayDate))
+                .addGap(17, 17, 17)
                 .addComponent(lblContent)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -252,7 +294,9 @@ public class ReportDetailView extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(reportSplitPane)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(reportSplitPane, javax.swing.GroupLayout.PREFERRED_SIZE, 666, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -271,6 +315,7 @@ public class ReportDetailView extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnNewComment;
     private javax.swing.JPanel commentControlsPanel;
     private javax.swing.JPanel commentListPanel;
     private javax.swing.JTextArea contentText;
@@ -283,11 +328,11 @@ public class ReportDetailView extends javax.swing.JFrame {
     private javax.swing.JLabel lblComments;
     private javax.swing.JLabel lblContent;
     private javax.swing.JLabel lblDate;
+    private javax.swing.JLabel lblDisplayDate;
     private javax.swing.JLabel lblReportID;
     private javax.swing.JLabel lblUser;
     private javax.swing.JLabel lblUserName;
     private javax.swing.JList listComments;
-    private com.toedter.calendar.JDateChooser pickDate;
     private javax.swing.JSplitPane reportSplitPane;
     private javax.swing.JButton saveButton;
     // End of variables declaration//GEN-END:variables
