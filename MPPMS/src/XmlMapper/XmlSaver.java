@@ -9,6 +9,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
@@ -50,10 +51,14 @@ public class XmlSaver {
         if (doc == null || node == null || root == null || transformer == null)
             return false;
         
+        // Clear any data from before
+        while (node.hasChildNodes())
+            node.removeChild(node.getFirstChild());
+        
         // Update Node's Data
         for (Map.Entry<String, String> entry : getAttributes().entrySet())
-            node.appendChild(doc.createElement(entry.getKey()))
-                .setTextContent(entry.getValue());
+            if (isSavableAttribute(entry.getKey()))
+                node.appendChild(doc.createElement(entry.getKey())).setTextContent(entry.getValue());
         
         // Append new Child to root
         root.appendChild(node);
@@ -74,9 +79,21 @@ public class XmlSaver {
         return true;
     }
     
+    private boolean isSavableAttribute(String key) {
+        return ! (key.equals("SaveBy") || key.equals("Node"));
+    }
+    
     private Transformer getTransformer() {
         try {
-            return TransformerFactory.newInstance().newTransformer();
+            TransformerFactory tf = TransformerFactory.newInstance();
+            tf.setAttribute("indent-number", new Integer(4)); // Fix output formatting
+            
+            Transformer t = tf.newTransformer();
+            // Fix output formatting
+            t.setOutputProperty(OutputKeys.INDENT, "yes");
+            t.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+            
+            return t;
         } catch (TransformerConfigurationException ex) {
             Logger.getLogger(XmlSaver.class.getName()).log(Level.SEVERE, null, ex);
             return null;
