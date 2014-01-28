@@ -8,17 +8,21 @@ import java.util.Map;
 public class Model {
     
     public boolean save() {
-        ArrayList<Boolean> savedOK = new ArrayList<Boolean>(); // Store results of saves
-        ArrayList<Model>   toSave  = getInnerObjects(); // Related objects contained within
+        ArrayList<Boolean>                savedOK     = new ArrayList<Boolean>(); // Store results of saves
+        Map<String, ArrayList<Integer>>   dependants  = getInnerObjectIds(); // Related objects contained within
         
-        // Add this to be saved
-        toSave.add(this);
+        // save this object
+        new XmlSaver(getXmlFilePath(), getSaveableAttributes()).save(); // replace with db here
         
-        // Save each model
-        for (Model m : toSave) {
-            // Save via XML (this can be swapped out)
-            boolean result = new XmlSaver(m.getXmlFilePath(), m.getSaveableAttributes()).save();
-            savedOK.add(result);
+        // save dependants
+        for (Map.Entry<String, ArrayList<Integer>> entry : dependants.entrySet()) {
+            String table = entry.getKey();             // dependant object class name
+            ArrayList<Integer> ids = entry.getValue(); // ids of the dependant object
+            
+            // Generate sql
+            
+            // Save in db here
+            savedOK.add(true);
         }
         
         // false if any model did not successfully save
@@ -61,7 +65,7 @@ public class Model {
      * @return ArrayList<Object> the objects which are to be saved when the main
      *  object is saved.
      */
-    protected ArrayList<Model> getInnerObjects() {
-        return new ArrayList<>();
+    protected Map<String, ArrayList<Integer>> getInnerObjectIds() {
+        return new HashMap<String, ArrayList<Integer>>();
     }
 }
