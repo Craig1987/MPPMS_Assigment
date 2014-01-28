@@ -6,14 +6,37 @@
 
 package Views;
 
+import javax.swing.DropMode;
+import javax.swing.ImageIcon;
+import javax.swing.TransferHandler;
+import javax.swing.tree.DefaultTreeModel;
+
 /**
  *
  * @author Kirsty
  */
-public class ProjectsHeirarchyView extends javax.swing.JFrame {
+public class ProjectsHierarchyView extends javax.swing.JFrame {
 
-    public ProjectsHeirarchyView() {
+    public ProjectsHierarchyView() {
         initComponents();
+        this.setIconImage(new ImageIcon(getClass().getResource("/resources/icon.png")).getImage());
+        this.setLocationRelativeTo(null);
+        
+        projectsTree.setDragEnabled(true);
+        projectsTree.setDropMode(DropMode.ON_OR_INSERT);
+        //projectsTree.setTransferHandler(new TreeTransferHandler());
+    }
+    
+    public void setTreeModel(DefaultTreeModel model) {
+       projectsTree.setModel(model);
+    }
+    
+    public DefaultTreeModel getTreeModel() {
+        return (DefaultTreeModel) projectsTree.getModel();
+    }
+    
+    public void addTreeTransferHandler(TransferHandler handler){
+        projectsTree.setTransferHandler(handler);
     }
 
     /**
@@ -30,10 +53,13 @@ public class ProjectsHeirarchyView extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         projectsTree = new javax.swing.JTree();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Content Hierarchy");
 
         lblContent.setText("Content Hierarchy");
 
+        javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Projects");
+        projectsTree.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
         projectsTree.setDragEnabled(true);
         projectsTree.setEditable(true);
         jScrollPane1.setViewportView(projectsTree);
@@ -45,10 +71,10 @@ public class ProjectsHeirarchyView extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(lblContent)
-                        .addGap(0, 312, Short.MAX_VALUE)))
+                        .addGap(0, 529, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -57,7 +83,7 @@ public class ProjectsHeirarchyView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(lblContent)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 352, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -65,11 +91,14 @@ public class ProjectsHeirarchyView extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0))
         );
 
         pack();

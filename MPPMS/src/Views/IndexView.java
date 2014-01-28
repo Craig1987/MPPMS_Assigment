@@ -41,6 +41,10 @@ public class IndexView extends javax.swing.JFrame {
         this.newTaskButton.setEnabled(enabled);
     }
     
+    public void setContentHierarchyButtonEnabled(boolean enabled) {
+        this.contentHierarchyButton.setEnabled(enabled);
+    }
+    
     public void setProjectsTableData(SetOfProjects projects) {
         String[] headers = new String[]{ "Title", "Creation date", "Manager", "Coordinator" };
         String[] properties = new String[]{ "Title", "FormattedCreationDate", "Manager", "Coordinator" };
@@ -263,6 +267,10 @@ public class IndexView extends javax.swing.JFrame {
     public void addTabChangeListener(ChangeListener listener) {
         tabbedPaneView.addChangeListener(listener);
     }
+    
+    public void addContentHierarchyButtonActionListener(ActionListener listener) {
+        contentHierarchyButton.addActionListener(listener);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -296,6 +304,7 @@ public class IndexView extends javax.swing.JFrame {
         newAssetButton = new javax.swing.JButton();
         btnImportAssets = new javax.swing.JButton();
         welcomeLabel = new javax.swing.JLabel();
+        contentHierarchyButton = new javax.swing.JButton();
         projectMenuBar = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         applicationMenuExit = new javax.swing.JMenuItem();
@@ -365,7 +374,7 @@ public class IndexView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(newProjectButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(projectsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 362, Short.MAX_VALUE)
+                .addComponent(projectsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 361, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -406,7 +415,7 @@ public class IndexView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(newTaskButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(tasksScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 362, Short.MAX_VALUE)
+                .addComponent(tasksScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 361, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -445,7 +454,7 @@ public class IndexView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(newComponentButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(componentsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 362, Short.MAX_VALUE)
+                .addComponent(componentsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 361, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -491,7 +500,7 @@ public class IndexView extends javax.swing.JFrame {
                     .addComponent(newAssetButton)
                     .addComponent(btnImportAssets))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(assetsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 362, Short.MAX_VALUE)
+                .addComponent(assetsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 361, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -501,6 +510,8 @@ public class IndexView extends javax.swing.JFrame {
         welcomeLabel.setForeground(new java.awt.Color(0, 51, 153));
         welcomeLabel.setText("jLabel1");
 
+        contentHierarchyButton.setText("Content Hierarchy");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -508,16 +519,20 @@ public class IndexView extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(welcomeLabel)
-                .addContainerGap(390, Short.MAX_VALUE))
-            .addComponent(tabbedPaneView, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(contentHierarchyButton)
+                .addContainerGap())
+            .addComponent(tabbedPaneView, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(welcomeLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(tabbedPaneView, javax.swing.GroupLayout.DEFAULT_SIZE, 446, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(welcomeLabel)
+                    .addComponent(contentHierarchyButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(tabbedPaneView, javax.swing.GroupLayout.DEFAULT_SIZE, 445, Short.MAX_VALUE))
         );
 
         tabbedPaneView.getAccessibleContext().setAccessibleName("");
@@ -569,6 +584,7 @@ public class IndexView extends javax.swing.JFrame {
     private javax.swing.JScrollPane componentsScrollPane;
     private javax.swing.JTable componentsTable;
     private javax.swing.JPanel componentsTablePanel;
+    private javax.swing.JButton contentHierarchyButton;
     private javax.swing.JPanel detailPanel;
     private javax.swing.JScrollPane detailScrollPane;
     private javax.swing.JMenu jMenu1;

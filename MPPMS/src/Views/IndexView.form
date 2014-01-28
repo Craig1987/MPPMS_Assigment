@@ -142,18 +142,23 @@
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="welcomeLabel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="390" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="contentHierarchyButton" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
-                  <Component id="tabbedPaneView" alignment="1" max="32767" attributes="0"/>
+                  <Component id="tabbedPaneView" alignment="1" pref="450" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="welcomeLabel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="tabbedPaneView" pref="446" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="welcomeLabel" min="-2" max="-2" attributes="0"/>
+                          <Component id="contentHierarchyButton" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="tabbedPaneView" pref="445" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -202,7 +207,7 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="newProjectButton" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="projectsScrollPane" pref="362" max="32767" attributes="0"/>
+                              <Component id="projectsScrollPane" pref="361" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -273,7 +278,7 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="newTaskButton" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="tasksScrollPane" pref="362" max="32767" attributes="0"/>
+                              <Component id="tasksScrollPane" pref="361" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -344,7 +349,7 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="newComponentButton" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="componentsScrollPane" pref="362" max="32767" attributes="0"/>
+                              <Component id="componentsScrollPane" pref="361" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -414,7 +419,7 @@
                                   <Component id="btnImportAssets" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="assetsScrollPane" pref="362" max="32767" attributes="0"/>
+                              <Component id="assetsScrollPane" pref="361" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -465,6 +470,11 @@
                   <Color blue="99" green="33" red="0" type="rgb"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="jLabel1"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JButton" name="contentHierarchyButton">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Content Hierarchy"/>
               </Properties>
             </Component>
           </SubComponents>
