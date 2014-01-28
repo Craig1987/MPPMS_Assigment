@@ -33,6 +33,7 @@ public class Project {
     private Priority priority;
     private SetOfTasks tasks;
     private SetOfComponents components;
+    private User client;
     
     public enum Priority {
         Highest,
@@ -57,7 +58,7 @@ public class Project {
         this.priority = Priority.Normal;
         this.tasks = new SetOfTasks();
         this.components = new SetOfComponents();
-        
+        this.client = new User("", "", "");
     }
     
     public int getId() {
@@ -66,6 +67,14 @@ public class Project {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public User getClient() {
+        return client;
+    }
+
+    public void setClient(User client) {
+        this.client = client;
     }
 
     public Date getCreationDate() {
