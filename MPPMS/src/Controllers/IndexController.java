@@ -346,6 +346,7 @@ public class IndexController implements Observer {
             projectOverviewController = new ProjectOverviewController(view.getSelectedProject(), new ProjectOverviewView());
             projectOverviewController.launch();
         }
+    }
 
     class ContentHierarchyButtonActionListener implements ActionListener {
         @Override
