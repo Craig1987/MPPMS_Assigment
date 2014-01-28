@@ -12,6 +12,7 @@ import Views.ComponentDetailView;
 import Views.ImportAssetsView;
 import Views.ProjectDetailView;
 import Views.IndexView;
+import Views.ProjectsHierarchyView;
 import Views.TaskDetailView;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
@@ -33,6 +34,7 @@ public class IndexController implements Observer {
     private ComponentDetailController componentDetailController;
     private AssetDetailController assetDetailController;
     private ImportAssetsController importAssetsController;
+    private ProjectsHierarchyController contentHierarchyController;
     
     public IndexController(User currentUser) {
         this.currentUser = currentUser;
@@ -43,9 +45,12 @@ public class IndexController implements Observer {
         
         this.view.setWelcomeMessage("Welcome, " + currentUser.getName() + "!");
         
+        // Controls are enabled if the current logged in user is a Project Manager
         this.view.setCreateProjectButtonEnabled(this.currentUser.getRole() == Role.ProjectManager);
         this.view.setCreateTaskButtonEnabled(this.currentUser.getRole() == Role.ProjectManager);
+        this.view.setContentHierarchyButtonEnabled(this.currentUser.getRole() == Role.ProjectManager);
         
+        // IndexView controls events
         this.view.addNewProjectButtonActionListener(new NewProjectButtonActionListener());
         this.view.addNewTaskButtonActionListener(new NewTaskButtonActionListener());
         this.view.addNewComponentButtonActionListener(new NewComponentButtonActionListener());
@@ -58,6 +63,7 @@ public class IndexController implements Observer {
         this.view.addComponentsTableListSelectionListener(new ComponentsTableListSelectionListener());
         this.view.addAssetsTableListSelectionListener(new AssetsTableListSelectionListener());        
         this.view.addTabChangeListener(new TabChangeListener());
+        this.view.addContentHierarchyButtonActionListener(new ContentHierarchyButtonActionListener());
         
         this.view.setVisible(true);
         
@@ -226,7 +232,6 @@ public class IndexController implements Observer {
         @Override
         public void actionPerformed(ActionEvent e) {
             ImportAssetsView detailView = new ImportAssetsView();
-            //detailView.addDiscardButtonActionListener(new DiscardNewProjectActionListener());
             
             importAssetsController = new ImportAssetsController(detailView);
             importAssetsController.initialise();
@@ -328,5 +333,15 @@ public class IndexController implements Observer {
             view.setSelectedAsset(componentDetailController.getSelectedAsset());
             view.setSelectedTab("Assets");
         }
+    }
+    
+    class ContentHierarchyButtonActionListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            ProjectsHierarchyView detailView = new ProjectsHierarchyView();
+            
+            contentHierarchyController = new ProjectsHierarchyController(detailView, currentUser);
+            contentHierarchyController.initialise();  
+        }   
     }
 }
