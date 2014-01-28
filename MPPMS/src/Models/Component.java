@@ -1,8 +1,13 @@
 package Models;
 
 import Application.AppObservable;
+import Data.DatabaseConnector;
 import java.io.File;
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -97,6 +102,42 @@ public class Component extends Model {
     }
     
     private static void populateComponents() {
+        try {
+            allComponents = new SetOfComponents();
+            DatabaseConnector dbConn = DatabaseConnector.getInstance();
+            ResultSet components = dbConn.selectQuery("SELECT C.ID, C.DESCRIPTION, CA.ASSETID FROM COMPONENTS C INNER JOIN COMPONENTASSETS CA ON C.ID = CA.COMPONENTID");
+            
+            int componentID = 1;
+            String componentDescription = "";
+            SetOfAssets componentAssets = new SetOfAssets();
+            
+            while (components.next()) {
+                if (componentID != components.getInt("ID")) {
+                    // We have collected all assets for this Component, so create and save it
+                    Component component = new Component(componentID, componentDescription);
+                    component.setAssets((SetOfAssets)componentAssets.clone());
+                    allComponents.add(component);
+                    componentAssets.clear();
+                }
+                
+                componentID = components.getInt("ID");
+                componentDescription = components.getString("DESCRIPTION");
+                componentAssets.add(Asset.getAssetByID(components.getInt("ASSETID")));
+            }
+            
+            // We have collected all assets for this Component, so create and save it
+            Component component = new Component(componentID, componentDescription);
+            component.setAssets((SetOfAssets)componentAssets.clone());
+            allComponents.add(component);
+            componentAssets.clear();
+                    
+            dbConn.closeConnection();
+        } catch (SQLException ex) {
+            Logger.getLogger(Asset.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        /*
         try 
         {
             allComponents = new SetOfComponents();
@@ -171,5 +212,6 @@ public class Component extends Model {
         {
             System.out.println(ex.getMessage());
         }
+                */
     }
 }

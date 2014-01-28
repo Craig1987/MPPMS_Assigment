@@ -49,8 +49,8 @@ public class Project {
     
     public Project() {
         this.id = 0;
-        this.manager = new User("", "", "");
-        this.coordinator = new User("", "", "");
+        this.manager = new User(User.Role.ProjectManager, "", "", "", "", "");
+        this.coordinator = new User(User.Role.ProjectCoordinator, "", "", "", "", "");
         this.team = new SetOfUsers();
         this.creationDate = new Date();
         this.deadline = new Date(this.creationDate.getTime() + (1000 * 60 * 60 * 24) * 7);

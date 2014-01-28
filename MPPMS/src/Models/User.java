@@ -1,21 +1,14 @@
 package Models;
 
-import java.io.File;
-import java.io.IOException;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import org.w3c.dom.DOMException;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
+import Data.DatabaseConnector;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class User extends Model {
     private static SetOfUsers allUsers = null;
     
-    private SetOfProjects currentProjects;
     private final String username;
     private final String password;
     private final String forename;
@@ -31,24 +24,15 @@ public class User extends Model {
         Client
     }
     
-    public User(Role role, String username, String password, String forename, String surname) {
+    public User(Role role, String username, String password, String forename, String surname, String name) {
         this.username = username;
         this.password = password;
-        this.forename = forename;
-        this.surname = surname;
-        this.name = "";
+        this.forename = (forename == null ? "" : forename);
+        this.surname = (surname == null ? "" : surname);
+        this.name = (name == null ? "" : name);
         this.role = role;
     }
     
-    public User(String username, String password, String name) {
-        this.username = username;
-        this.password = password;
-        this.forename = "";
-        this.surname = "";
-        this.name = name;
-        this.role = Role.Client;
-    }
-
     public String getUsername() {
         return username;
     }
@@ -57,19 +41,10 @@ public class User extends Model {
         return password;
     }
 
-    public SetOfProjects getCurrentProjects() {
-        return currentProjects;
-    }
-
     public Role getRole() {
         return role;
     }
     
-    /**
-     * Gets the User's name.
-     * @return "Forename Surname" if setName(String, String) was used
-     * or "Name" if setName(String) was used.
-     */
     public String getName()
     {
         if (this.forename.isEmpty())
@@ -123,40 +98,22 @@ public class User extends Model {
         try 
         {
             allUsers = new SetOfUsers();
-            String pathToFile = User.class.getResource("/Data/Users.xml").getPath();
-            pathToFile = pathToFile.replaceAll("%20", " ");
-            File fXmlFile = new File(pathToFile);
-            DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-            Document doc = docBuilder.parse(fXmlFile);
-
-            // Prevent unwanted behaviour resulting from poorly formatted XML
-            doc.getDocumentElement().normalize();
-            
-            // Get the persisted Users
-            NodeList nodes = doc.getElementsByTagName("User");
-            
-            // For each User, create an instance and add to the SetOfUsers
-            for (int i = 0; i < nodes.getLength(); i++)
-            {
-                Node node = nodes.item(i);
-
-                if (node.getNodeType() == Node.ELEMENT_NODE)
-                {
-                    Element element = (Element)node;
-                    String username = element.getElementsByTagName("Username").item(0).getTextContent();
-                    String password = element.getElementsByTagName("Password").item(0).getTextContent();
-                    String forename = element.getElementsByTagName("Forename").item(0).getTextContent();
-                    String surname = element.getElementsByTagName("Surname").item(0).getTextContent();
-                    String name = element.getElementsByTagName("Name").item(0).getTextContent();
-                    Role role = Role.valueOf(element.getElementsByTagName("Role").item(0).getTextContent());
-                    
-                    allUsers.add((forename.isEmpty() ? new User(username, password, name) : new User(role, username, password, forename, surname)));
-                }
+            DatabaseConnector dbConn = DatabaseConnector.getInstance();
+            ResultSet users = dbConn.selectQuery("SELECT * FROM USERS");
+            while(users.next()) {
+                User user = new User(Role.valueOf(users.getString("Role")),
+                                    users.getString("Username"),
+                                    users.getString("Password"),
+                                    users.getString("Forename"),
+                                    users.getString("Surname"),
+                                    users.getString("Name"));
+                allUsers.add(user);
             }
+            dbConn.closeConnection();
         }
-        catch (ParserConfigurationException | SAXException | IOException | DOMException ex)
+        catch (SQLException ex)
         {
-            System.out.println(ex.getMessage());
+            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
