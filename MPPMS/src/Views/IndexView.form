@@ -393,9 +393,13 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="1" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="1" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="assetsScrollPane" pref="425" max="32767" attributes="0"/>
-                                  <Component id="newAssetButton" max="32767" attributes="0"/>
+                                  <Group type="102" attributes="0">
+                                      <Component id="newAssetButton" min="-2" pref="211" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="btnImportAssets" max="32767" attributes="0"/>
+                                  </Group>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
@@ -405,7 +409,10 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="1" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="newAssetButton" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="newAssetButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="btnImportAssets" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="assetsScrollPane" pref="362" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
@@ -438,6 +445,11 @@
                     <Component class="javax.swing.JButton" name="newAssetButton">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="Create New Asset"/>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JButton" name="btnImportAssets">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Import Assets"/>
                       </Properties>
                     </Component>
                   </SubComponents>

@@ -28,6 +28,7 @@ public class Task extends Model {
     private Report report;
     
     public enum TaskType {
+        QA,
         QC,
         Build
     }
@@ -60,6 +61,10 @@ public class Task extends Model {
     
     public Task(int id, TaskType taskType) {
         this.id = id;
+        this.taskType = taskType;
+    }
+    
+    public void setTaskType(TaskType taskType) {
         this.taskType = taskType;
     }
     
@@ -169,7 +174,9 @@ public class Task extends Model {
             id = getAllTasks().get(getAllTasks().size() - 1).getId() + 1;
         }
         
-        System.out.println("TODO: Implement persistance to XML | Models/Task.java:136");
+        
+        
+        System.out.println("TODO: Implement persistance to XML | Models/Task.java:136" + id + " " + title);
         
         if (allTasks != null) {
             allTasks.clear();
