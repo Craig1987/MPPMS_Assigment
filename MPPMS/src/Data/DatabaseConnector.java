@@ -25,12 +25,18 @@ public class DatabaseConnector {
     
     private void createConnection() {
         try {
-            Class.forName("org.apache.derby.jdbc.ClientDriver").newInstance();
+            Class.forName("org.sqlite.JDBC").newInstance();
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(DatabaseConnector.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
-            connection = DriverManager.getConnection("jdbc:derby://localhost:1527/MPPMSDataStore;create=true;user=sa;password=password");
+            String path = getClass()
+                        .getClassLoader()
+                        .getResource("Data/MPPMSDatabase")
+                        .getPath()
+                        .replaceAll("%20", " ")
+                        .replaceAll("build/classes", "src");
+            connection = DriverManager.getConnection("jdbc:sqlite:" + path);
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseConnector.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -38,7 +44,7 @@ public class DatabaseConnector {
     
     private void executeSelectStatement(String queryString) {
         try {
-            statement = (Statement) connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            statement = (Statement) connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
             results = statement.executeQuery(queryString);
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseConnector.class.getName()).log(Level.SEVERE, null, ex);
