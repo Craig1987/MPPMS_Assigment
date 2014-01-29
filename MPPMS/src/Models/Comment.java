@@ -1,10 +1,18 @@
 package Models;
 
+import Data.DatabaseConnector;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Comment {
+    private static SetOfComments allComments = null;
+    
     private final int id;
+    
     private Date date;
     private User user;
     private String content;
@@ -47,5 +55,40 @@ public class Comment {
     
     public void setDate(Date date) {
         this.date = date;
+    }
+    
+    public static SetOfComments getAllComments() {
+        if (allComments == null) {
+            populateComments();
+        }
+        return allComments;
+    }
+    
+    public static Comment getCommentByID(int commentId) {
+        for (Comment comment : getAllComments()) {
+            if (comment.getId() == commentId) {
+                return comment;
+            }
+        }
+        return null;
+    }
+    
+    private static void populateComments() {
+        try {
+            allComments = new SetOfComments();
+            DatabaseConnector dbConn = new DatabaseConnector();
+            ResultSet comments = dbConn.selectQuery("SELECT * FROM COMMENTS");
+            
+            while (comments.next()) {
+                Comment comment = new Comment(comments.getInt("ID"), 
+                                                comments.getDate("COMMENTDATE"), 
+                                                User.getUserByUsername(comments.getString("USERNAME")), 
+                                                comments.getString("CONTENT"));
+                allComments.add(comment);
+            }
+            dbConn.dispose();
+        } catch (SQLException ex) {
+            Logger.getLogger(Report.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

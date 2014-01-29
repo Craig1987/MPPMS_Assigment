@@ -1,19 +1,13 @@
 package Models;
 
 import Application.AppObservable;
-import java.io.File;
-import java.io.IOException;
+import Data.DatabaseConnector;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import org.w3c.dom.DOMException;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Asset extends Model {
     private static SetOfAssets allAssets = null;
@@ -76,6 +70,7 @@ public class Asset extends Model {
         this.assetType = type;
     }
     
+    @Override
     public boolean save() {
         if (id == 0) {
             id = getAllAssets().get(getAllAssets().size() - 1).getId() + 1;
@@ -126,39 +121,21 @@ public class Asset extends Model {
     }
     
     private static void populateAssets() {
-        try 
-        {
+        try {
             allAssets = new SetOfAssets();
-            String pathToFile = User.class.getResource("/Data/Assets.xml").getPath();
-            pathToFile = pathToFile.replaceAll("%20", " ");
-            File fXmlFile = new File(pathToFile);
-            DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-            Document doc = docBuilder.parse(fXmlFile);
-
-            // Prevent unwanted behaviour resulting from poorly formatted XML
-            doc.getDocumentElement().normalize();
+            DatabaseConnector dbConn = new DatabaseConnector();
+            ResultSet assets = dbConn.selectQuery("SELECT * FROM ASSETS");
             
-            // Get the assets
-            NodeList nodes = doc.getElementsByTagName("Asset");
-            for (int i = 0; i < nodes.getLength(); i++)
-            {
-                Node node = nodes.item(i);
-                if (node.getNodeType() == Node.ELEMENT_NODE)
-                {
-                    Element element = (Element)node;
-                    int id = Integer.parseInt(element.getElementsByTagName("ID").item(0).getTextContent());
-                    int length = Integer.parseInt(element.getElementsByTagName("Length").item(0).getTextContent());
-                    AssetType assetType = AssetType.valueOf(element.getElementsByTagName("Type").item(0).getTextContent());
-                    String description = element.getElementsByTagName("Description").item(0).getTextContent();
-                    
-                    Asset asset = new Asset(id, length, assetType, description);
-                    allAssets.add(asset);
-                }
+            while (assets.next()) {
+                Asset asset = new Asset(assets.getInt("ID"), 
+                                        assets.getInt("AssetLength"), 
+                                        AssetType.valueOf(assets.getString("AssetType")), 
+                                        assets.getString("Description"));
+                allAssets.add(asset);
             }
-        }
-        catch (ParserConfigurationException | SAXException | IOException | DOMException ex)
-        {
-            System.out.println(ex.getMessage());
+            dbConn.dispose();
+        } catch (SQLException ex) {
+            Logger.getLogger(Asset.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
