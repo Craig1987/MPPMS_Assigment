@@ -1,19 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package Views;
 
-import Models.SetOfComponents;
-import Models.SetOfTasks;
 import Models.Task;
 import Models.Component;
 import java.awt.event.ActionListener;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
-import javax.swing.TransferHandler;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
@@ -113,6 +104,26 @@ public class ProjectsHierarchyView extends javax.swing.JFrame {
     
     public void addAddToComponentButtonActionListener(ActionListener listener) {
         btnAddToComponent.addActionListener(listener);
+    }
+    
+    public void removeTasksEnabled(boolean enabled) {
+        comboRemoveFromTasks.setEnabled(enabled);
+        btnRemoveFromTask.setEnabled(enabled);
+    }
+    
+    public void addTasksEnabled(boolean enabled) {
+        comboAddToTasks.setEnabled(enabled);
+        btnAddToTask.setEnabled(enabled);
+    }
+    
+    public void removeComponentsEnabled(boolean enabled) {
+        comboRemoveFromComponents.setEnabled(enabled);
+        btnRemoveFromComponent.setEnabled(enabled);
+    }
+    
+    public void addComponentsEnabled(boolean enabled) {
+        comboAddToComponents.setEnabled(enabled);
+        btnAddToComponent.setEnabled(enabled);
     }
 
     /**
@@ -242,7 +253,7 @@ public class ProjectsHierarchyView extends javax.swing.JFrame {
                     .addGroup(assetPanelLayout.createSequentialGroup()
                         .addComponent(btnRemoveFromComponent)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(assetPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(assetPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnAddToComponent)
                             .addComponent(comboAddToComponents, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(196, Short.MAX_VALUE))
@@ -294,4 +305,5 @@ public class ProjectsHierarchyView extends javax.swing.JFrame {
     private javax.swing.JLabel lblTasks;
     private javax.swing.JTree projectsTree;
     // End of variables declaration//GEN-END:variables
+
 }
