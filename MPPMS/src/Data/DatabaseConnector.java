@@ -13,25 +13,13 @@ import java.util.logging.Logger;
  * @author Craig
  */
 public class DatabaseConnector {
-    private static DatabaseConnector instance = null;
-    
     private Connection connection = null;
     private Statement statement = null;
     private ResultSet results = null;
     
-    public static DatabaseConnector getInstance() {
-        if (instance == null) {
-            instance = new DatabaseConnector();
-        }
-        return instance;
-    }
-    
-    private DatabaseConnector() { }
-    
     public ResultSet selectQuery(String queryString) {
         createConnection();
-        executeSelectStatement(queryString);
-        
+        executeSelectStatement(queryString);        
         return results;
     }
     
@@ -50,14 +38,14 @@ public class DatabaseConnector {
     
     private void executeSelectStatement(String queryString) {
         try {
-            statement = (Statement) connection.createStatement();
+            statement = (Statement) connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             results = statement.executeQuery(queryString);
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseConnector.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-    public void closeConnection() {
+    public void dispose() {
         try {
             connection.close();
             statement.close();

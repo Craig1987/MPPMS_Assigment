@@ -27,7 +27,7 @@ public class ReportDetailController implements Observer {
     }
     
     public void launch() {
-        view.setListOfComments(report.getAllComments().toArray());
+        view.setListOfComments(Comment.getAllComments().toArray());
         view.setReportIdLabelText("Report ID: " + report.getId());
         view.setControlsEnabled(false);
         view.setPanelVisibility(false);
@@ -43,7 +43,7 @@ public class ReportDetailController implements Observer {
     }
     
     public void refreshListOfComments() {
-        view.setListOfComments(report.getAllComments().toArray());
+        view.setListOfComments(Comment.getAllComments().toArray());
     }
     
     public void refreshView(Comment comment) {
@@ -112,12 +112,12 @@ public class ReportDetailController implements Observer {
         public void actionPerformed(ActionEvent ae) {
             if (view.getCommentID() < 1)
             {
-                Comment newComment = new Comment((report.getAllComments().size() + 1), new Date(), currentUser, view.getContent());
+                Comment newComment = new Comment((Comment.getAllComments().size() + 1), new Date(), currentUser, view.getContent());
                 report.addComment(newComment);
             }
             else
             {
-                Comment updatedComment = report.getCommentByID(view.getCommentID());
+                Comment updatedComment = Comment.getCommentByID(view.getCommentID());
                 updatedComment.setUser(currentUser);
                 updatedComment.setDate(new Date());
                 updatedComment.setContent(view.getContent());

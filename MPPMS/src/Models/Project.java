@@ -1,23 +1,14 @@
 package Models;
 
 import Application.AppObservable;
+import Data.DatabaseConnector;
 import Models.User.Role;
-import java.io.File;
-import java.io.IOException;
-import java.text.ParseException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.*;
-import org.w3c.dom.DOMException;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Project {
     private static SetOfProjects allProjects = null;
@@ -28,11 +19,11 @@ public class Project {
     private String title;    
     private User manager;
     private User coordinator;
-    private SetOfUsers team;
+    private SetOfUsers team = new SetOfUsers();
     private Date deadline;
     private Priority priority;
-    private SetOfTasks tasks;
-    private SetOfComponents components;
+    private SetOfTasks tasks = new SetOfTasks();
+    private SetOfComponents components = new SetOfComponents();
     
     public enum Priority {
         Highest,
@@ -51,12 +42,9 @@ public class Project {
         this.id = 0;
         this.manager = new User(User.Role.ProjectManager, "", "", "", "", "");
         this.coordinator = new User(User.Role.ProjectCoordinator, "", "", "", "", "");
-        this.team = new SetOfUsers();
         this.creationDate = new Date();
         this.deadline = new Date(this.creationDate.getTime() + (1000 * 60 * 60 * 24) * 7);
         this.priority = Priority.Normal;
-        this.tasks = new SetOfTasks();
-        this.components = new SetOfComponents();
         
     }
     
@@ -107,6 +95,10 @@ public class Project {
     public void setTeam(SetOfUsers team) {
         this.team = team;
     }
+    
+    public void addTeamMember(User user) {
+        this.team.add(user);
+    }
 
     public Date getDeadline() {
         return deadline;
@@ -131,6 +123,10 @@ public class Project {
     public void setTasks(SetOfTasks tasks) {
         this.tasks = tasks;
     }
+    
+    public void addTask(Task task) {
+        this.tasks.add(task);
+    }
 
     public SetOfComponents getComponents() {
         return components;
@@ -138,6 +134,10 @@ public class Project {
 
     public void setComponents(SetOfComponents components) {
         this.components = components;
+    }
+    
+    public void addComponent(Component component) {
+        this.components.add(component);
     }
     
     public static SetOfProjects getAllProjects() {
@@ -191,139 +191,42 @@ public class Project {
     }
     
     private static void populateProjects() {
-        try 
-        {
+        try {
             allProjects = new SetOfProjects();
-            String pathToFile = Project.class.getResource("/Data/Projects.xml").getPath();
-            pathToFile = pathToFile.replaceAll("%20", " ");
-            File fXmlFile = new File(pathToFile);
-            DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-            Document doc = docBuilder.parse(fXmlFile);
+            DatabaseConnector dbConn = new DatabaseConnector();
+            ResultSet projects = dbConn.selectQuery("SELECT * FROM PROJECTS");
             
-            // Prevent unwanted behaviour resulting from poorly formatted XML
-            doc.getDocumentElement().normalize();
-            
-            XPathFactory xpathfactory = XPathFactory.newInstance();
-            XPath xpath = xpathfactory.newXPath();
-            XPathExpression expr;
-            Object result;
-  
-            // Get the persisted Projects
-            try
-            {
-                expr = xpath.compile("/root/Project");
-                result = expr.evaluate(doc, XPathConstants.NODESET);
-                NodeList allProjectNodes = (NodeList) result;
-            
-                if (allProjectNodes != null)
-                {
-                    for (int i = 0; i < allProjectNodes.getLength(); i++) 
-                    {
-                        Node individualProject = allProjectNodes.item(i);
-                        
-                        if (individualProject.getNodeType() == Node.ELEMENT_NODE)
-                        {
-                            Element element = (Element)individualProject;
-                            int id = Integer.parseInt(element.getElementsByTagName("ID").item(0).getTextContent());
-                            
-                            Priority priority = Priority.valueOf(element.getElementsByTagName("Priority").item(0).getTextContent());
-                            String title = element.getElementsByTagName("Title").item(0).getTextContent();
-                            String managerUsername = element.getElementsByTagName("Manager").item(0).getTextContent();
-                            String coordinatorUsername = element.getElementsByTagName("Coordinator").item(0).getTextContent();
-                            Date creationDate;
-                            Date deadline;
-                            
-                            try {
-                                creationDate = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH).parse(element.getElementsByTagName("CreationDate").item(0).getTextContent());
-                                deadline = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH).parse(element.getElementsByTagName("Deadline").item(0).getTextContent());
-                            }
-                            catch (ParseException pEx) {
-                                System.out.println(pEx.getMessage());
-                                creationDate = new Date();
-                                deadline = new Date();
-                            }
-                        
-                            //Team
-                            expr = xpath.compile("Team");
-                            result = expr.evaluate(individualProject, XPathConstants.NODE);
-                            NodeList teamNodes = (NodeList) result;
-
-                            SetOfUsers team = new SetOfUsers();
-
-                            for (int x = 0; x < teamNodes.getLength(); x++) 
-                            {
-                                Node teamNode = teamNodes.item(x);
-
-                                if (teamNode.getNodeType() == Node.ELEMENT_NODE)
-                                {
-                                    Element teamElement = (Element)teamNode;
-                                    String username = teamElement.getTextContent();
-                                    team.add(User.getUserByUsername(username));
-                                }
-                            }
-
-                            //Components
-                            expr = xpath.compile("Components");
-                            result = expr.evaluate(individualProject, XPathConstants.NODE);
-                            NodeList componentNodes = (NodeList) result;
-
-                            SetOfComponents components = new SetOfComponents();
-
-                            for (int x = 0; x < componentNodes.getLength(); x++) 
-                            {
-                                Node componentNode = componentNodes.item(x);
-                                
-                                if (componentNode.getNodeType() == Node.ELEMENT_NODE)
-                                {
-                                    Element componentElement = (Element)componentNode;
-                                    int componentID = Integer.parseInt(componentElement.getTextContent());
-                                    components.add(Component.getComponentByID(componentID));
-                                }
-                            }
-
-                            //Tasks
-                            expr = xpath.compile("Tasks");
-                            result = expr.evaluate(individualProject, XPathConstants.NODE);
-                            NodeList taskNodes = (NodeList) result;
-
-                            SetOfTasks tasks = new SetOfTasks();
-
-                            for (int x = 0; x < taskNodes.getLength(); x++) 
-                            {
-                                Node taskNode = taskNodes.item(x);
-
-                                if (taskNode.getNodeType() == Node.ELEMENT_NODE)
-                                {
-                                    Element taskElement = (Element)taskNode;
-                                    int taskID = Integer.parseInt(taskElement.getTextContent());
-                                    tasks.add(Task.getTaskByID(taskID));
-                                }
-                            }
-
-                            Project project = new Project(id, creationDate);
-                            project.setTitle(title);
-                            project.setDeadline(deadline);
-                            project.setPriority(priority);
-                            project.setManager(User.getUserByUsername(managerUsername));
-                            project.setCoordinator(User.getUserByUsername(coordinatorUsername));
-                            project.setTeam(team);
-                            project.setTasks(tasks);
-                            project.setComponents(components);
-
-                            allProjects.add(project);
-                        }
-                    }
+            while (projects.next()) {
+                Project project = new Project(projects.getInt("ID"), projects.getDate("CREATIONDATE"));
+                DatabaseConnector dbConn2 = new DatabaseConnector();
+                ResultSet projectTeam = dbConn2.selectQuery("SELECT * FROM PROJECTTEAM WHERE PROJECTID = " + project.getId());
+                
+                while (projectTeam.next()) {
+                    project.addTeamMember(User.getUserByUsername(projectTeam.getString("USERNAME")));
                 }
-            }
-            catch (XPathExpressionException xe)
-            {
-                System.out.println("Error reading Projects.xml: " + xe.toString());
-            }
- 
-        }
-        catch (ParserConfigurationException | SAXException | IOException | DOMException ex)
-        {
-            System.out.println(ex.getMessage());
+                dbConn2.dispose();
+                
+                DatabaseConnector dbConn3 = new DatabaseConnector();
+                ResultSet projectTasks = dbConn3.selectQuery("SELECT * FROM PROJECTTASKS WHERE PROJECTID = " + project.getId());
+                
+                while (projectTasks.next()) {
+                    project.addTask(Task.getTaskByID(projectTasks.getInt("TASKID")));
+                }
+                dbConn3.dispose();
+                
+                DatabaseConnector dbConn4 = new DatabaseConnector();
+                ResultSet projectComponents = dbConn4.selectQuery("SELECT * FROM PROJECTCOMPONENTS WHERE PROJECTID = " + project.getId());
+                
+                while (projectComponents.next()) {
+                    project.addComponent(Component.getComponentByID(projectComponents.getInt("COMPONENTID")));
+                }
+                dbConn4.dispose();
+                
+                allProjects.add(project);
+            }                    
+            dbConn.dispose();
+        } catch (SQLException ex) {
+            Logger.getLogger(Asset.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

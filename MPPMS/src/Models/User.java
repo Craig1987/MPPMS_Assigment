@@ -98,8 +98,9 @@ public class User extends Model {
         try 
         {
             allUsers = new SetOfUsers();
-            DatabaseConnector dbConn = DatabaseConnector.getInstance();
+            DatabaseConnector dbConn = new DatabaseConnector();
             ResultSet users = dbConn.selectQuery("SELECT * FROM USERS");
+            
             while(users.next()) {
                 User user = new User(Role.valueOf(users.getString("Role")),
                                     users.getString("Username"),
@@ -109,7 +110,7 @@ public class User extends Model {
                                     users.getString("Name"));
                 allUsers.add(user);
             }
-            dbConn.closeConnection();
+            dbConn.dispose();
         }
         catch (SQLException ex)
         {

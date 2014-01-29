@@ -2,23 +2,12 @@ package Models;
 
 import Application.AppObservable;
 import Data.DatabaseConnector;
-import java.io.File;
-import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import org.w3c.dom.DOMException;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 public class Asset extends Model {
     private static SetOfAssets allAssets = null;
@@ -81,6 +70,7 @@ public class Asset extends Model {
         this.assetType = type;
     }
     
+    @Override
     public boolean save() {
         if (id == 0) {
             id = getAllAssets().get(getAllAssets().size() - 1).getId() + 1;
@@ -133,8 +123,9 @@ public class Asset extends Model {
     private static void populateAssets() {
         try {
             allAssets = new SetOfAssets();
-            DatabaseConnector dbConn = DatabaseConnector.getInstance();
+            DatabaseConnector dbConn = new DatabaseConnector();
             ResultSet assets = dbConn.selectQuery("SELECT * FROM ASSETS");
+            
             while (assets.next()) {
                 Asset asset = new Asset(assets.getInt("ID"), 
                                         assets.getInt("AssetLength"), 
@@ -142,7 +133,7 @@ public class Asset extends Model {
                                         assets.getString("Description"));
                 allAssets.add(asset);
             }
-            dbConn.closeConnection();
+            dbConn.dispose();
         } catch (SQLException ex) {
             Logger.getLogger(Asset.class.getName()).log(Level.SEVERE, null, ex);
         }

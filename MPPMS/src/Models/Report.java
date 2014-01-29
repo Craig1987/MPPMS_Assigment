@@ -1,21 +1,13 @@
 package Models;
 
 import Application.AppObservable;
-import java.io.File;
-import java.io.IOException;
-import java.text.ParseException;
+import Data.DatabaseConnector;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.*;
-import org.w3c.dom.DOMException;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Report {
     private static SetOfReports allReports = null;
@@ -55,7 +47,7 @@ public class Report {
         return result;
     }
     
-    public SetOfComments getAllComments() {
+    public SetOfComments getComments() {
         return this.comments;
     }
     
@@ -90,96 +82,28 @@ public class Report {
         return null;
     }
     
-    public Comment getCommentByID(int id) {
-        for (Comment comment : getAllComments()) {
-            if (comment.getId() == id) {
-                return comment;
-            }
-        }
-        return null;
-    }
-    
     private static void populateReports() {
-        try 
-        {
+        try {
             allReports = new SetOfReports();
-            String pathToFile = Project.class.getResource("/Data/Reports.xml").getPath();
-            pathToFile = pathToFile.replaceAll("%20", " ");
-            File fXmlFile = new File(pathToFile);
-            DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-            Document doc = docBuilder.parse(fXmlFile);
-
-            // Prevent unwanted behaviour resulting from poorly formatted XML
-            doc.getDocumentElement().normalize();
+            DatabaseConnector dbConn = new DatabaseConnector();
+            ResultSet reports = dbConn.selectQuery("SELECT * FROM REPORTS");
             
-            XPathFactory xpathfactory = XPathFactory.newInstance();
-            XPath xpath = xpathfactory.newXPath();
-            XPathExpression expr;
-            Object result;
-            
-            // Get the persisted Reports
-            try
-            {
-                expr = xpath.compile("/root/Report");
-                result = expr.evaluate(doc, XPathConstants.NODESET);
-                NodeList allReportNodes = (NodeList) result;
+            while (reports.next()) {
+                Report report = new Report(reports.getInt("ID"));
                 
-                if (allReportNodes != null)
-                {
-                    for (int i = 0; i < allReportNodes.getLength(); i++) 
-                    {
-                        Node individualReportNode = allReportNodes.item(i);
-                        
-                        if (individualReportNode.getNodeType() == Node.ELEMENT_NODE)
-                        {
-                             Element individualReportElement = (Element)individualReportNode;
-                             int id = Integer.parseInt(individualReportElement.getElementsByTagName("ReportID").item(0).getTextContent());
-                             Report report = new Report(id);
-                             
-                             // Get report comments
-                            expr = xpath.compile("Comments");
-                            result = expr.evaluate(individualReportNode, XPathConstants.NODE);
-                            NodeList commentsNodes = (NodeList) result;
-
-                            for (int x = 0; x < commentsNodes.getLength(); x++) 
-                            {
-                                Node commentNode = commentsNodes.item(x);
-                               
-                                if (commentNode.getNodeType() == Node.ELEMENT_NODE)
-                                {
-                                    Element commentElement = (Element)commentNode;
-                                    int commentId = Integer.parseInt(commentElement.getElementsByTagName("ID").item(0).getTextContent());
-                                    String username = commentElement.getElementsByTagName("Username").item(0).getTextContent();
-                                    String content = commentElement.getElementsByTagName("Content").item(0).getTextContent();
-                                    Date date;
-                                    try 
-                                    {
-                                        date = new SimpleDateFormat("dd/MM/yyyy").parse(commentElement.getElementsByTagName("Date").item(0).getTextContent());
-                                    }
-                                    catch (ParseException pEx) 
-                                    {
-                                        date = new Date();
-                                    }
-                                    
-                                    report.addComment(new Comment(commentId, date, User.getUserByUsername(username), content));
-                                }
-                            }
-                            
-                            allReports.add(report);
-                            
-                        }
-                    }  
+                DatabaseConnector dbConn2 = new DatabaseConnector();
+                ResultSet reportComments = dbConn2.selectQuery("SELECT * FROM REPORTCOMMENTS WHERE REPORTID = " + report.getId());
+                
+                while (reportComments.next()) {
+                    report.addComment(Comment.getCommentByID(reportComments.getInt("COMMENTID")));
                 }
+                dbConn2.dispose();
+                
+                allReports.add(report);
             }
-            catch (XPathExpressionException xe)
-            {
-                System.out.println("Error reading Projects.xml: " + xe.toString());
-            }
-        }
-
-        catch (ParserConfigurationException | SAXException | IOException | DOMException ex)
-        {
-            System.out.println(ex.getMessage());
+            dbConn.dispose();
+        } catch (SQLException ex) {
+            Logger.getLogger(Report.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
