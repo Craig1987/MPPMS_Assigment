@@ -19,6 +19,7 @@ import javax.swing.event.ListSelectionListener;
 public class ReportDetailController implements Observer { 
     private final ReportDetailView view = new ReportDetailView();
     private final User currentUser;
+    private boolean isNew;
     
     private boolean isNewComment;    
     private Report report;
