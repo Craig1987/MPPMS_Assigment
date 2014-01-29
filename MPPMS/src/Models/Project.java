@@ -24,6 +24,7 @@ public class Project {
     private Priority priority;
     private SetOfTasks tasks = new SetOfTasks();
     private SetOfComponents components = new SetOfComponents();
+    private User client;
     
     public enum Priority {
         Highest,
@@ -45,7 +46,7 @@ public class Project {
         this.creationDate = new Date();
         this.deadline = new Date(this.creationDate.getTime() + (1000 * 60 * 60 * 24) * 7);
         this.priority = Priority.Normal;
-        
+        this.client = new User(Role.Client, "", "", "", "", "");
     }
     
     public int getId() {
@@ -54,6 +55,14 @@ public class Project {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public User getClient() {
+        return client;
+    }
+
+    public void setClient(User client) {
+        this.client = client;
     }
 
     public Date getCreationDate() {

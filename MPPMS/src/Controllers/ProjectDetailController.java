@@ -72,6 +72,7 @@ public class ProjectDetailController implements Observer {
     private void refreshView() {
         this.view.setIdLabelText("ID: " + project.getId());
         this.view.setProjectTitleText(project.getTitle());
+        this.view.setClient(User.getUsersByRole(User.Role.Client), project.getClient());
         this.view.setManager(User.getUsersByRole(User.Role.ProjectManager).toArray(), project.getManager());
         this.view.setCoordinator(User.getUsersByRole(User.Role.ProjectCoordinator).toArray(), project.getCoordinator());
         this.view.setCreationDateText(project.getCreationDate());
@@ -137,11 +138,12 @@ public class ProjectDetailController implements Observer {
                 for (Object object : objects) {
                     components.add((Component)object);
                 }
-
+                
                 Project newProject = new Project(project.getId(), view.getCreationDate());
                 newProject.setDeadline(view.getDeadlineDate());
                 newProject.setTitle(view.getProjectTitle());
                 newProject.setPriority(Project.Priority.valueOf(view.getPriority().toString()));
+                newProject.setClient(view.getClient());
                 newProject.setManager((User)view.getManager());
                 newProject.setCoordinator((User)view.getCoordinator());
                 newProject.setTeam(team);

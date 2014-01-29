@@ -19,6 +19,13 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="lblProjectDetails" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="overviewButton" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
+                  </Group>
                   <Group type="102" alignment="1" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jScrollPane2" max="32767" attributes="0"/>
@@ -28,32 +35,7 @@
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="teamChoiceButton" alignment="1" max="32767" attributes="0"/>
                           <Component id="tasksEditButton" alignment="1" max="32767" attributes="0"/>
-                          <Component id="tasksChoiceButton" alignment="1" max="32767" attributes="0"/>
-                      </Group>
-                  </Group>
-                  <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                      <Component id="lblID" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="lblCreationDate" alignment="1" max="32767" attributes="0"/>
-                          <Component id="lblProjectTitle" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jLabel1" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jLabel4" alignment="0" pref="85" max="32767" attributes="0"/>
-                          <Component id="lblPriority" alignment="0" max="32767" attributes="0"/>
-                          <Component id="lblTeam" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblTasks" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblDeadlineDate" alignment="0" max="32767" attributes="0"/>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="coordinatorCombo" alignment="1" max="32767" attributes="0"/>
-                          <Component id="cmboPriority" alignment="0" max="32767" attributes="0"/>
-                          <Component id="textProjectTitle" max="32767" attributes="0"/>
-                          <Component id="managerCombo" alignment="1" max="32767" attributes="0"/>
-                          <Component id="pickCreationDate" alignment="0" max="32767" attributes="0"/>
-                          <Component id="pickDeadlineDate" alignment="0" max="32767" attributes="0"/>
+                          <Component id="tasksChoiceButton" alignment="1" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
@@ -61,19 +43,47 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="componentsChoiceButton" max="32767" attributes="0"/>
-                          <Component id="componentsEditButton" alignment="0" max="32767" attributes="0"/>
+                          <Component id="componentsEditButton" alignment="0" min="-2" pref="133" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="jLabel4" alignment="0" max="32767" attributes="0"/>
+                          <Component id="lblTeam" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblTasks" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel1" alignment="0" min="-2" pref="106" max="-2" attributes="0"/>
+                          <Component id="lblPriority" alignment="0" min="-2" pref="87" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="coordinatorCombo" alignment="1" max="32767" attributes="0"/>
+                          <Component id="managerCombo" max="32767" attributes="0"/>
+                          <Group type="102" alignment="1" attributes="0">
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="cmboPriority" max="32767" attributes="0"/>
+                          </Group>
+                      </Group>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                          <Component id="lblDeadlineDate" pref="100" max="32767" attributes="0"/>
+                          <Component id="lblCreationDate" max="32767" attributes="0"/>
+                          <Component id="lblProjectTitle" alignment="0" min="-2" pref="92" max="-2" attributes="0"/>
+                          <Component id="jLabel2" alignment="1" max="32767" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="clientCombo" max="32767" attributes="0"/>
+                          <Component id="textProjectTitle" max="32767" attributes="0"/>
+                          <Component id="pickCreationDate" max="32767" attributes="0"/>
+                          <Component id="pickDeadlineDate" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" attributes="0">
-                      <Component id="lblComponents" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="lblComponents" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblID" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="lblProjectDetails" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="overviewButton" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
-                      <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -98,7 +108,12 @@
                   <Component id="textProjectTitle" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="lblProjectTitle" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="clientCombo" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="managerCombo" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -115,7 +130,7 @@
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
                       <Component id="lblDeadlineDate" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -126,14 +141,14 @@
                       <Component id="lblTeam" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="teamChoiceButton" pref="51" max="32767" attributes="0"/>
-                          <Component id="jScrollPane1" pref="0" max="32767" attributes="0"/>
+                          <Component id="teamChoiceButton" max="32767" attributes="0"/>
+                          <Component id="jScrollPane1" min="-2" pref="51" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="lblTasks" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Group type="102" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
                               <Component id="tasksChoiceButton" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
                               <Component id="tasksEditButton" min="-2" max="-2" attributes="0"/>
@@ -154,7 +169,7 @@
                   </Group>
                   <Component id="pickDeadlineDate" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace pref="38" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -375,5 +390,17 @@
         </Component>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.JLabel" name="jLabel2">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Client:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="clientCombo">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="0"/>
+        </Property>
+      </Properties>
+    </Component>
   </SubComponents>
 </Form>
