@@ -14,6 +14,7 @@ public class Report {
     
     private int id;
     private SetOfComments comments;
+    private String title;
     
     public Report(int id) {
         this.id = id;
@@ -23,10 +24,19 @@ public class Report {
     Report() {
         this.id = 0;
         this.comments = new SetOfComments();
+        this.title = "";
     }
     
     public int getId() {
         return id;
+    }
+    
+    public String getTitle() {
+        return this.title;
+    }
+    
+    public void setTitle(String title) {
+        this.title = title;
     }
     
     public void addComment(Comment comment) {
@@ -90,6 +100,7 @@ public class Report {
             
             while (reports.next()) {
                 Report report = new Report(reports.getInt("ID"));
+                report.setTitle(reports.getString("TITLE"));
                 
                 DatabaseConnector dbConn2 = new DatabaseConnector();
                 ResultSet reportComments = dbConn2.selectQuery("SELECT * FROM REPORTCOMMENTS WHERE REPORTID = " + report.getId());

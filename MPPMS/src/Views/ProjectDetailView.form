@@ -52,30 +52,10 @@
                           <Component id="lblTeam" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="lblTasks" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel1" alignment="0" min="-2" pref="106" max="-2" attributes="0"/>
-                          <Component id="lblPriority" alignment="0" min="-2" pref="87" max="-2" attributes="0"/>
                       </Group>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="coordinatorCombo" alignment="1" max="32767" attributes="0"/>
                           <Component id="managerCombo" max="32767" attributes="0"/>
-                          <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="cmboPriority" max="32767" attributes="0"/>
-                          </Group>
-                      </Group>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                          <Component id="lblDeadlineDate" pref="100" max="32767" attributes="0"/>
-                          <Component id="lblCreationDate" max="32767" attributes="0"/>
-                          <Component id="lblProjectTitle" alignment="0" min="-2" pref="92" max="-2" attributes="0"/>
-                          <Component id="jLabel2" alignment="1" max="32767" attributes="0"/>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="clientCombo" max="32767" attributes="0"/>
-                          <Component id="textProjectTitle" max="32767" attributes="0"/>
-                          <Component id="pickCreationDate" max="32767" attributes="0"/>
-                          <Component id="pickDeadlineDate" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" attributes="0">
@@ -84,6 +64,25 @@
                           <Component id="lblID" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                              <Component id="lblDeadlineDate" pref="100" max="32767" attributes="0"/>
+                              <Component id="lblCreationDate" max="32767" attributes="0"/>
+                              <Component id="lblProjectTitle" alignment="0" min="-2" pref="92" max="-2" attributes="0"/>
+                              <Component id="jLabel2" alignment="0" min="-2" pref="72" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="lblPriority" alignment="0" min="-2" pref="87" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="pickDeadlineDate" alignment="1" max="32767" attributes="0"/>
+                          <Component id="textProjectTitle" alignment="1" max="32767" attributes="0"/>
+                          <Component id="clientCombo" max="32767" attributes="0"/>
+                          <Component id="pickCreationDate" alignment="1" max="32767" attributes="0"/>
+                          <Component id="cmboPriority" max="32767" attributes="0"/>
+                      </Group>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>

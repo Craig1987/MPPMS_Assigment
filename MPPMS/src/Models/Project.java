@@ -207,6 +207,13 @@ public class Project {
             
             while (projects.next()) {
                 Project project = new Project(projects.getInt("ID"), projects.getDate("CREATIONDATE"));
+                project.setClient(User.getUserByUsername(projects.getString("CLIENT")));
+                project.setCoordinator(User.getUserByUsername(projects.getString("COORDINATOR")));
+                project.setManager(User.getUserByUsername(projects.getString("MANAGER")));
+                project.setDeadline(projects.getDate("DEADLINEDATE"));
+                project.setPriority(Priority.valueOf(projects.getString("PRIORITY")));
+                project.setTitle(projects.getString("TITLE"));
+                
                 DatabaseConnector dbConn2 = new DatabaseConnector();
                 ResultSet projectTeam = dbConn2.selectQuery("SELECT * FROM PROJECTTEAM WHERE PROJECTID = " + project.getId());
                 
