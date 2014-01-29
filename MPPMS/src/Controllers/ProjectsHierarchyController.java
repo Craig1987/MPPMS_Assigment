@@ -71,8 +71,8 @@ public class ProjectsHierarchyController implements Observer {
                         // Get all assets for task node
                         SetOfAssets assets = task.getAssets();
                         if (assets != null) {
-                            for (Asset asset : assets) {
-                                taskNode.add(new DefaultMutableTreeNode(asset));
+                            for (Asset taskAsset : assets) {
+                                taskNode.add(new DefaultMutableTreeNode(taskAsset));
                             }
                         }
                         
@@ -92,8 +92,8 @@ public class ProjectsHierarchyController implements Observer {
                         //Get all assets for component node
                         SetOfAssets assets = com.getAssets();
                         if (assets != null) {
-                            for (Asset asset : assets) {
-                                comNode.add(new DefaultMutableTreeNode(asset));
+                            for (Asset compAsset : assets) {
+                                comNode.add(new DefaultMutableTreeNode(compAsset));
                             }
                         }
                         comRootNode.add(comNode);
@@ -122,6 +122,7 @@ public class ProjectsHierarchyController implements Observer {
             if (assetObj instanceof Asset) {
                 asset = (Asset) assetObj; 
                 view.setAssetDetails(asset.toString());
+                view.setControlsEnabled(true);
                 
                 SetOfTasks tasks = Task.getAllTasks();
                 SetOfComponents comps = Component.getAllComponents();
@@ -134,34 +135,34 @@ public class ProjectsHierarchyController implements Observer {
                 
                 // Populate Task ComboBoxes
                 for (Task task : tasks) {
-                   SetOfAssets assets = task.getAssets();
-                   for (Asset taskAsset : assets) {
-                       // Asset can be removed from this task
-                       if (taskAsset.getId() == asset.getId())
-                           removeTasks.add(task);
-                       // Asset can be added to this task
-                       else
-                           addTasks.add(task);
-                   }
+                   SetOfAssets taskAssets = task.getAssets();
+                   if (taskAssets.contains(asset))
+                       removeTasks.add(task);
+                   else
+                       addTasks.add(task);
                 }
                 
+                // Populate Component ComboBoxes
                 for (Component comp : comps) {
-                   SetOfAssets assets = comp.getAssets();
-                   for (Asset compAsset : assets) {
-                       // Asset can be removed from this component
-                       if (compAsset.getId() == asset.getId())
-                           removeComps.add(comp);
-                       // Asset can added to this component
-                       else
-                           addComps.add(comp);
-                   }
+                   SetOfAssets compAssets = comp.getAssets();
+                   if (compAssets.contains(asset))
+                       removeComps.add(comp);
+                   else
+                       addComps.add(comp);
                 }
                 
+                view.removeTasksEnabled(removeTasks.size() > 0);
                 view.setRemoveTasksComboBox(removeTasks.toArray());
+                
+                view.addTasksEnabled(addTasks.size() > 0);
                 view.setAddtoTasksComboBox(addTasks.toArray());
+                
+                view.removeComponentsEnabled(removeComps.size() > 0);
                 view.setRemoveComponentsComboBox(removeComps.toArray());
+                
+                view.addComponentsEnabled(addComps.size() > 0);
                 view.setAddtoComponentsComboBox(addComps.toArray());
-                view.setControlsEnabled(true);
+                
                 view.setControlsVisible(true);
             } 
             else {

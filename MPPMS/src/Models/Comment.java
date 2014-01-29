@@ -3,8 +3,10 @@ package Models;
 import Data.DatabaseConnector;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -81,13 +83,13 @@ public class Comment {
             
             while (comments.next()) {
                 Comment comment = new Comment(comments.getInt("ID"), 
-                                                comments.getDate("COMMENTDATE"), 
+                                                new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse(comments.getString("COMMENTDATE")), 
                                                 User.getUserByUsername(comments.getString("USERNAME")), 
                                                 comments.getString("CONTENT"));
                 allComments.add(comment);
             }
             dbConn.dispose();
-        } catch (SQLException ex) {
+        } catch (SQLException | ParseException ex) {
             Logger.getLogger(Report.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

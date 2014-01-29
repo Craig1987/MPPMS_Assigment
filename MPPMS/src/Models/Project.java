@@ -5,8 +5,10 @@ import Data.DatabaseConnector;
 import Models.User.Role;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -206,11 +208,11 @@ public class Project {
             ResultSet projects = dbConn.selectQuery("SELECT * FROM PROJECTS");
             
             while (projects.next()) {
-                Project project = new Project(projects.getInt("ID"), projects.getDate("CREATIONDATE"));
+                Project project = new Project(projects.getInt("ID"), new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse(projects.getString("CREATIONDATE")));
                 project.setClient(User.getUserByUsername(projects.getString("CLIENT")));
                 project.setCoordinator(User.getUserByUsername(projects.getString("COORDINATOR")));
                 project.setManager(User.getUserByUsername(projects.getString("MANAGER")));
-                project.setDeadline(projects.getDate("DEADLINEDATE"));
+                project.setDeadline(new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse(projects.getString("DEADLINEDATE")));
                 project.setPriority(Priority.valueOf(projects.getString("PRIORITY")));
                 project.setTitle(projects.getString("TITLE"));
                 
@@ -241,7 +243,7 @@ public class Project {
                 allProjects.add(project);
             }                    
             dbConn.dispose();
-        } catch (SQLException ex) {
+        } catch (SQLException | ParseException ex) {
             Logger.getLogger(Asset.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

@@ -19,6 +19,7 @@ public class ReportDetailController implements Observer {
     private final ReportDetailView view = new ReportDetailView();
     private final Report report;
     private final User currentUser;
+    private boolean isNew;
     
     public ReportDetailController(Report report, JPanel locationParent, User currentUser) {
         this.report = report;
@@ -27,7 +28,7 @@ public class ReportDetailController implements Observer {
     }
     
     public void launch() {
-        view.setListOfComments(Comment.getAllComments().toArray());
+        view.setListOfComments(report.getComments().toArray());
         view.setReportIdLabelText("Report ID: " + report.getId());
         view.setControlsEnabled(false);
         view.setPanelVisibility(false);
@@ -80,9 +81,12 @@ public class ReportDetailController implements Observer {
     class CommentsListSelectionListener implements ListSelectionListener {
         @Override
         public void valueChanged(ListSelectionEvent lse) {
-            displaySelectedComment();
-            view.setControlsEnabled(false);
-            view.setEditMode(false); 
+            if (!isNew){
+                displaySelectedComment();
+                view.setControlsEnabled(false);
+                view.setEditMode(false);   
+            }
+            isNew = false;
         }
     }
     
@@ -130,6 +134,7 @@ public class ReportDetailController implements Observer {
         @Override
         public void actionPerformed(ActionEvent ae) {
             Comment newComment = new Comment(0, new Date(), currentUser, "");
+            isNew = true;
             refreshView(newComment);
             view.clearCommentSelection();
             view.setEditMode(true);
