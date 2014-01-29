@@ -90,20 +90,27 @@ public class ComponentDetailController implements Observer {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (validateUserInputs()) {
+                Component temp = component;
+                
                 Object[] objects = view.getAssets();
                 SetOfAssets assets = new SetOfAssets();
                 for (Object object : objects) {
                     assets.add((Asset)object);
                 }
 
-                Component newComponent = new Component(component.getId(), view.getDescription());
-                newComponent.setAssets(assets);            
-                if (newComponent.save()) {
+                component.setDescription(view.getDescription());
+                component.setAssets(assets); 
+                
+                if (component.save()) {
                     if (modelChoiceController != null) {
                         modelChoiceController.closeView();
                     }
                     view.setEditMode(false);
                     isNew = false;
+                }
+                else {
+                    component = temp;
+                    JOptionPane.showMessageDialog(view, "Error saving Component", "'Component' Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         }        

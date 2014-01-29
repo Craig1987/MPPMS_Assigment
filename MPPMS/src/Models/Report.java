@@ -5,11 +5,13 @@ import Data.DatabaseConnector;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Report {
+public class Report extends Model {
     private static SetOfReports allReports = null;
     
     private int id;
@@ -40,7 +42,9 @@ public class Report {
     }
     
     public void addComment(Comment comment) {
-        comments.add(comment);
+        if (comment != null) {
+            comments.add(comment);
+        }
     }
     
     public void removeComment(Comment comment) {
@@ -49,7 +53,7 @@ public class Report {
     
     @Override
     public String toString() {
-        String result = this.comments.size() + " comments";        
+        String result = this.comments.size() + " comment" + (this.comments.size() > 1 ? "s" : "");        
         if (this.comments.size() > 0) {
             Date lastEditDate = this.comments.get(this.comments.size() - 1).getDate();
             result += " (last edited " + new SimpleDateFormat("dd MMM yyyy").format(lastEditDate) + ")";
@@ -61,19 +65,59 @@ public class Report {
         return this.comments;
     }
     
-    public void save() {
-        if (id == 0){
-            id = getAllReports().get(getAllReports().size() - 1).getId();
-        }
-
-        // TODO: Implement XML Persistance of Project
-        System.out.println("TODO: Implement XML Persistance of Project | Models/Project.java:146");
+    @Override
+    public boolean save() {
+        boolean success = true;
         
-        if (allReports != null) {
-            allReports.clear();
+        for (Comment comment : getComments()) {
+            success &= comment.save();
         }
-        allReports = null;
-        AppObservable.getInstance().notifyObserversToRefresh();
+        
+        DatabaseConnector dbConn = new DatabaseConnector();
+        
+        if (this.id == 0){
+            this.id = Report.getNextAvailableID();
+            success &= dbConn.insertQuery(getAttributesAndValues(false));
+        }
+        else {
+            success &= dbConn.updateQuery(getAttributesAndValues(true));
+        }
+        
+        success &= dbConn.deleteAndInsertQuery(getInnerAttributesAndValues(), "REPORT");
+        
+        if (success) {
+            if (allReports != null) {
+                allReports.clear();
+            }
+            allReports = null;
+            AppObservable.getInstance().notifyObserversToRefresh();
+        }
+        
+        return success;
+    }
+
+    @Override
+    protected HashMap<String, String> getAttributesAndValues(final boolean includeId) {
+        return new HashMap<String, String>() {{
+            put("TABLENAME", "REPORTS");
+            if (includeId) put("ID", "" + getId());
+            put("TITLE", wrapInSingleQuotes(getTitle()));
+        }};
+    }
+
+    @Override
+    protected ArrayList<HashMap<String, Object>> getInnerAttributesAndValues() {
+        ArrayList<HashMap<String, Object>> attrVals = new ArrayList();
+        attrVals.add(new HashMap<String, Object>() {{
+            put("TABLENAME", "REPORTCOMMENTS");
+            put("REPORTID", "" + getId());            
+            ArrayList<String> comments = new ArrayList();
+            for (Comment comment : getComments()) {
+                comments.add("" + comment.getId());
+            }
+            put("COMMENTID", comments);
+        }});
+        return attrVals;
     }
     
     public static SetOfReports getAllReports() {
@@ -90,6 +134,14 @@ public class Report {
             }
         }
         return null;
+    }
+    
+    private static int getNextAvailableID() {
+        int greatestId = 0;
+        for (Report report : getAllReports()) {
+            greatestId = Math.max(greatestId, report.getId());
+        }
+        return greatestId + 1;
     }
     
     private static void populateReports() {

@@ -4,8 +4,8 @@ import Application.AppObservable;
 import Data.DatabaseConnector;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -72,19 +72,42 @@ public class Asset extends Model {
     
     @Override
     public boolean save() {
-        if (id == 0) {
-            id = getAllAssets().get(getAllAssets().size() - 1).getId() + 1;
-        }
+        DatabaseConnector dbConn = new DatabaseConnector();
+        boolean success;
         
-        if (super.save()) {
+        if (this.id == 0) {
+            this.id = Asset.getNextAvailableId();
+            success = dbConn.insertQuery(getAttributesAndValues(false));
+        }
+        else {
+            success = dbConn.updateQuery(getAttributesAndValues(true));
+        }
+             
+        if (success) {
             if (allAssets != null) {
                 allAssets.clear();
             }
             allAssets = null;
             AppObservable.getInstance().notifyObserversToRefresh();
-            return true;
         }
-        return false;
+        
+        return success;
+    }
+    
+    @Override
+    protected HashMap<String, String> getAttributesAndValues(final boolean includeId) {
+        return new HashMap<String, String>() {{
+            put("TABLENAME", "ASSETS");
+            if (includeId) put("ID", "" + getId());
+            put("ASSETTYPE", wrapInSingleQuotes(getAssetType().toString()));
+            put("ASSETLENGTH", "" + getLength());
+            put("DESCRIPTION", wrapInSingleQuotes(getDescription()));
+        }};
+    }
+
+    @Override
+    protected ArrayList<HashMap<String, Object>> getInnerAttributesAndValues() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     @Override
@@ -108,18 +131,14 @@ public class Asset extends Model {
         return null;
     }
     
-    @Override
-    protected Map<String, String> getSaveableAttributes() {
-        return new HashMap<String, String>() {{
-            put("Node",        "Asset");
-            put("SaveBy",      "ID");
-            put("ID",          "" + id);
-            put("Type",        "" + assetType.name());
-            put("Length",      "" + length);
-            put("Description", "" + description);
-        }};
+    private static int getNextAvailableId() {
+        int greatestId = 0;
+        for (Asset asset : getAllAssets()) {
+            greatestId = Math.max(greatestId, asset.getId());
+        }
+        return greatestId + 1;
     }
-    
+        
     private static void populateAssets() {
         try {
             allAssets = new SetOfAssets();

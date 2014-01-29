@@ -3,6 +3,8 @@ package Models;
 import Data.DatabaseConnector;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -52,6 +54,21 @@ public class User extends Model {
             return this.name;
         }
         return String.format("%s %s", this.forename, this.surname);
+    }
+
+    @Override
+    public boolean save() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    protected HashMap<String, String> getAttributesAndValues(boolean includeId) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    protected ArrayList<HashMap<String, Object>> getInnerAttributesAndValues() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     @Override

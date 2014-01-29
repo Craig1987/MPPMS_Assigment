@@ -3,13 +3,10 @@ package Views;
 import Models.Comment;
 import java.awt.Component;
 import java.awt.event.ActionListener;
-import java.util.Date;
 import javax.swing.ImageIcon;
 import javax.swing.event.ListSelectionListener;
 
 public class ReportDetailView extends javax.swing.JFrame {
-    
-    private int id;
     
     public ReportDetailView() {
         initComponents();
@@ -18,46 +15,38 @@ public class ReportDetailView extends javax.swing.JFrame {
     }
     
     public Comment getSelectedComment() {
-        if (this.listComments.getSelectedIndex()< 0) {
-            return null;
+        if (this.listComments.getSelectedIndex() < 0) {
+            return new Comment();
         }
         return (Comment)(listComments.getSelectedValue());
     }
     
-    public void setSelectedComment(int commentID) {
-        this.listComments.setSelectedIndex(commentID);
-    }
-    
-    public void setCommentID(int id) {
-        this.id = id;
-    }
-    
-    public int getCommentID() {
-        return id;
+    public int getSelectedIndex() {
+        return this.listComments.getSelectedIndex();
     }
     
     public String getContent() {
         return contentText.getText();
     }
     
-    public void setListOfComments(Object[] comments) {
+    public void setComments(Object[] comments) {
         this.listComments.setListData(comments);
+    }
+    
+    public void setSelectedIndex(int index) {
+        this.listComments.setSelectedIndex(index);
     }
     
     public void setReportIdLabelText(String text) {
         this.lblReportID.setText(text);
     }
     
-    public void setCommentLabelID(String text) {
+    public void setCommentIdLabel(String text) {
         this.lblCommentID.setText(text);
     }
     
     public void setCommentDate(String date) {
         this.lblDisplayDate.setText(date);
-    }
-    
-    public void setUser(String user) {
-        this.lblUserName.setText(user);
     }
     
     public void setContent(String content) {
@@ -67,10 +56,6 @@ public class ReportDetailView extends javax.swing.JFrame {
     
     public void setUsername(String username) {
         this.lblUserName.setText(username);
-    }
-    
-    public void setControlsEnabled(boolean enabled) {
-        this.contentText.setEnabled(enabled);
     }
     
     public void setPanelVisibility(boolean visibility) {
@@ -88,6 +73,7 @@ public class ReportDetailView extends javax.swing.JFrame {
         this.discardButton.setVisible(edit);
         this.saveButton.setVisible(edit);
         this.editButton.setVisible(!edit);
+        this.contentText.setEnabled(edit);
     }
     
      public void addEditButtonActionListener(ActionListener listener) {
@@ -142,11 +128,6 @@ public class ReportDetailView extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("MPPMS - Comments");
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowDeactivated(java.awt.event.WindowEvent evt) {
-                formWindowDeactivated(evt);
-            }
-        });
 
         reportSplitPane.setDividerLocation(200);
 
@@ -155,11 +136,6 @@ public class ReportDetailView extends javax.swing.JFrame {
 
         lblReportID.setText("Report ID:");
 
-        listComments.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
         jScrollPane1.setViewportView(listComments);
 
         btnNewComment.setText("New Comment");
@@ -171,26 +147,27 @@ public class ReportDetailView extends javax.swing.JFrame {
             .addGroup(commentListPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(commentListPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnNewComment, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnNewComment, javax.swing.GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
                     .addComponent(jScrollPane1)
                     .addGroup(commentListPanelLayout.createSequentialGroup()
-                        .addComponent(lblComments)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
-                        .addComponent(lblReportID)))
+                        .addGroup(commentListPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblComments)
+                            .addComponent(lblReportID))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         commentListPanelLayout.setVerticalGroup(
             commentListPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(commentListPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(commentListPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblComments)
-                    .addComponent(lblReportID))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblComments)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblReportID)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnNewComment)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(16, 16, 16))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         reportSplitPane.setLeftComponent(commentListPanel);
@@ -305,13 +282,6 @@ public class ReportDetailView extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void formWindowDeactivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowDeactivated
-        // Dispose of this JFrame if it's focus is lost to another JFrame belonging to this application
-        if(evt.getOppositeWindow() != null){
-            this.dispose();
-        }
-    }//GEN-LAST:event_formWindowDeactivated
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -221,14 +221,14 @@ public class ProjectDetailController implements Observer {
                     SetOfTasks tasks = new SetOfTasks();
                     tasks.addAll((Collection)modelChoiceController.getChosenModels());
                     modelChoiceController.closeView();
-                    view.setTeam(tasks.toArray());
+                    view.setTasks(tasks.toArray());
                     break;
                     
                 case Component:
                     SetOfComponents components = new SetOfComponents();
                     components.addAll((Collection)modelChoiceController.getChosenModels());
                     modelChoiceController.closeView();
-                    view.setTeam(components.toArray());
+                    view.setProjectComponents(components.toArray());
                     break;
             }
         }        

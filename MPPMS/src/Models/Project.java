@@ -5,12 +5,15 @@ import Data.DatabaseConnector;
 import Models.User.Role;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Project {
+public class Project extends Model {
     private static SetOfProjects allProjects = null;
     
     private final Date creationDate;
@@ -149,6 +152,85 @@ public class Project {
         this.components.add(component);
     }
     
+    @Override
+    public boolean save() {
+        DatabaseConnector dbConn = new DatabaseConnector();
+        boolean success;
+        
+        if (this.id == 0) {
+            this.id = Project.getNextAvailableID();
+            success = dbConn.insertQuery(getAttributesAndValues(false));
+        }
+        else {
+            success = dbConn.updateQuery(getAttributesAndValues(true));
+        }
+        
+        success &= dbConn.deleteAndInsertQuery(getInnerAttributesAndValues(), "PROJECT");
+        
+        if (success) {
+            if (allProjects != null) {
+                allProjects.clear();
+            }
+            allProjects = null;
+            AppObservable.getInstance().notifyObserversToRefresh();
+        }
+        
+        return success;
+    }
+
+    @Override
+    protected HashMap<String, String> getAttributesAndValues(final boolean includeId) {
+        return new HashMap<String, String>() {{
+            put("TABLENAME", "PROJECTS");
+            if (includeId) put("ID", "" + getId());
+            put("TITLE", wrapInSingleQuotes(getTitle()));
+            put("CREATIONDATE", wrapInSingleQuotes(new SimpleDateFormat("dd MMM yyyy").format(getCreationDate())));
+            put("DEADLINEDATE", wrapInSingleQuotes(new SimpleDateFormat("dd MMM yyyy").format(getDeadline())));
+            put("PRIORITY", wrapInSingleQuotes(getPriority().toString()));
+            put("MANAGER", "" + wrapInSingleQuotes(getManager().getUsername()));
+            put("COORDINATOR", wrapInSingleQuotes(getCoordinator().getUsername()));
+            put("CLIENT", wrapInSingleQuotes(getClient().getUsername()));
+        }};
+    }
+
+    @Override
+    protected ArrayList<HashMap<String, Object>> getInnerAttributesAndValues() {
+        ArrayList<HashMap<String, Object>> attrVals = new ArrayList();
+        attrVals.add(new HashMap<String, Object>() {{
+            put("TABLENAME", "PROJECTTEAM");
+            put("PROJECTID", "" + getId());            
+            ArrayList<String> usernames = new ArrayList();
+            for (User user : getTeam()) {
+                usernames.add(wrapInSingleQuotes(user.getUsername()));
+            }
+            put("USERNAME", usernames);
+        }});
+        attrVals.add(new HashMap<String, Object>() {{
+            put("TABLENAME", "PROJECTTASKS");
+            put("PROJECTID", "" + getId());            
+            ArrayList<String> taskIds = new ArrayList();
+            for (Task task : getTasks()) {
+                taskIds.add("" + task.getId());
+            }
+            put("TASKID", taskIds);
+        }});
+        attrVals.add(new HashMap<String, Object>() {{
+            put("TABLENAME", "PROJECTCOMPONENTS");
+            put("PROJECTID", "" + getId());            
+            ArrayList<String> componentIds = new ArrayList();
+            for (Component component : getComponents()) {
+                componentIds.add("" + component.getId());
+            }
+            put("COMPONENTID", componentIds);
+        }});
+        return attrVals;
+    }
+    
+    @Override
+    public String toString() {
+        return "(ID: " + getId() + ") " + getTitle();
+    }
+    
     public static SetOfProjects getAllProjects() {
         if (allProjects == null) {
             populateProjects();
@@ -176,27 +258,12 @@ public class Project {
         return null;
     }
     
-    @Override
-    public String toString() {
-        return "(ID: " + getId() + ") " + getTitle();
-    }
-    
-    public boolean save() {
-        if (id == 0){
-            id = getAllProjects().get(getAllProjects().size() - 1).getId();
+    private static int getNextAvailableID() {
+        int greatestId = 0;
+        for (Project project : getAllProjects()) {
+            greatestId = Math.max(greatestId, project.getId());
         }
-
-        // TODO: Implement XML Persistance of Project
-        System.out.println("TODO: Implement XML Persistance of Project | Models/Project.java:146");
-        
-        if (allProjects != null) {
-            allProjects.clear();
-        }
-        allProjects = null;
-        
-        AppObservable.getInstance().notifyObserversToRefresh();
-        
-        return false;
+        return greatestId + 1;
     }
     
     private static void populateProjects() {
@@ -206,13 +273,18 @@ public class Project {
             ResultSet projects = dbConn.selectQuery("SELECT * FROM PROJECTS");
             
             while (projects.next()) {
-                Project project = new Project(projects.getInt("ID"), projects.getDate("CREATIONDATE"));
-                project.setClient(User.getUserByUsername(projects.getString("CLIENT")));
-                project.setCoordinator(User.getUserByUsername(projects.getString("COORDINATOR")));
-                project.setManager(User.getUserByUsername(projects.getString("MANAGER")));
-                project.setDeadline(projects.getDate("DEADLINEDATE"));
-                project.setPriority(Priority.valueOf(projects.getString("PRIORITY")));
-                project.setTitle(projects.getString("TITLE"));
+                Project project = null;
+                try {
+                    project = new Project(projects.getInt("ID"), new SimpleDateFormat("dd MMM yyyy").parse(projects.getString("CREATIONDATE")));
+                    project.setClient(User.getUserByUsername(projects.getString("CLIENT")));
+                    project.setCoordinator(User.getUserByUsername(projects.getString("COORDINATOR")));
+                    project.setManager(User.getUserByUsername(projects.getString("MANAGER")));
+                    project.setDeadline(new SimpleDateFormat("dd MMM yyyy").parse(projects.getString("DEADLINEDATE")));
+                    project.setPriority(Priority.valueOf(projects.getString("PRIORITY")));
+                    project.setTitle(projects.getString("TITLE"));
+                } catch (ParseException ex) {
+                    Logger.getLogger(Project.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 
                 DatabaseConnector dbConn2 = new DatabaseConnector();
                 ResultSet projectTeam = dbConn2.selectQuery("SELECT * FROM PROJECTTEAM WHERE PROJECTID = " + project.getId());
@@ -242,7 +314,7 @@ public class Project {
             }                    
             dbConn.dispose();
         } catch (SQLException ex) {
-            Logger.getLogger(Asset.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Project.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

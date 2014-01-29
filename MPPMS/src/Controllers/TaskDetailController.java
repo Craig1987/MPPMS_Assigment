@@ -117,19 +117,25 @@ public class TaskDetailController implements Observer {
                     assets.add((Asset)object);
                 }
 
-                Task newTask = new Task(task.getId(), Task.TaskType.valueOf(view.getTaskType().toString()));
-                newTask.setTitle(view.getTaskTitle());            
-                newTask.setPriority(Task.Priority.valueOf(view.getPriority().toString()));
-                newTask.setStatus(Task.Status.valueOf(view.getStatus().toString()));
-                newTask.setReport(Report.getReportByID(task.getReport().getId()));
-                newTask.setAssignedTo(assignedTo);
-                newTask.setAssets(assets);
-                if (newTask.save()) {
+                Task temp = task;
+                
+                task.setTaskType(Task.TaskType.valueOf(view.getTaskType().toString()));
+                task.setTitle(view.getTaskTitle());            
+                task.setPriority(Task.Priority.valueOf(view.getPriority().toString()));
+                task.setStatus(Task.Status.valueOf(view.getStatus().toString()));
+                task.setAssignedTo(assignedTo);
+                task.setAssets(assets);
+                
+                if (task.save()) {
                     if (modelChoiceController != null) {
                         modelChoiceController.closeView();
                     }
                     view.setEditMode(false, canEdit);
                     isNew = false;
+                }
+                else {
+                    task = temp;
+                    JOptionPane.showMessageDialog(view, "Error saving Task", "'Task' Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         }        

@@ -74,13 +74,19 @@ public class AssetDetailController implements Observer {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (validateUserInputs()) {
-                Asset newAsset = new Asset(asset.getId(), view.getLength(), view.getAssetType(), view.getDescription());
-                if (newAsset.save()) {
+                Asset temp = asset;
+                
+                asset.setAssetType(view.getAssetType());
+                asset.setDescription(view.getDescription());
+                asset.setLength(view.getLength());
+                
+                if (asset.save()) {
                     view.setEditMode(false);
                     isNew = false;
                 }
                 else {
-                    JOptionPane.showMessageDialog(view, "Error saving new Asset", "Create Asset Error", JOptionPane.ERROR_MESSAGE);
+                    asset = temp;
+                    JOptionPane.showMessageDialog(view, "Error saving Asset", "'Asset' Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         }        

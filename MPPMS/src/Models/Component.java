@@ -5,6 +5,7 @@ import Data.DatabaseConnector;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -58,6 +59,56 @@ public class Component extends Model {
     }
     
     @Override
+    public boolean save() {
+        DatabaseConnector dbConn = new DatabaseConnector();
+        boolean success;
+        
+        if (this.id == 0) {
+            this.id = Component.getNextAvailableId();
+            success = dbConn.insertQuery(getAttributesAndValues(false));
+        }
+        else {
+            success = dbConn.updateQuery(getAttributesAndValues(true));
+        }
+        
+        success &= dbConn.deleteAndInsertQuery(getInnerAttributesAndValues(), "COMPONENT");
+                
+        if (success) {
+            if (allComponents != null) {
+                allComponents.clear();
+            }
+            allComponents = null;
+            AppObservable.getInstance().notifyObserversToRefresh();
+        }
+        
+        return success;
+    }
+
+    @Override
+    protected HashMap<String, String> getAttributesAndValues(final boolean includeId) {
+        return new HashMap<String, String>() {{
+            put("TABLENAME", "COMPONENTS");
+            if (includeId) put("ID", "" + getId());
+            put("DESCRIPTION", wrapInSingleQuotes(getDescription()));
+        }};
+    }
+    
+    @Override
+    protected ArrayList<HashMap<String, Object>> getInnerAttributesAndValues() {
+        ArrayList<HashMap<String, Object>> attrVals = new ArrayList();
+        attrVals.add(new HashMap<String, Object>() {{
+            put("TABLENAME", "COMPONENTASSETS");
+            put("COMPONENTID", "" + getId());            
+            ArrayList<String> assetIds = new ArrayList();
+            for (Asset asset : getAssets()) {
+                assetIds.add("" + asset.getId());
+            }
+            put("ASSETID", assetIds);
+        }});
+        return attrVals;
+    }
+    
+    @Override
     public String toString() {
         return "(ID: " + getId() + ") " + getDescription();
     }
@@ -78,21 +129,12 @@ public class Component extends Model {
         return null;
     }
     
-    @Override
-    public boolean save() {
-        if (id == 0) {
-            id = getAllComponents().get(getAllComponents().size() - 1).getId() + 1;
+    private static int getNextAvailableId() {
+        int greatestId = 0;
+        for (Component component : getAllComponents()) {
+            greatestId = Math.max(greatestId, component.getId());
         }
-            
-        System.out.println("TODO: Implement persistence to XML | Models/Component.java:91");
-        
-        if (allComponents != null) {
-            allComponents.clear();
-        }
-        allComponents = null;
-        AppObservable.getInstance().notifyObserversToRefresh();
-        
-        return false;
+        return greatestId + 1;
     }
     
     private static void populateComponents() {
@@ -115,7 +157,7 @@ public class Component extends Model {
             }                    
             dbConn.dispose();
         } catch (SQLException ex) {
-            Logger.getLogger(Asset.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Component.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

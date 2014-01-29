@@ -11,26 +11,30 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 public class ReportDetailController implements Observer { 
     private final ReportDetailView view = new ReportDetailView();
-    private final Report report;
     private final User currentUser;
+    
+    private boolean isNewComment;    
+    private Report report;
+    private Comment selectedComment;
     
     public ReportDetailController(Report report, JPanel locationParent, User currentUser) {
         this.report = report;
         this.view.setLocationRelativeTo(locationParent);
         this.currentUser = currentUser;
+        this.isNewComment = false;
+        this.selectedComment = new Comment();
     }
     
     public void launch() {
-        view.setListOfComments(Comment.getAllComments().toArray());
-        view.setReportIdLabelText("Report ID: " + report.getId());
-        view.setControlsEnabled(false);
-        view.setPanelVisibility(false);
+        view.setEditMode(false);        
+        view.setComments(report.getComments().toArray());
         
         view.addCommentsListSelectionListener(new CommentsListSelectionListener());
         view.addEditButtonActionListener(new EditButtonActionListener());
@@ -39,101 +43,125 @@ public class ReportDetailController implements Observer {
         view.addNewCommentActionListener(new NewCommentActionListener());
         
         view.setVisible(true);
+        
+        refreshView();
+        
         AppObservable.getInstance().addObserver(this);
     }
     
-    public void refreshListOfComments() {
-        view.setListOfComments(Comment.getAllComments().toArray());
-    }
-    
-    public void refreshView(Comment comment) {
-        view.setCommentLabelID("Comment ID: " + comment.getId());
-        view.setCommentDate(new SimpleDateFormat("dd MMM YYYY").format(comment.getDate()));
-        view.setUser(comment.getUser().getName());
-        view.setContent(comment.getContent());
-        view.setCommentID(comment.getId());
-        view.setPanelVisibility(true);
-    }
-    
-    public void displaySelectedComment() {
-        // Populate UI controls       
-        if (view.getSelectedComment() == null) {
-            view.setPanelVisibility(false);
+    public void refreshView() {
+        Comment comment;
+        
+        if (isNewComment) {
+            comment = new Comment(0, new Date(), currentUser, "");
+            view.clearCommentSelection();
         }
         else {
-            Comment selectedComment = view.getSelectedComment();
-            refreshView(selectedComment);
+            comment = this.selectedComment;
         }
+        
+        view.setReportIdLabelText("(Report ID: " + report.getId() + ") " + report.getTitle());
+        view.setCommentIdLabel("Comment ID: " + comment.getId());
+        view.setCommentDate(new SimpleDateFormat("dd MMM YYYY").format(comment.getDate()));
+        view.setUsername(comment.getUser().getName());
+        view.setContent(comment.getContent());
+        view.setPanelVisibility(isNewComment || view.getSelectedComment().getId() > 0);
     }
     
     @Override
     public void update(Observable o, Object o1) {
-        Comment selectedComment = view.getSelectedComment();
-        refreshListOfComments();
-        
-        // Edited comment changes should be displayed - will be null if a new comment has been added
-        if (selectedComment != null) 
-            view.setSelectedComment(selectedComment.getId() - 1);
-        displaySelectedComment();
+        int index = this.view.getSelectedIndex();
+        this.report = Report.getReportByID(this.report.getId());
+        this.view.setComments(this.report.getComments().toArray());
+        this.view.setSelectedIndex(index);
     }
     
     class CommentsListSelectionListener implements ListSelectionListener {
         @Override
         public void valueChanged(ListSelectionEvent lse) {
-            displaySelectedComment();
-            view.setControlsEnabled(false);
-            view.setEditMode(false); 
+            selectedComment = view.getSelectedComment();
+            refreshView();
         }
     }
     
     class EditButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ae) {
-            view.setControlsEnabled(true);
             view.setEditMode(true);
-            
-            // Labels updated to show that user will be updated to the current user and date to the current date
-            view.setUsername(currentUser.getName());
-            view.setCommentDate(new SimpleDateFormat("dd MMM YYYY").format(new Date()));
+            refreshView();
         }
     }
     
     class DiscardChangesActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ae) {
-            displaySelectedComment(); 
-            view.setControlsEnabled(false);
             view.setEditMode(false);
+            isNewComment = false;
+            refreshView();
         }
     }
     
     class SaveCommentChangesActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ae) {
-            if (view.getCommentID() < 1)
+            if (isNewComment)
             {
-                Comment newComment = new Comment((Comment.getAllComments().size() + 1), new Date(), currentUser, view.getContent());
-                report.addComment(newComment);
+                Report tempReport = report;
+                Comment tempComment = selectedComment;
+                
+                selectedComment.setContent(view.getContent());
+                selectedComment.setDate(new Date());
+                selectedComment.setUser(currentUser);
+                
+                report.addComment(selectedComment);
+                isNewComment = false;
+                
+                if (report.save()) {
+                    view.setEditMode(false);
+                }
+                else {
+                    isNewComment = true;
+                    report = tempReport;
+                    selectedComment = tempComment;
+                    JOptionPane.showMessageDialog(view, "Error saving Report", "'Report' Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
             else
             {
-                Comment updatedComment = Comment.getCommentByID(view.getCommentID());
-                updatedComment.setUser(currentUser);
-                updatedComment.setDate(new Date());
-                updatedComment.setContent(view.getContent());
+                Comment temp = null;
+                
+                for (Comment comment : report.getComments()) {
+                    if (comment.getId() == view.getSelectedComment().getId()) {
+                        temp = comment;
+                        selectedComment = comment;
+                        comment.setUser(currentUser);
+                        comment.setDate(new Date());
+                        comment.setContent(view.getContent());
+                    }
+                }
+                
+                if (report.save()) {
+                    view.setEditMode(false);
+                }
+                else {
+                    for (Comment comment : report.getComments()) {
+                        if (comment.getId() == view.getSelectedComment().getId()) {
+                            comment = temp;
+                        }
+                    }
+                    selectedComment = temp;
+                    JOptionPane.showMessageDialog(view, "Error saving Report", "'Report' Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
-            report.save();
         }
     }
     
     class NewCommentActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ae) {
-            Comment newComment = new Comment(0, new Date(), currentUser, "");
-            refreshView(newComment);
-            view.clearCommentSelection();
             view.setEditMode(true);
-            view.setControlsEnabled(true);
+            isNewComment = true;
+            refreshView();
         }
     }
 }

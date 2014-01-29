@@ -5,6 +5,8 @@ import Data.DatabaseConnector;
 import Models.User.Role;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -128,6 +130,71 @@ public class Task extends Model {
     }
     
     @Override
+    public boolean save() {
+        this.report.setTitle("Report for Task " + Task.getNextAvailableID());
+        boolean success = this.report.save();
+        
+        DatabaseConnector dbConn = new DatabaseConnector();
+        
+        if (this.id == 0) {
+            this.id = Task.getNextAvailableID();
+            success &= dbConn.insertQuery(getAttributesAndValues(false));
+        }
+        else {
+            success &= dbConn.updateQuery(getAttributesAndValues(true));
+        }
+        
+        success &= dbConn.deleteAndInsertQuery(getInnerAttributesAndValues(), "TASK");
+        
+        if (success) {
+            if (allTasks != null) {
+                allTasks.clear();
+            }
+            allTasks = null;
+            AppObservable.getInstance().notifyObserversToRefresh();
+        }
+        
+        return success;
+    }
+
+    @Override
+    protected HashMap<String, String> getAttributesAndValues(final boolean includeId) {
+        return new HashMap<String, String>() {{
+            put("TABLENAME", "TASKS");
+            if (includeId) put("ID", "" + getId());
+            put("TITLE", wrapInSingleQuotes(getTitle()));
+            put("TASKTYPE", wrapInSingleQuotes(getTaskType().toString()));
+            put("STATUS", wrapInSingleQuotes(getStatus().toString()));
+            put("PRIORITY", wrapInSingleQuotes(getPriority().toString()));
+            put("REPORTID", "" + getReport().getId());
+        }};
+    }
+
+    @Override
+    protected ArrayList<HashMap<String, Object>> getInnerAttributesAndValues() {
+        ArrayList<HashMap<String, Object>> attrVals = new ArrayList();
+        attrVals.add(new HashMap<String, Object>() {{
+            put("TABLENAME", "TASKASSIGNEDTO");
+            put("TASKID", "" + getId());            
+            ArrayList<String> usernames = new ArrayList();
+            for (User user : getAssignedTo()) {
+                usernames.add(wrapInSingleQuotes(user.getUsername()));
+            }
+            put("USERNAME", usernames);
+        }});
+        attrVals.add(new HashMap<String, Object>() {{
+            put("TABLENAME", "TASKASSETS");
+            put("TASKID", "" + getId());            
+            ArrayList<String> assetIds = new ArrayList();
+            for (Asset asset : getAssets()) {
+                assetIds.add("" + asset.getId());
+            }
+            put("USERNAME", assetIds);
+        }});
+        return attrVals;
+    }
+    
+    @Override
     public String toString() {
         return "(ID: " + getId() + ") " + getTaskType() + " Task - " + getTitle();
     }
@@ -168,25 +235,13 @@ public class Task extends Model {
         return tasks;
     }
     
-    @Override
-    public boolean save() {
-        if (id == 0) {
-            id = getAllTasks().get(getAllTasks().size() - 1).getId() + 1;
+    private static int getNextAvailableID() {
+        int greatestId = 0;
+        for (Task task : getAllTasks()) {
+            greatestId = Math.max(greatestId, task.getId());
         }
-        
-        
-        
-        System.out.println("TODO: Implement persistance to XML | Models/Task.java:136" + id + " " + title);
-        
-        if (allTasks != null) {
-            allTasks.clear();
-        }
-        allTasks = null;
-        AppObservable.getInstance().notifyObserversToRefresh();
-        
-        return false;
+        return greatestId + 1;
     }
-
     
     private static void populateTasks() {
         try {
@@ -222,7 +277,7 @@ public class Task extends Model {
             }                    
             dbConn.dispose();
         } catch (SQLException ex) {
-            Logger.getLogger(Asset.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Task.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

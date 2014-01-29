@@ -44,12 +44,12 @@
                       </Group>
                       <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
+                          <Group type="102" attributes="0">
                               <Component id="textReport" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="editReportButton" min="-2" max="-2" attributes="0"/>
+                              <Component id="editReportButton" min="-2" pref="102" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="cmboPriority" alignment="0" max="32767" attributes="0"/>
+                          <Component id="cmboPriority" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
