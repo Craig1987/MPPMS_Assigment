@@ -343,7 +343,10 @@ public class IndexController implements Observer {
     class ProjectDetailOverviewButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            projectOverviewController = new ProjectOverviewController(view.getSelectedProject(), new ProjectOverviewView());
+            ProjectOverviewView projectOverviewView = new ProjectOverviewView();
+            projectOverviewView.addViewButtonActionListener(new ProjectOverviewViewButtonActionListener());
+            
+            projectOverviewController = new ProjectOverviewController(view.getSelectedProject(), projectOverviewView);
             projectOverviewController.launch();
         }
     }
@@ -355,6 +358,15 @@ public class IndexController implements Observer {
             
             contentHierarchyController = new ProjectsHierarchyController(detailView, currentUser);
             contentHierarchyController.initialise();  
+        }
+    }
+    
+    class ProjectOverviewViewButtonActionListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            view.setSelectedTask(projectOverviewController.getSelectedTask());
+            view.setSelectedTab("Tasks");
+            view.toFront();
         }
     }
 }

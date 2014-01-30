@@ -25,9 +25,7 @@ public class ProjectOverviewController implements Observer {
         this.view = view;
     }
     
-    public void launch() {
-        refreshView();
-        
+    public void launch() {        
         this.view.setOptions(Task.Status.values(), Task.Status.New);
         this.view.setViewButtonEnabled(false);
         
@@ -37,7 +35,13 @@ public class ProjectOverviewController implements Observer {
         
         this.view.setVisible(true);
         
+        refreshView();
+        
         AppObservable.getInstance().addObserver(this);
+    }
+    
+    public Task getSelectedTask() {
+        return (Task)this.view.getSelectedTask();
     }
     
     private void refreshView() {

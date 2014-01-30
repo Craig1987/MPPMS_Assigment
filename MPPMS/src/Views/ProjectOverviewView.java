@@ -89,6 +89,7 @@ public class ProjectOverviewView extends javax.swing.JFrame {
         projectCombo = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("MPPMS - Managerial Overview");
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel1.setText("Project Overview");
