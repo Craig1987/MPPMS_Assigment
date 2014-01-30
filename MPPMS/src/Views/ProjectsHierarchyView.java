@@ -8,6 +8,7 @@ import javax.swing.ImageIcon;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
 /**
@@ -33,7 +34,7 @@ public class ProjectsHierarchyView extends javax.swing.JFrame {
     }
 
     public Component getSelectedRemoveComponent() {
-        return (Component)comboAddToComponents.getSelectedItem();
+        return (Component)comboRemoveFromComponents.getSelectedItem();
     }
    
     public Component getSelectedAddComponent() {
@@ -42,6 +43,9 @@ public class ProjectsHierarchyView extends javax.swing.JFrame {
     
     public void setTreeModel(DefaultTreeModel model) {
        projectsTree.setModel(model);
+        for (int i = 0; i < projectsTree.getRowCount(); i++) {
+            projectsTree.expandRow(i);
+        }
     }
     
     public DefaultTreeModel getTreeModel() {
@@ -72,6 +76,10 @@ public class ProjectsHierarchyView extends javax.swing.JFrame {
     
     public void setAssetDetails(String detail) {
         lblAssetDetails.setText(detail);
+    }
+    
+    public void setProjectDetails(String detail) {
+        lblProject.setText(detail);
     }
     
     public void setRemoveTasksComboBox(Object[] items) {
@@ -151,6 +159,7 @@ public class ProjectsHierarchyView extends javax.swing.JFrame {
         btnAddToComponent = new javax.swing.JButton();
         comboRemoveFromTasks = new javax.swing.JComboBox();
         btnRemoveFromComponent = new javax.swing.JButton();
+        lblProject = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Content Hierarchy");
@@ -171,7 +180,7 @@ public class ProjectsHierarchyView extends javax.swing.JFrame {
 
         comboAddToComponents.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        lblAssetDetails.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblAssetDetails.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblAssetDetails.setText("Asset Details");
 
         lblComponents.setText("Components:");
@@ -190,6 +199,9 @@ public class ProjectsHierarchyView extends javax.swing.JFrame {
 
         btnRemoveFromComponent.setText("Remove from Chosen Component");
 
+        lblProject.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblProject.setText("Project Details");
+
         javax.swing.GroupLayout assetPanelLayout = new javax.swing.GroupLayout(assetPanel);
         assetPanel.setLayout(assetPanelLayout);
         assetPanelLayout.setHorizontalGroup(
@@ -197,9 +209,6 @@ public class ProjectsHierarchyView extends javax.swing.JFrame {
             .addGroup(assetPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(assetPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(assetPanelLayout.createSequentialGroup()
-                        .addComponent(lblTasks)
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(assetPanelLayout.createSequentialGroup()
                         .addGroup(assetPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(assetPanelLayout.createSequentialGroup()
@@ -226,12 +235,18 @@ public class ProjectsHierarchyView extends javax.swing.JFrame {
                             .addGroup(assetPanelLayout.createSequentialGroup()
                                 .addComponent(lblAssetDetails, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 185, Short.MAX_VALUE)))
-                        .addContainerGap())))
+                        .addContainerGap())
+                    .addGroup(assetPanelLayout.createSequentialGroup()
+                        .addGroup(assetPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblTasks)
+                            .addComponent(lblProject, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         assetPanelLayout.setVerticalGroup(
             assetPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(assetPanelLayout.createSequentialGroup()
-                .addGap(10, 10, 10)
+                .addComponent(lblProject)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblAssetDetails, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblTasks)
@@ -256,7 +271,7 @@ public class ProjectsHierarchyView extends javax.swing.JFrame {
                         .addGroup(assetPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnAddToComponent)
                             .addComponent(comboAddToComponents, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(196, Short.MAX_VALUE))
+                .addContainerGap(185, Short.MAX_VALUE))
         );
 
         jSplitPane1.setRightComponent(assetPanel);
@@ -302,6 +317,7 @@ public class ProjectsHierarchyView extends javax.swing.JFrame {
     private javax.swing.JLabel lblAssetDetails;
     private javax.swing.JLabel lblComponents;
     private javax.swing.JLabel lblContent;
+    private javax.swing.JLabel lblProject;
     private javax.swing.JLabel lblTasks;
     private javax.swing.JTree projectsTree;
     // End of variables declaration//GEN-END:variables
