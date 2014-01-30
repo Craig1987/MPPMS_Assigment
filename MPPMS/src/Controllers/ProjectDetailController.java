@@ -139,22 +139,27 @@ public class ProjectDetailController implements Observer {
                     components.add((Component)object);
                 }
                 
-                Project newProject = new Project(project.getId(), view.getCreationDate());
-                newProject.setDeadline(view.getDeadlineDate());
-                newProject.setTitle(view.getProjectTitle());
-                newProject.setPriority(Project.Priority.valueOf(view.getPriority().toString()));
-                newProject.setClient(view.getClient());
-                newProject.setManager((User)view.getManager());
-                newProject.setCoordinator((User)view.getCoordinator());
-                newProject.setTeam(team);
-                newProject.setTasks(tasks);
-                newProject.setComponents(components);
-                if (newProject.save()) {
+                Project temp = project;
+                
+                project.setDeadline(view.getDeadlineDate());
+                project.setTitle(view.getProjectTitle());
+                project.setPriority(Project.Priority.valueOf(view.getPriority().toString()));
+                project.setClient(view.getClient());
+                project.setManager((User)view.getManager());
+                project.setCoordinator((User)view.getCoordinator());
+                project.setTeam(team);
+                project.setTasks(tasks);
+                project.setComponents(components);
+                if (project.save()) {
                     if (modelChoiceController != null) {
                         modelChoiceController.closeView();
                     }
                     view.setEditMode(false, canEdit);
                     isNew = false;
+                }
+                else {
+                    project = temp;
+                    JOptionPane.showMessageDialog(view, "Error saving Project", "'Project' Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         }        

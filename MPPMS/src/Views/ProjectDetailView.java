@@ -29,7 +29,6 @@ public class ProjectDetailView extends javax.swing.JPanel {
         clientCombo.setEnabled(editMode);
         managerCombo.setEnabled(editMode);
         coordinatorCombo.setEnabled(editMode);
-        pickCreationDate.setEnabled(editMode);
         pickDeadlineDate.setEnabled(editMode);
         cmboPriority.setEnabled(editMode);
         teamChoiceButton.setEnabled(editMode);
@@ -289,6 +288,7 @@ public class ProjectDetailView extends javax.swing.JPanel {
         componentsEditButton.setText("Edit");
 
         pickCreationDate.setDateFormatString("dd MMM yyyy");
+        pickCreationDate.setEnabled(false);
 
         pickDeadlineDate.setDateFormatString("dd MMM yyyy");
 

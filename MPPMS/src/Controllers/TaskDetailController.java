@@ -2,7 +2,6 @@ package Controllers;
 
 import Application.AppObservable;
 import Models.Asset;
-import Models.Report;
 import Models.SetOfAssets;
 import Models.SetOfUsers;
 import Models.Task;
