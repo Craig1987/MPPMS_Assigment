@@ -41,8 +41,8 @@ public class ModelChoiceController implements Observer {
         
         view.setLocationRelativeTo(locationParent);
         
-        view.setAvailableModels(allModels);
-        view.setChosenModels(new ArrayList<Model>());
+        view.setAvailableModels(allModels.toArray());
+        view.setChosenModels(new Object[0]);
         
         this.modelType = determineModelType();
         
@@ -65,8 +65,8 @@ public class ModelChoiceController implements Observer {
         
         view.setLocationRelativeTo(locationParent);
         
-        view.setAvailableModels(remainingModels);
-        view.setChosenModels(preChosen);
+        view.setAvailableModels(remainingModels.toArray());
+        view.setChosenModels(preChosen.toArray());
         
         view.setAddModelButtonEnabled(false);
         view.setRemoveModelButtonEnabled(false);
@@ -124,9 +124,6 @@ public class ModelChoiceController implements Observer {
 
     @Override
     public void update(Observable o, Object o1) {
-        Model selectedChosen = null;
-        Model selectedAvailable = null;
-        
         this.allModels.clear();
         
         // Update selected models
@@ -137,41 +134,21 @@ public class ModelChoiceController implements Observer {
                     User user = User.getUserByUsername(((User)model).getUsername());
                     updatedSelected.add(user);
                     this.allModels.add(user);
-                    // Remember the user's JList selection
-                    try {
-                        selectedChosen = User.getUserByUsername(((User)view.getSelectedChosenModel()).getUsername());
-                    }
-                    catch (NoModelSelectedException ex) { }
                     break;
                 case Task:
                     Task task = Task.getTaskByID(((Task)model).getId());
                     updatedSelected.add(task);
                     this.allModels.add(task);
-                    // Remember the user's JList selection
-                    try {
-                        selectedChosen = Task.getTaskByID(((Task)view.getSelectedChosenModel()).getId());
-                    }
-                    catch (NoModelSelectedException ex) { }
                     break;
                 case Component:
                     Component component = Component.getComponentByID(((Component)model).getId());
                     updatedSelected.add(component);
                     this.allModels.add(component);
-                    // Remember the user's JList selection
-                    try {
-                        selectedChosen = Component.getComponentByID(((Component)view.getSelectedChosenModel()).getId());
-                    }
-                    catch (NoModelSelectedException ex) { }
                     break;
                 case Asset:
                     Asset asset = Asset.getAssetByID(((Asset)model).getId());
                     updatedSelected.add(asset);
                     this.allModels.add(asset);
-                    // Remember the user's JList selection
-                    try {
-                        selectedChosen = Asset.getAssetByID(((Asset)view.getSelectedChosenModel()).getId());
-                    }
-                    catch (NoModelSelectedException ex) { }
                     break;
             }
         }
@@ -184,41 +161,21 @@ public class ModelChoiceController implements Observer {
                     User user = User.getUserByUsername(((User)model).getUsername());
                     updatedAvailable.add(user);
                     this.allModels.add(user);
-                    // Remember the user's JList selection
-                    try {
-                        selectedAvailable = User.getUserByUsername(((User)view.getSelectedChosenModel()).getUsername());
-                    }
-                    catch (NoModelSelectedException ex) { }
                     break;
                 case Task:
                     Task task = Task.getTaskByID(((Task)model).getId());
                     updatedAvailable.add(task);
                     this.allModels.add(task);
-                    // Remember the user's JList selection
-                    try {
-                        selectedAvailable = Task.getTaskByID(((Task)view.getSelectedChosenModel()).getId());
-                    }
-                    catch (NoModelSelectedException ex) { }
                     break;
                 case Component:
                     Component component = Component.getComponentByID(((Component)model).getId());
                     updatedAvailable.add(component);
                     this.allModels.add(component);
-                    // Remember the user's JList selection
-                    try {
-                        selectedAvailable = Component.getComponentByID(((Component)view.getSelectedChosenModel()).getId());
-                    }
-                    catch (NoModelSelectedException ex) { }
                     break;
                 case Asset:
                     Asset asset = Asset.getAssetByID(((Asset)model).getId());
                     updatedAvailable.add(asset);
                     this.allModels.add(asset);
-                    // Remember the user's JList selection
-                    try {
-                        selectedAvailable = Asset.getAssetByID(((Asset)view.getSelectedChosenModel()).getId());
-                    }
-                    catch (NoModelSelectedException ex) { }
                     break;
             }
         }
@@ -261,12 +218,8 @@ public class ModelChoiceController implements Observer {
         }
         
         // Set the freshly updated models in the UI
-        this.view.setChosenModels(updatedSelected);
-        this.view.setAvailableModels(updatedAvailable);
-        
-        // Persist the user's previous selections
-        this.view.setSelectedChosenModel(selectedChosen);
-        this.view.setSelectedAvailableModel(selectedAvailable);
+        this.view.setChosenModels(updatedSelected.toArray());
+        this.view.setAvailableModels(updatedAvailable.toArray());
     }
     
     class AddModelButtonActionListener implements ActionListener {
@@ -275,20 +228,17 @@ public class ModelChoiceController implements Observer {
             ArrayList<Model> chosenModels = view.getChosenModels();
             ArrayList<Model> availableModels = view.getAvailableModels();
             
-            Model selectedModel;
-            
             try {
-                selectedModel = view.getSelectedAvailableModel();
+                for (Model model : view.getSelectedAvailableModels()) {
+                    chosenModels.add(model);
+                    availableModels.remove(model);
+                }
             } catch (NoModelSelectedException ex) {
                 return;
             }
             
-            chosenModels.add(selectedModel);
-            availableModels.remove(selectedModel);
-            
-            view.setChosenModels(chosenModels);
-            view.setAvailableModels(availableModels);
-            
+            view.setChosenModels(chosenModels.toArray());
+            view.setAvailableModels(availableModels.toArray());            
             view.setClearButtonEnabled(chosenModels.size() > 0);
         }
     }
@@ -299,20 +249,17 @@ public class ModelChoiceController implements Observer {
             ArrayList<Model> chosenModels = view.getChosenModels();
             ArrayList<Model> availableModels = view.getAvailableModels();
             
-            Model selectedModel;
-            
             try {
-                selectedModel = view.getSelectedChosenModel();
+                for (Model model : view.getSelectedAvailableModels()) {
+                    chosenModels.remove(model);
+                    availableModels.add(model);
+                }
             } catch (NoModelSelectedException ex) {
                 return;
             }
             
-            availableModels.add(selectedModel);
-            chosenModels.remove(selectedModel);
-            
-            view.setChosenModels(chosenModels);
-            view.setAvailableModels(availableModels);
-            
+            view.setChosenModels(chosenModels.toArray());
+            view.setAvailableModels(availableModels.toArray());            
             view.setClearButtonEnabled(chosenModels.size() > 0);
         }
     }
@@ -320,22 +267,22 @@ public class ModelChoiceController implements Observer {
     class ClearSelectionButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {            
-            view.setChosenModels(new ArrayList<Model>());
-            view.setAvailableModels(allModels);
+            view.setChosenModels(new Object[0]);
+            view.setAvailableModels(allModels.toArray());
         }
     }
     
     class ChosenModelsListSelectionListener implements ListSelectionListener {
         @Override
         public void valueChanged(ListSelectionEvent lse) {
-            view.setRemoveModelButtonEnabled(view.getChosenModelsSelectedIndex() >= 0);
+            view.setRemoveModelButtonEnabled(view.chosenModelSelected());
         }
     }
     
     class AvailableModelsListSelectionListener implements ListSelectionListener {
         @Override
         public void valueChanged(ListSelectionEvent lse) {
-            view.setAddModelButtonEnabled(view.getAvailableModelsSelectedIndex() >= 0);
+            view.setAddModelButtonEnabled(view.availableModelSelected());
         }
     }
 }

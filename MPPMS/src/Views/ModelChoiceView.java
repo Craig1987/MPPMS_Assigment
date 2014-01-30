@@ -4,56 +4,53 @@ import Exceptions.NoModelSelectedException;
 import Models.Model;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.ImageIcon;
+import javax.swing.ListModel;
 import javax.swing.event.ListSelectionListener;
 
 public class ModelChoiceView extends javax.swing.JFrame {
-    private ArrayList<Model> availableModels = new ArrayList<>();
-    private ArrayList<Model> chosenModels = new ArrayList<>();
-    
     public ModelChoiceView() {
         initComponents();
         this.setIconImage(new ImageIcon(getClass().getResource("/resources/icon.png")).getImage());
     }
     
-    public Model getSelectedAvailableModel() throws NoModelSelectedException {
-        int selectedIndex = listbox_availableModels.getSelectedIndex();        
-        if (selectedIndex < 0) {
-            throw new NoModelSelectedException();
-        }        
-        return availableModels.get(selectedIndex);
+    public List<Model> getSelectedAvailableModels() throws NoModelSelectedException {
+        return (List<Model>) listbox_availableModels.getSelectedValuesList();
     }
     
-    public void setSelectedAvailableModel(Model model) {
-        listbox_availableModels.setSelectedValue(model, true);
-    }
-    
-    public Model getSelectedChosenModel() throws NoModelSelectedException {
-        int selectedIndex = listbox_chosenModels.getSelectedIndex();        
-        if (selectedIndex < 0) {
-            throw new NoModelSelectedException();
-        }        
-        return chosenModels.get(selectedIndex);
-    }
-    
-    public void setSelectedChosenModel(Model model) {
-        listbox_chosenModels.setSelectedValue(model, true);
+    public List<Model> getSelectedChosenModels() throws NoModelSelectedException {
+        return (List<Model>) listbox_chosenModels.getSelectedValuesList();
     }
     
     public ArrayList<Model> getChosenModels(){
-        return (ArrayList<Model>) chosenModels.clone();
+        ArrayList<Model> models = new ArrayList();
+        ListModel listModel = listbox_chosenModels.getModel();
+
+        for(int i = 0; i < listModel.getSize(); i++){
+             models.add((Model)listModel.getElementAt(i));
+        }
+        
+        return models;
     }
     
     public ArrayList<Model> getAvailableModels() {
-        return (ArrayList<Model>) availableModels.clone();
+        ArrayList<Model> models = new ArrayList();
+        ListModel listModel = listbox_availableModels.getModel();
+
+        for(int i = 0; i < listModel.getSize(); i++){
+             models.add((Model)listModel.getElementAt(i));
+        }
+        
+        return models;
     }
     
-    public int getChosenModelsSelectedIndex() {
-        return this.listbox_chosenModels.getSelectedIndex();
+    public boolean chosenModelSelected() {
+        return !listbox_chosenModels.getSelectionModel().isSelectionEmpty();
     }
     
-    public int getAvailableModelsSelectedIndex() {
-        return this.listbox_availableModels.getSelectedIndex();
+    public boolean availableModelSelected() {
+        return !listbox_availableModels.getSelectionModel().isSelectionEmpty();
     }
     
     public void setAddModelButtonEnabled(boolean b) {
@@ -80,14 +77,12 @@ public class ModelChoiceView extends javax.swing.JFrame {
         lbl_chosenModels.setText(text);
     }
     
-    public void setAvailableModels(ArrayList<Model> models){
-        availableModels = models;
-        listbox_availableModels.setListData(models.toArray());
+    public void setAvailableModels(Object[] models){
+        listbox_availableModels.setListData(models);
     }
     
-    public void setChosenModels(ArrayList<Model> models){
-        chosenModels = models;
-        listbox_chosenModels.setListData(models.toArray());
+    public void setChosenModels(Object[] models){
+        listbox_chosenModels.setListData(models);
     }
     
     public void addAddModelButtonActionListener(ActionListener listener) {
@@ -138,7 +133,6 @@ public class ModelChoiceView extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        listbox_chosenModels.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(listbox_chosenModels);
 
         lbl_availableModels.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -151,7 +145,6 @@ public class ModelChoiceView extends javax.swing.JFrame {
 
         btn_addSelectedModel.setText("<-- Add");
 
-        listbox_availableModels.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane2.setViewportView(listbox_availableModels);
 
         btn_clearChosenModels.setText("Clear selected");
@@ -175,9 +168,10 @@ public class ModelChoiceView extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lbl_title, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
+                            .addComponent(jScrollPane1)
                             .addComponent(lbl_chosenModels, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -185,14 +179,11 @@ public class ModelChoiceView extends javax.swing.JFrame {
                             .addComponent(btn_removeSelectedModel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btn_clearChosenModels, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btn_saveChosenModels, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(cancelButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lbl_availableModels, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lbl_title, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 273, Short.MAX_VALUE)))
+                            .addComponent(jScrollPane2))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
