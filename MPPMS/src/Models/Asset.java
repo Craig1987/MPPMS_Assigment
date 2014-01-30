@@ -70,6 +70,13 @@ public class Asset extends Model {
         this.assetType = type;
     }
     
+    public static void clearAndNullifyAll() {
+        if (allAssets != null) {
+            allAssets.clear();
+            allAssets = null;
+        }
+    }
+    
     @Override
     public boolean save() {
         DatabaseConnector dbConn = new DatabaseConnector();
@@ -84,10 +91,6 @@ public class Asset extends Model {
         }
              
         if (success) {
-            if (allAssets != null) {
-                allAssets.clear();
-            }
-            allAssets = null;
             AppObservable.getInstance().notifyObserversToRefresh();
         }
         

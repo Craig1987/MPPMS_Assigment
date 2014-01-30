@@ -1,5 +1,6 @@
 package Controllers;
 
+import Application.AppTracker;
 import Models.User;
 import Views.LoginView;
 import java.awt.Frame;
@@ -23,13 +24,20 @@ public class LoginController {
     
     private void login() {
         if (User.authenticate(view.getUsername(), view.getPassword())) {
-            IndexController controller = new IndexController(User.getUserByUsername(view.getUsername()));
-            controller.launch();
-            
-            view.setUsername("");
-            view.setPassword("");
-            view.setState(Frame.ICONIFIED);
-            view.focusUsername();
+            if (AppTracker.getInstance().isUserLoggedIn(view.getUsername())) {
+                view.showErrorMessage("User '" + view.getUsername() + "' is already logged in to the MPPMS system.");
+            }
+            else {
+                AppTracker.getInstance().userLoggedIn(view.getUsername());
+                
+                IndexController controller = new IndexController(User.getUserByUsername(view.getUsername()));
+                controller.launch();
+
+                view.setUsername("");
+                view.setPassword("");
+                view.setState(Frame.ICONIFIED);
+                view.focusUsername();
+            }
         }
         else {
             view.showErrorMessage("Incorrect username or password.");

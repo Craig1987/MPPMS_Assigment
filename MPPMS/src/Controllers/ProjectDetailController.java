@@ -9,6 +9,7 @@ import Models.SetOfUsers;
 import Models.Task;
 import Models.User;
 import Views.ProjectDetailView;
+import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -121,6 +122,8 @@ public class ProjectDetailController implements Observer {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (validateUserInputs()) {
+                view.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+                
                 Object[] objects = view.getTeam();
                 SetOfUsers team = new SetOfUsers();
                 for (Object object : objects) {
@@ -161,6 +164,8 @@ public class ProjectDetailController implements Observer {
                     project = temp;
                     JOptionPane.showMessageDialog(view, "Error saving Project", "'Project' Error", JOptionPane.ERROR_MESSAGE);
                 }
+                
+                view.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
             }
         }        
     }

@@ -62,6 +62,13 @@ public class Comment extends Model {
     public void setDate(Date date) {
         this.date = date;
     }
+    
+    public static void clearAndNullifyAll() {
+        if (allComments != null) {
+            allComments.clear();
+            allComments = null;
+        }
+    }
 
     @Override
     public boolean save() {
@@ -77,10 +84,6 @@ public class Comment extends Model {
         }
             
         if (success) {
-            if (allComments != null) {
-                allComments.clear();
-            }
-            allComments = null;
             AppObservable.getInstance().notifyObserversToRefresh();
         }
         

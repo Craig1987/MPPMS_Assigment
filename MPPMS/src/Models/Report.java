@@ -65,6 +65,13 @@ public class Report extends Model {
         return this.comments;
     }
     
+    public static void clearAndNullifyAll() {
+        if (allReports != null) {
+            allReports.clear();
+            allReports = null;
+        }
+    }
+    
     @Override
     public boolean save() {
         boolean success = true;
@@ -86,10 +93,6 @@ public class Report extends Model {
         success &= dbConn.deleteAndInsertQuery(getInnerAttributesAndValues(), "REPORT");
         
         if (success) {
-            if (allReports != null) {
-                allReports.clear();
-            }
-            allReports = null;
             AppObservable.getInstance().notifyObserversToRefresh();
         }
         

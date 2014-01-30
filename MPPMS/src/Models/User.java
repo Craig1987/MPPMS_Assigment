@@ -55,6 +55,13 @@ public class User extends Model {
         }
         return String.format("%s %s", this.forename, this.surname);
     }
+    
+    public static void clearAndNullifyAll() {
+        if (allUsers != null) {
+            allUsers.clear();
+            allUsers = null;
+        }
+    }
 
     @Override
     public boolean save() {

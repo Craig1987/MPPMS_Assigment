@@ -5,6 +5,7 @@ import Models.Asset;
 import Models.Component;
 import Models.SetOfAssets;
 import Views.ComponentDetailView;
+import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -90,6 +91,8 @@ public class ComponentDetailController implements Observer {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (validateUserInputs()) {
+                view.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+                
                 Component temp = component;
                 
                 Object[] objects = view.getAssets();
@@ -112,6 +115,8 @@ public class ComponentDetailController implements Observer {
                     component = temp;
                     JOptionPane.showMessageDialog(view, "Error saving Component", "'Component' Error", JOptionPane.ERROR_MESSAGE);
                 }
+                
+                view.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
             }
         }        
     }

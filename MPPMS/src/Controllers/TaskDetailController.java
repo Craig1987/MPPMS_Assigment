@@ -8,6 +8,7 @@ import Models.Task;
 import Models.User;
 import Models.User.Role;
 import Views.TaskDetailView;
+import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -104,6 +105,8 @@ public class TaskDetailController implements Observer {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (validateUserInputs()) {
+                view.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+                
                 Object[] objects = view.getAssignedTo();
                 SetOfUsers assignedTo = new SetOfUsers();
                 for (Object object : objects) {
@@ -136,6 +139,8 @@ public class TaskDetailController implements Observer {
                     task = temp;
                     JOptionPane.showMessageDialog(view, "Error saving Task", "'Task' Error", JOptionPane.ERROR_MESSAGE);
                 }
+                
+                view.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
             }
         }        
     }

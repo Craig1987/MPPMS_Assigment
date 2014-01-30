@@ -58,6 +58,13 @@ public class Component extends Model {
         this.assets.add(asset);
     }
     
+    public static void clearAndNullifyAll() {
+        if (allComponents != null) {
+            allComponents.clear();
+            allComponents = null;
+        }
+    }
+    
     @Override
     public boolean save() {
         DatabaseConnector dbConn = new DatabaseConnector();
@@ -74,10 +81,6 @@ public class Component extends Model {
         success &= dbConn.deleteAndInsertQuery(getInnerAttributesAndValues(), "COMPONENT");
                 
         if (success) {
-            if (allComponents != null) {
-                allComponents.clear();
-            }
-            allComponents = null;
             AppObservable.getInstance().notifyObserversToRefresh();
         }
         

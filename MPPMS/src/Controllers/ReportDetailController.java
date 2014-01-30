@@ -5,9 +5,11 @@ import Models.Comment;
 import Models.Report;
 import Models.User;
 import Views.ReportDetailView;
+import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
@@ -19,7 +21,6 @@ import javax.swing.event.ListSelectionListener;
 public class ReportDetailController implements Observer { 
     private final ReportDetailView view = new ReportDetailView();
     private final User currentUser;
-    private boolean isNew;
     
     private boolean isNewComment;    
     private Report report;
@@ -69,8 +70,26 @@ public class ReportDetailController implements Observer {
         view.setPanelVisibility(isNewComment || view.getSelectedComment().getId() > 0);
     }
     
+    private boolean validateUserInputs() {
+        ArrayList<String> errors = new ArrayList();
+        
+        if (this.view.getContent().equals("")) {
+            errors.add("\t - Enter a comment");
+        }
+        
+        if (errors.size() > 0) {
+            String errorMsg = "Unable to save new Asset.\nDetails:";
+            for (String error : errors) {
+                errorMsg += "\n" + error;
+            }
+            JOptionPane.showMessageDialog(this.view, errorMsg, "Unable to Save", JOptionPane.INFORMATION_MESSAGE);
+            return false;
+        }
+        return true;
+    }
+    
     @Override
-    public void update(Observable o, Object o1) {
+    public void update(Observable o, Object o1) { 
         int index = this.view.getSelectedIndex();
         this.report = Report.getReportByID(this.report.getId());
         this.view.setComments(this.report.getComments().toArray());
@@ -105,54 +124,60 @@ public class ReportDetailController implements Observer {
     class SaveCommentChangesActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ae) {
-            if (isNewComment)
-            {
-                Report tempReport = report;
-                Comment tempComment = selectedComment;
-                
-                selectedComment.setContent(view.getContent());
-                selectedComment.setDate(new Date());
-                selectedComment.setUser(currentUser);
-                
-                report.addComment(selectedComment);
-                isNewComment = false;
-                
-                if (report.save()) {
-                    view.setEditMode(false);
-                }
-                else {
-                    isNewComment = true;
-                    report = tempReport;
-                    selectedComment = tempComment;
-                    JOptionPane.showMessageDialog(view, "Error saving Report", "'Report' Error", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-            else
-            {
-                Comment temp = null;
-                
-                for (Comment comment : report.getComments()) {
-                    if (comment.getId() == view.getSelectedComment().getId()) {
-                        temp = comment;
-                        selectedComment = comment;
-                        comment.setUser(currentUser);
-                        comment.setDate(new Date());
-                        comment.setContent(view.getContent());
+            if (validateUserInputs()) {
+                view.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+
+                if (isNewComment)
+                {
+                    Report tempReport = report;
+                    Comment tempComment = selectedComment;
+
+                    selectedComment.setContent(view.getContent());
+                    selectedComment.setDate(new Date());
+                    selectedComment.setUser(currentUser);
+
+                    report.addComment(selectedComment);
+                    isNewComment = false;
+
+                    if (report.save()) {
+                        view.setEditMode(false);
+                    }
+                    else {
+                        isNewComment = true;
+                        report = tempReport;
+                        selectedComment = tempComment;
+                        JOptionPane.showMessageDialog(view, "Error saving Report", "'Report' Error", JOptionPane.ERROR_MESSAGE);
                     }
                 }
-                
-                if (report.save()) {
-                    view.setEditMode(false);
-                }
-                else {
+                else
+                {
+                    Comment temp = null;
+
                     for (Comment comment : report.getComments()) {
                         if (comment.getId() == view.getSelectedComment().getId()) {
-                            comment = temp;
+                            temp = comment;
+                            selectedComment = comment;
+                            comment.setUser(currentUser);
+                            comment.setDate(new Date());
+                            comment.setContent(view.getContent());
                         }
                     }
-                    selectedComment = temp;
-                    JOptionPane.showMessageDialog(view, "Error saving Report", "'Report' Error", JOptionPane.ERROR_MESSAGE);
+
+                    if (report.save()) {
+                        view.setEditMode(false);
+                    }
+                    else {
+                        for (Comment comment : report.getComments()) {
+                            if (comment.getId() == view.getSelectedComment().getId()) {
+                                comment = temp;
+                            }
+                        }
+                        selectedComment = temp;
+                        JOptionPane.showMessageDialog(view, "Error saving Report", "'Report' Error", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
+
+                view.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
             }
         }
     }

@@ -3,7 +3,6 @@ package Models;
 import Application.AppObservable;
 import Data.DatabaseConnector;
 import Models.User.Role;
-import java.awt.Cursor;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -153,6 +152,13 @@ public class Project extends Model {
         this.components.add(component);
     }
     
+    public static void clearAndNullifyAll() {
+        if (allProjects != null) {
+            allProjects.clear();
+            allProjects = null;
+        }
+    }
+    
     @Override
     public boolean save() {
         DatabaseConnector dbConn = new DatabaseConnector();
@@ -169,10 +175,6 @@ public class Project extends Model {
         success &= dbConn.deleteAndInsertQuery(getInnerAttributesAndValues(), "PROJECT");
         
         if (success) {
-            if (allProjects != null) {
-                allProjects.clear();
-            }
-            allProjects = null;
             AppObservable.getInstance().notifyObserversToRefresh();
         }
         

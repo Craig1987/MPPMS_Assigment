@@ -1,6 +1,7 @@
 package Controllers;
 
 import Application.AppObservable;
+import Application.AppTracker;
 import Models.Asset;
 import Models.Component;
 import Models.Project;
@@ -15,6 +16,7 @@ import Views.IndexView;
 import Views.ProjectOverviewView;
 import Views.ProjectsHierarchyView;
 import Views.TaskDetailView;
+import java.awt.Cursor;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -140,6 +142,7 @@ public class IndexController implements Observer {
     }
     
     private void valueChanged() {
+        view.setCursor(new Cursor(Cursor.WAIT_CURSOR));
         switch (view.getSelectedTabName()) {
             case "Projects":
                 projectValueChanged();
@@ -154,24 +157,25 @@ public class IndexController implements Observer {
                 assetValueChanged();
                 break;
         }
+        view.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     }
 
     @Override
     public void update(Observable o, Object o1) {
         // Store any currently selected Models in the tables
-        Project selectedProject = view.getSelectedProject();
-        Task selectedTask = view.getSelectedTask();
-        Component selectedComponent = view.getSelectedComponent();
-        Asset selectedAsset = view.getSelectedAsset();
+        int selectedProjectId = (view.getSelectedProject() == null ? -1 : view.getSelectedProject().getId());
+        int selectedTaskId = (view.getSelectedTask() == null ? -1 : view.getSelectedTask().getId());
+        int selectedComponentId = (view.getSelectedComponent() == null ? -1 : view.getSelectedComponent().getId());
+        int selectedAssetId = (view.getSelectedAsset() == null ? -1 : view.getSelectedAsset().getId());
         
         // Repopulate the tables
         populateTables();
         
         // Select any models which were previously selected
-        view.setSelectedProject(selectedProject);
-        view.setSelectedTask(selectedTask);
-        view.setSelectedComponent(selectedComponent);
-        view.setSelectedAsset(selectedAsset);
+        view.setSelectedProject(Project.getProjectById(selectedProjectId));
+        view.setSelectedTask(Task.getTaskByID(selectedTaskId));
+        view.setSelectedComponent(Component.getComponentByID(selectedComponentId));
+        view.setSelectedAsset(Asset.getAssetByID(selectedAssetId));
         
         // Ensure that we remain looking at the same tab / detail view
         valueChanged();
@@ -263,13 +267,13 @@ public class IndexController implements Observer {
     class UserMenuLogOutActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            System.out.println(e.getSource());
             view.dispose();
             for (Frame frame : Frame.getFrames()) {
                 if (frame.getTitle().equals("MPPMS - Login")) {
                     frame.setState(Frame.NORMAL);
                 }
             }
+            AppTracker.getInstance().userLoggedOut(currentUser.getUsername());
         }
     }
     

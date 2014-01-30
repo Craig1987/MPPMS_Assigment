@@ -129,6 +129,13 @@ public class Task extends Model {
         this.report = report;
     }
     
+    public static void clearAndNullifyAll() {
+        if (allTasks != null) {
+            allTasks.clear();
+            allTasks = null;
+        }
+    }
+    
     @Override
     public boolean save() {
         this.report.setTitle("Report for Task " + Task.getNextAvailableID());
@@ -147,10 +154,6 @@ public class Task extends Model {
         success &= dbConn.deleteAndInsertQuery(getInnerAttributesAndValues(), "TASK");
         
         if (success) {
-            if (allTasks != null) {
-                allTasks.clear();
-            }
-            allTasks = null;
             AppObservable.getInstance().notifyObserversToRefresh();
         }
         

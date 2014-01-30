@@ -5,6 +5,7 @@ import Models.SetOfAssets;
 import Models.Task;
 import Models.Task.TaskType;
 import Views.ImportAssetsView;
+import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -88,7 +89,9 @@ public class ImportAssetsController {
     class AssetsChooserActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            view.setCursor(new Cursor(Cursor.WAIT_CURSOR));
             parseAssetFiles();
+            view.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
         } 
     }  
 }
