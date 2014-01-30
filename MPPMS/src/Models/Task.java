@@ -48,7 +48,7 @@ public class Task extends Model {
         this.title = "";
         this.status = Status.New;
         this.priority = Priority.Normal;
-        this.report = new Report();
+        this.report = new Report(); // An empty report is always created
     }
 
     
