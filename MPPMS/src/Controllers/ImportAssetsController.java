@@ -64,8 +64,11 @@ public class ImportAssetsController {
                         
                         File f = new File(filePath);
                         
-                        if (f.exists())
+                        if (f.exists()) {
                             asset.setFile(f);
+                        } else {
+                            
+                        }
                         
                         asset.save();
                         

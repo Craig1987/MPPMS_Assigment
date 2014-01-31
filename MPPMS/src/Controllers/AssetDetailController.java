@@ -31,6 +31,9 @@ public class AssetDetailController implements Observer {
         this.view.addSaveButtonActionListener(new SaveButtonActionListener());
         this.view.addEditButtonActionListener(new EditButtonActionListener());
         this.view.addDiscardButtonActionListener(new DiscardButtonActionListener());
+        this.view.addPreviewButtonActionListener(new PreviewButtonActionListener());
+        
+        this.view.showPreviewButton(asset.getFile() != null);
         
         AppObservable.getInstance().addObserver(this);
     }

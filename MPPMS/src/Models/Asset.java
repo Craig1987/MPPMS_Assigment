@@ -17,7 +17,7 @@ public class Asset extends Model {
     private AssetType assetType;    
     private int length;
     private String description;
-    private File file;
+    private File file = null;
 
     
     public enum AssetType {

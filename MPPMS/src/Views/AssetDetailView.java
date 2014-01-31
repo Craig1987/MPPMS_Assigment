@@ -19,6 +19,10 @@ public class AssetDetailView extends javax.swing.JPanel {
         lengthText.setEnabled(editMode);
     }
     
+    public void showPreviewButton(boolean vis) {
+        btnPreview.setVisible(vis);
+    }
+    
     public void setIdLabelText(String text) {
         this.lblID.setText(text);
     }
@@ -65,6 +69,10 @@ public class AssetDetailView extends javax.swing.JPanel {
         discardButton.addActionListener(listener);
     }
     
+    public void addPreviewButtonActionListener(ActionListener listener) {
+        btnPreview.addActionListener(listener);
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -87,6 +95,7 @@ public class AssetDetailView extends javax.swing.JPanel {
         saveButton = new javax.swing.JButton();
         editButton = new javax.swing.JButton();
         typeCombo = new javax.swing.JComboBox();
+        btnPreview = new javax.swing.JButton();
 
         lblProjectDetails.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblProjectDetails.setText("Asset Details");
@@ -131,6 +140,8 @@ public class AssetDetailView extends javax.swing.JPanel {
                 .addComponent(editButton))
         );
 
+        btnPreview.setText("Preview");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -142,9 +153,6 @@ public class AssetDetailView extends javax.swing.JPanel {
                         .addComponent(lblProjectDetails)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(lblID))
                     .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
@@ -156,7 +164,12 @@ public class AssetDetailView extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(typeCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lengthText))))
+                            .addComponent(lengthText)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblID, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnPreview, javax.swing.GroupLayout.Alignment.TRAILING))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -180,11 +193,14 @@ public class AssetDetailView extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(lengthText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnPreview)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnPreview;
     private javax.swing.JTextArea descriptionArea;
     private javax.swing.JButton discardButton;
     private javax.swing.JButton editButton;

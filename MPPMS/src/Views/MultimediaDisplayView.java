@@ -48,8 +48,6 @@ public class MultimediaDisplayView extends javax.swing.JFrame {
     Dimension mediaDisplaySize    = new Dimension(600, 300);
     Dimension mediaControlsSize   = new Dimension(600, 20);
     Dimension mediaPanelSize      = new Dimension(600, mediaDisplaySize.height + mediaControlsSize.height);
-    Dimension annotationPanelSize = new Dimension(600, 300);
-    Dimension frameSize           = new Dimension(600, mediaPanelSize.height + annotationPanelSize.height);
     
     File file;
     MediaPlayer player;
@@ -68,25 +66,15 @@ public class MultimediaDisplayView extends javax.swing.JFrame {
         file   = asset.getFile();
         player = new JMFMediaPlayer();
         
+        //if (! isMovieFile(file))
+         //   mediaPanelSize = mediaControlsSize;
+        
         // setup media panel
         mediaPanel = new JPanel();
         mediaPanel.setLayout(new BoxLayout(mediaPanel, BoxLayout.PAGE_AXIS));
         mediaPanel.setMaximumSize(mediaPanelSize);
         mediaPanel.setBorder(BorderFactory.createTitledBorder("Asset: " + file.getName()));
         mediaPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        
-        // resize window if only playing audio
-        if (! isMovieFile(file)) {
-            frameSize = new Dimension(frameSize.width, frameSize.width - mediaDisplaySize.height);
-            mediaDisplaySize = (Dimension) mediaControlsSize.clone();
-        }
-        
-        // setup annotations panel
-        annotationsPanel = new JPanel();
-        annotationsPanel.setLayout(new BoxLayout(annotationsPanel, BoxLayout.PAGE_AXIS));
-        annotationsPanel.setMaximumSize(annotationPanelSize);
-        annotationsPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        annotationsPanel.setBorder(BorderFactory.createTitledBorder("Annotations"));
         
         // set frame layout
         getContentPane().setLayout(
@@ -97,11 +85,12 @@ public class MultimediaDisplayView extends javax.swing.JFrame {
 
         // add media and annotations panel to main window
         add(mediaPanel);
-        //add(annotationsPanel);
-        add(Box.createVerticalGlue());
         
         // adjust size of window
-        setSize(frameSize);
+        getContentPane().setSize(mediaPanelSize);
+        
+        // dont kill everything on close
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         
         // make window visible
         setVisible(true);
