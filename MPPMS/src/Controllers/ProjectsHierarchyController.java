@@ -174,7 +174,7 @@ public class ProjectsHierarchyController implements Observer {
         view.addComponentsEnabled(addComps.size() > 0);
         view.setAddtoComponentsComboBox(addComps.toArray());
 
-        view.setControlsVisible(true);
+        view.setControlsVisible(view.isNodeSelected());
     }
     
     class ProjectsTreeSelectionListener implements TreeSelectionListener {

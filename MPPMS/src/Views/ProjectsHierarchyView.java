@@ -57,6 +57,10 @@ public class ProjectsHierarchyView extends javax.swing.JFrame {
         return (DefaultMutableTreeNode) projectsTree.getLastSelectedPathComponent();
     }
     
+    public boolean isNodeSelected() {
+        return projectsTree.getSelectionCount() > 0;
+    }
+    
     public void setControlsEnabled(boolean enabled) {
         java.awt.Component[] coms = assetPanel.getComponents();
         for (java.awt.Component com : coms) {
@@ -161,7 +165,7 @@ public class ProjectsHierarchyView extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Content Hierarchy");
+        setTitle("MPPMS - Content Hierarchy");
 
         lblContent.setText("Content Hierarchy");
 

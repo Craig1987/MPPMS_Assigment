@@ -30,9 +30,9 @@ import javax.swing.event.ListSelectionListener;
 public class TaskDetailController implements Observer {
     private final TaskDetailView view;
     private final boolean canEdit;
-    private final User currentUser;
     private final JFrame parentFrame;
     
+    private User currentUser;
     private Task task;
     private boolean isNew;
     
@@ -126,6 +126,8 @@ public class TaskDetailController implements Observer {
 
     @Override
     public void update(Observable o, Object o1) {
+        this.currentUser = User.getUserByUsername(this.currentUser.getUsername());
+        
         if (!this.isNew) {
             this.task = Task.getTaskByID(this.task.getId());
             refreshView();

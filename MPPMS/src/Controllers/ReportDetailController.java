@@ -26,8 +26,8 @@ import javax.swing.event.ListSelectionListener;
  */
 public class ReportDetailController implements Observer { 
     private final ReportDetailView view = new ReportDetailView();
-    private final User currentUser;
     
+    private User currentUser;    
     private boolean isNewComment;    
     private Report report;
     private Comment selectedComment;
@@ -121,6 +121,7 @@ public class ReportDetailController implements Observer {
     
     @Override
     public void update(Observable o, Object o1) { 
+        this.currentUser = User.getUserByUsername(this.currentUser.getUsername());
         int index = this.view.getSelectedIndex();
         this.report = Report.getReportByID(this.report.getId());
         this.view.setComments(this.report.getComments().toArray());

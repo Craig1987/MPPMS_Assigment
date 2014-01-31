@@ -35,7 +35,7 @@ import javax.swing.event.ListSelectionListener;
  * @see AppObservable
  */
 public class IndexController implements Observer {
-    private final User currentUser;
+    private User currentUser;
     
     private final IndexView view = new IndexView();
     private ProjectDetailController projectDetailController;
@@ -207,6 +207,8 @@ public class IndexController implements Observer {
 
     @Override
     public void update(Observable o, Object o1) {
+        this.currentUser = User.getUserByUsername(this.currentUser.getUsername());
+        
         // Store any currently selected Models in the tables
         int selectedProjectId = (view.getSelectedProject() == null ? -1 : view.getSelectedProject().getId());
         int selectedTaskId = (view.getSelectedTask() == null ? -1 : view.getSelectedTask().getId());
