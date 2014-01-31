@@ -1,15 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package Models;
 
-import Models.User.Role;
-import java.lang.reflect.Method;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -18,12 +8,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-/**
- *
- * @author ryantk
- */
 public class UserTest {
-    
     private User user;
     
     public UserTest() {
@@ -41,10 +26,11 @@ public class UserTest {
     public String testPassword(){ return "pa$$word"; }
     public String testFirstname(){ return "Paul"; }
     public String testSurname(){ return "Binkster"; }
+    public String testName(){ return "ClientName"; }
     
     @Before
     public void setUp() {
-        user = new User(User.Role.ProjectManager, testUsername(), testPassword(), testFirstname(), testSurname());
+        user = new User(User.Role.ProjectManager, testUsername(), testPassword(), testFirstname(), testSurname(), testName());
     }
     
     @After
@@ -58,7 +44,7 @@ public class UserTest {
     public void testGetUsername() {
         System.out.println("getUsername");
         
-        assertEquals("mrbinks", user.getUsername());
+        assertEquals(testUsername(), user.getUsername());
     }
 
     /**
@@ -68,7 +54,7 @@ public class UserTest {
     public void testGetPassword() {
         System.out.println("getPassword");
         
-        assertEquals("pa$$word", user.getPassword());
+        assertEquals(testPassword(), user.getPassword());
     }
 
     /**
@@ -86,12 +72,12 @@ public class UserTest {
      */
     @Test
     public void testToString() {
-        System.out.println("toString");
+        System.out.println("toString"); 
         
         // toString must match getName
-        assertEquals(user.getName(), user.toString());
+        assertEquals(user.getName() + " (" + user.getUsername() + ")", user.toString());
     }
-
+    
     /**
      * Test of getAllUsers method, of class User.
      */
@@ -124,5 +110,4 @@ public class UserTest {
         
         assertTrue(User.authenticate("Joe90", "password"));
     }
-    
 }
