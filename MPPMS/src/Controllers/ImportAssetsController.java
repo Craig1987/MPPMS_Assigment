@@ -20,16 +20,36 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+/**
+ * Controller for ImportAssetsView.
+ *
+ * @see ImportAssetsView
+ */
+
 public class ImportAssetsController {
     private final ImportAssetsView view;
     
+    /**
+     * ImportAssetsController constructor
+     * 
+     * @param view The Controller's view
+     */
     public ImportAssetsController(ImportAssetsView view) {
         this.view = view;
     }
     
+    /**
+     * Adds ActionListener for the file chooser.
+     */
     public void initialise() {
         view.addFileChooserActionListener(new AssetsChooserActionListener());
     }
+    
+    /**
+     * Called from the file chooser ActionListener.
+     * Parses the XML content of the chosen .asset files and creates Asset objects for each one.
+     * Calls createTasks for each .asset file if the check box to create 'Inbound QA Tasks' is ticked.
+     */
     
     public void parseAssetFiles() {
         File [] assetFiles = view.getFiles();
@@ -86,6 +106,10 @@ public class ImportAssetsController {
         }
     }
     
+    /**
+     * Creates a new task of type Inbound QA for the selected asset
+     * @param asset The asset object created from the selected .asset file.
+     */
     public void createTasks(Asset asset) {
         SetOfAssets assets = new SetOfAssets();
         assets.add(asset);
@@ -96,6 +120,10 @@ public class ImportAssetsController {
         newTask.save();
     }
     
+    /**
+     * Called when an action event is triggered by the file chooser
+     * Calls parseAssetFiles();
+     */
     class AssetsChooserActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {

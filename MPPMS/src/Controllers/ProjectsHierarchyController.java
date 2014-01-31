@@ -19,8 +19,9 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+
 /**
- * 
+ * Controller for ProjectsHierarchyView
  * @author Kirsty
  */
 
@@ -31,6 +32,11 @@ public class ProjectsHierarchyController implements Observer {
     private Project selectedProject;
     private DefaultMutableTreeNode selectedNode;
     
+    /**
+     * 
+     * @param view The view for the controller
+     * @param currentUser The current logged in user
+     */
     public ProjectsHierarchyController(ProjectsHierarchyView view, User currentUser) {
         this.view = view;
         this.currentUser = currentUser;
@@ -42,6 +48,12 @@ public class ProjectsHierarchyController implements Observer {
         this.view.addRemoveFromComponentButtonActionListener(new RemoveFromComponentActionListener());
     }
     
+    /**
+     *  Changes the visibility and enabled state of the controls to false 
+     *  as an asset won't have been selected on initialisation
+     * 
+     *  Implements Observable
+     */
     public void initialise() {
         view.setControlsEnabled(false);
         view.setControlsVisible(false);
@@ -53,6 +65,16 @@ public class ProjectsHierarchyController implements Observer {
         AppObservable.getInstance().addObserver(this);
     }
     
+    /**
+     * Populates the JTree
+     * 
+     * Gets the projects for the current logged in user and iterates through it
+     * Gets all the tasks and components for each project 
+     * and generates nodes that are added to their project node as children
+     * The relevant assets for these tasks and components are added as their children
+     * 
+     * A new TreeModel is generated from the rootNode and this new model is set as the JTree's model
+     */
     private void refreshView() {
        // All the projects that the current logged in user has access to
        SetOfProjects projects = Project.getProjectsForUser(currentUser);
@@ -112,6 +134,11 @@ public class ProjectsHierarchyController implements Observer {
        }
     }
     
+   /**
+    * 
+    * @param o
+    * @param o1 
+    */
     @Override
     public void update(Observable o, Object o1) {       
         refreshView();
@@ -124,6 +151,12 @@ public class ProjectsHierarchyController implements Observer {
         updateAssetDetail();
     }
     
+    /**
+     * Populates the panel on the right of the scroll pane with the selected Asset details
+     * 
+     * Gets tasks that the assets is on within the project 
+     * and the components that is is connected to within the project
+     */
     public void updateAssetDetail() {
         
         // Labels showing what project and asset is currently selected
@@ -177,6 +210,13 @@ public class ProjectsHierarchyController implements Observer {
         view.setControlsVisible(true);
     }
     
+    
+    /**
+     * Triggered when a node is selected within the JTree
+     * 
+     * First checks to see if the node is an instance of Asset, 
+     * if so then it will also check parent nodes to get the project that it relates to
+     */
     class ProjectsTreeSelectionListener implements TreeSelectionListener {
         @Override
         public void valueChanged(TreeSelectionEvent e) { 
@@ -211,6 +251,9 @@ public class ProjectsHierarchyController implements Observer {
         }
     }
     
+    /**
+     * Adds the selected asset to the task selected
+     */
     class AddToTaskActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -226,6 +269,9 @@ public class ProjectsHierarchyController implements Observer {
         }
     }
     
+    /**
+     * Removes the asset selected from the task selected
+     */
     class RemoveFromTaskActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -240,6 +286,9 @@ public class ProjectsHierarchyController implements Observer {
         }
     }
     
+    /**
+     * Adds the asset selected to the component selected
+     */
     class AddToComponentActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -254,6 +303,9 @@ public class ProjectsHierarchyController implements Observer {
         }
     }
     
+    /**
+     * Removes the asset selected from the component selected
+     */
     class RemoveFromComponentActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
