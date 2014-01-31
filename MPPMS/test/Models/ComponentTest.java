@@ -66,6 +66,7 @@ public class ComponentTest {
     public void testGetNumberOfAssets() {
         System.out.println("getNumberOfAssets");
         
+        component.setAssets(testAssets());
         assertEquals(testAssets().size(), component.getNumberOfAssets());
     }
 
@@ -94,17 +95,6 @@ public class ComponentTest {
     }
 
     /**
-     * Test of clearAndNullifyAll method, of class Component.
-     */
-    @Test
-    public void testClearAndNullifyAll() {
-        System.out.println("clearAndNullifyAll");
-        
-        Component.clearAndNullifyAll();
-        assertEquals(null, Component.getAllComponents());
-    }
-
-    /**
      * Test of toString method, of class Component.
      */
     @Test
@@ -122,7 +112,7 @@ public class ComponentTest {
     public void testGetAllComponents() {
         System.out.println("getAllComponents");
 
-        assertEquals(Component.getAllComponents(), instanceOf(Component.class));
+        assertEquals(Component.getAllComponents().getClass(), SetOfComponents.class);
     }
 
     /**

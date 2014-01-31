@@ -95,9 +95,9 @@ public class UserTest {
     public void testGetUserByUsername() {
         System.out.println("getUserByUsername");
         
-        User testUser = User.getUserByUsername("Joe90");
+        User testUser = User.getUserByUsername("kirsty");
         
-        assertEquals(testUser.getUsername(), "Joe90");
+        assertEquals(testUser.getUsername(), "kirsty");
         assertThat(testUser, instanceOf(User.class));
     }
 
@@ -108,6 +108,6 @@ public class UserTest {
     public void testAuthenticate() {
         System.out.println("authenticate");
         
-        assertTrue(User.authenticate("Joe90", "password"));
+        assertTrue(User.authenticate("kirsty", "password"));
     }
 }

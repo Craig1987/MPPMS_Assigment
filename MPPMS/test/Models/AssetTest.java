@@ -88,17 +88,6 @@ public class AssetTest {
     }
 
     /**
-     * Test of clearAndNullifyAll method, of class Asset.
-     */
-    @Test
-    public void testClearAndNullifyAll() {
-        System.out.println("clearAndNullifyAll");
-        
-        Asset.clearAndNullifyAll();
-        assertEquals(null, Asset.getAllAssets());
-    }
-
-    /**
      * Test of toString method, of class Asset.
      */
     @Test
@@ -118,7 +107,7 @@ public class AssetTest {
     public void testGetAllAssets() {
         System.out.println("getAllAssets");
 
-        assertEquals(Asset.getAllAssets(), instanceOf(SetOfAssets.class));
+        assertEquals(Asset.getAllAssets().getClass(), SetOfAssets.class);
     }
 
     /**

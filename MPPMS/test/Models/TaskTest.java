@@ -29,7 +29,7 @@ public class TaskTest {
     public static void tearDownClass() {
     }
     
-    public int testId(){ return 99; }
+    public int testId(){ return 1; }
     public TaskType testType(){ return TaskType.Build; }
     public String testTitle() { return "Test title"; }
     public SetOfAssets testAssets() { return Asset.getAllAssets(); }
@@ -108,7 +108,7 @@ public class TaskTest {
     public void testGetAssignedTo() {
         System.out.println("getAssignedTo");
 
-        assertEquals(task.getAssignedTo(), instanceOf(SetOfUsers.class));
+        assertEquals(task.getAssignedTo().getClass(), SetOfUsers.class);
     }
 
     /**
@@ -132,7 +132,7 @@ public class TaskTest {
     public void testGetAssets() {
         System.out.println("getAssets");
         
-        assertEquals(testAssets(), instanceOf(SetOfAssets.class));
+        assertEquals(testAssets().getClass(), SetOfAssets.class);
     }
 
     /**
@@ -229,17 +229,6 @@ public class TaskTest {
     }
 
     /**
-     * Test of clearAndNullifyAll method, of class Task.
-     */
-    @Test
-    public void testClearAndNullifyAll() {
-        System.out.println("clearAndNullifyAll");
-        
-        Task.clearAndNullifyAll();
-        assertEquals(null, Task.getAllTasks());
-    }
-
-    /**
      * Test of toString method, of class Task.
      */
     @Test
@@ -267,7 +256,7 @@ public class TaskTest {
     public void testGetTaskByID() {
         System.out.println("getTaskByID");
         
-        assertEquals(task, Task.getTaskByID(task.getId()));
+        assertEquals(task.getId(), Task.getTaskByID(task.getId()).getId());
     }
 
     /**
@@ -278,6 +267,7 @@ public class TaskTest {
         System.out.println("getTasksForUser");
         
         User user = new User(User.Role.ProjectCoordinator, "Username", "Password", "Forename", "Surname", "ClientName");
+        task = Task.getTaskByID(task.getId());
         task.addAssignedTo(user);
         
         SetOfTasks tasks = Task.getTasksForUser(user);
@@ -292,6 +282,7 @@ public class TaskTest {
         System.out.println("getTasksByStatus");
         
         Status test = Task.Status.Assigned;
+        task = Task.getTaskByID(task.getId());
         task.setStatus(test);
         
         SetOfTasks tasks = Task.getTasksByStatus(test);

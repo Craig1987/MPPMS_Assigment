@@ -1,7 +1,6 @@
 package Models;
 
 import java.text.SimpleDateFormat;
-import static org.hamcrest.CoreMatchers.instanceOf;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -27,7 +26,7 @@ public class ReportTest {
     public static void tearDownClass() {
     }
     
-    public int testId() { return 123; }
+    public int testId() { return 1; }
     public SetOfComments testComments() { return report.getComments(); }
     public String testTitle() { return "Test title"; }
     
@@ -106,18 +105,7 @@ public class ReportTest {
     public void testGetComments() {
         System.out.println("getComments");
         
-        assertEquals(report.getComments(), instanceOf(SetOfComments.class));
-    }
-
-    /**
-     * Test of clearAndNullifyAll method, of class Report.
-     */
-    @Test
-    public void testClearAndNullifyAll() {
-        System.out.println("clearAndNullifyAll");
-        
-        Report.clearAndNullifyAll();
-        assertEquals(null, Report.getAllReports());
+        assertEquals(report.getComments().getClass(), SetOfComments.class);
     }
 
     /**
@@ -127,7 +115,7 @@ public class ReportTest {
     public void testGetAllReports() {
         System.out.println("getAllReports");
         
-        assertEquals(Report.getAllReports(), instanceOf(Report.class));
+        assertEquals(Report.getAllReports().getClass(), SetOfReports.class);
     }
 
     /**
@@ -137,7 +125,8 @@ public class ReportTest {
     public void testGetReportByID() {
         System.out.println("getReportByID");
         
-        assertEquals(report, Report.getReportByID(report.getId()));
+        
+        assertEquals(report.getId(), Report.getReportByID(report.getId()).getId());
     }
     
 }
