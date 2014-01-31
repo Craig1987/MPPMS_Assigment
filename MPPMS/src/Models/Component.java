@@ -81,6 +81,10 @@ public class Component extends Model {
         success &= dbConn.deleteAndInsertQuery(getInnerAttributesAndValues(), "COMPONENT");
                 
         if (success) {
+            /*
+            Craig - Database content has changed so we tell the Subject to
+            update its Observers
+            */
             AppObservable.getInstance().notifyObserversToRefresh();
         }
         

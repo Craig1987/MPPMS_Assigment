@@ -35,9 +35,7 @@ public class Task extends Model {
         Assigned,
         Assets_Ordered,
         Assets_Arrived,
-        QC_In_Progress,
-        QC_Completed,
-        Moderation_In_Progress,
+        In_Progress,
         In_Fixes,
         Delayed,
         Completed
@@ -162,6 +160,10 @@ public class Task extends Model {
         success &= dbConn.deleteAndInsertQuery(getInnerAttributesAndValues(), "TASK");
         
         if (success) {
+            /*
+            Craig - Database content has changed so we tell the Subject to
+            update its Observers
+            */
             AppObservable.getInstance().notifyObserversToRefresh();
         }
         

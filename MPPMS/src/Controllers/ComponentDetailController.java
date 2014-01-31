@@ -17,6 +17,12 @@ import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+/**
+ * Controller for ComponentDetailView. Observes AppObservable
+ * 
+ * @see ComponentDetailView
+ * @see AppObservable
+ */
 public class ComponentDetailController implements Observer {
     private final ComponentDetailView view;
     
@@ -25,6 +31,12 @@ public class ComponentDetailController implements Observer {
     
     private ModelChoiceController modelChoiceController;
     
+    /**
+     * ComponentDetailController constructor
+     * 
+     * @param view This controller's view
+     * @param component The Component to display / edit
+     */
     public ComponentDetailController(ComponentDetailView view, Component component) {
         this.view = view;
         this.component = component;
@@ -35,7 +47,7 @@ public class ComponentDetailController implements Observer {
         refreshView();
         
         this.view.setEditMode(isNew);
-        this.view.setCanEditAsset(false);
+        this.view.setCanViewAsset(false);
         
         this.view.addAssetChoiceActionListener(new AssetChoiceActionListener());
         this.view.addSaveButtonActionListener(new SaveButtonActionListener());
@@ -45,19 +57,36 @@ public class ComponentDetailController implements Observer {
             this.view.addDiscardButtonActionListener(new DiscardButtonActionListener());
         }
         
+        /**
+         * Craig - TC B2c: Real time updates
+         * Register this controller as an observer
+         */
         AppObservable.getInstance().addObserver(this);
     }
     
+    /**
+     * Refreshes the data displayed on the view
+     */
     private void refreshView() {
         this.view.setIdLabelText("ID: " + this.component.getId());
         this.view.setDescriptionText(this.component.getDescription());
         this.view.setAssets(this.component.getAssets().toArray());
     }
     
+    /**
+     * Gets the selected Asset
+     * 
+     * @return The Asset selected in the JList in the view
+     */
     public Asset getSelectedAsset() {
         return (Asset)this.view.getSelectedAsset();
     }
     
+    /**
+     * Validates the user inputs prior to saving a new / edited Component
+     * 
+     * @return true if validation passes, false if it fails
+     */
     private boolean validateUserInputs() {
         ArrayList<String> errors = new ArrayList();
         
@@ -87,6 +116,10 @@ public class ComponentDetailController implements Observer {
         }
     }
     
+    /**
+     * Event listener for the 'Save' button. Disables editing of UI controls if
+     * the save is successful.
+     */
     class SaveButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -105,6 +138,7 @@ public class ComponentDetailController implements Observer {
                 component.setAssets(assets); 
                 
                 if (component.save()) {
+                    // Success
                     if (modelChoiceController != null) {
                         modelChoiceController.closeView();
                     }
@@ -112,6 +146,7 @@ public class ComponentDetailController implements Observer {
                     isNew = false;
                 }
                 else {
+                    // Failure
                     component = temp;
                     JOptionPane.showMessageDialog(view, "Error saving Component", "'Component' Error", JOptionPane.ERROR_MESSAGE);
                 }
@@ -121,6 +156,9 @@ public class ComponentDetailController implements Observer {
         }        
     }
     
+    /**
+     * Event listener for the 'Discard' button. Disables editing of UI controls.
+     */
     class DiscardButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -132,6 +170,9 @@ public class ComponentDetailController implements Observer {
         }        
     }
     
+    /**
+     * Event listener for the 'Edit' button. Enabled editing of the UI controls.
+     */
     class EditButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {   
@@ -139,6 +180,11 @@ public class ComponentDetailController implements Observer {
         }        
     }
 
+    /**
+     * Event listener for the 'Add / Remove' button next to the Assets list. Launches #
+     * the ModelChoice view to allow selection of which Assets are included as part
+     * of this Component.
+     */
     class AssetChoiceActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ae) {
@@ -148,6 +194,10 @@ public class ComponentDetailController implements Observer {
         }        
     }
     
+    /**
+     * Event listener for the 'Save' button on the ModelChoice view. Updates the
+     * view with the chosen Assets.
+     */
     class ModelChoiceSaveActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ae) {
@@ -158,10 +208,14 @@ public class ComponentDetailController implements Observer {
         }        
     }
     
+    /**
+     * Event listener for the list of Assets. Enables or disables the 'View' button 
+     * alongside the list of Assets.
+     */
     class AssetsListSelectionListener implements ListSelectionListener {
         @Override
         public void valueChanged(ListSelectionEvent lse) {
-            view.setCanEditAsset(!((DefaultListSelectionModel)lse.getSource()).isSelectionEmpty());
+            view.setCanViewAsset(!((DefaultListSelectionModel)lse.getSource()).isSelectionEmpty());
         }
     }
 }

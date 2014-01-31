@@ -21,37 +21,58 @@ import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+/**
+ * Controller for ProjectDetailView.
+ * 
+ * @see ProjectDetailView
+ */
 public class ProjectDetailController implements Observer {
     private final ProjectDetailView view;
     private final boolean canEdit;
-    private final boolean canEditTasks;
     
     private Project project;    
     private boolean isNew;
     
     private ModelChoiceController modelChoiceController;
     
+    /**
+     * ProjectDetailController constructor. This constructor is used when the 
+     * 'Create New Project' button is clicked in IndexView.
+     * @param view This controller's view
+     * @param project The project to use for displaying data in the view (will be 
+     * default Project in this case with an ID of 0).
+     * @see IndexView
+     * @see ProjectDetailView
+     */
     public ProjectDetailController(ProjectDetailView view, Project project) {
         this.view = view;        
         this.project = project;
         this.isNew = true;
         this.canEdit = true;
-        this.canEditTasks = true;
     }
     
+    /**
+     * ProjectDetailController constructor. This constructor is used the user chooses 
+     * to view and existing Project.
+     * @param view This controller's view
+     * @param project The selected Project
+     * @param canEdit Whether or not editing is allowed for the logged in User
+     */
     public ProjectDetailController(ProjectDetailView view, Project project, boolean canEdit, boolean canEditTasks) {
         this.view = view;        
         this.project = project;
         this.isNew = false;
         this.canEdit = canEdit;
-        this.canEditTasks = canEditTasks;
     }
     
+    /**
+     * Initialises the view, adds event listeners and makes the view visible.
+     */
     public void initialise() {
         refreshView();
             
         this.view.setEditMode(this.isNew, this.canEdit);
-        this.view.setCanEditTask(false);
+        this.view.setCanViewTask(false);
         this.view.setCanEditComponent(false);
         this.view.setCanViewOverview(this.canEdit && !this.isNew);
 
@@ -67,9 +88,16 @@ public class ProjectDetailController implements Observer {
             this.view.addDiscardButtonActionListener(new DiscardButtonActionListener());
         }
         
+        /**
+         * Craig - TC B2c: Real time updates
+         * Register this controller as an observer
+         */
         AppObservable.getInstance().addObserver(this);
     }
     
+    /**
+     * Refreshes all of the selected Project's data which is shown in the view.
+     */
     private void refreshView() {
         this.view.setIdLabelText("ID: " + project.getId());
         this.view.setProjectTitleText(project.getTitle());
@@ -84,14 +112,29 @@ public class ProjectDetailController implements Observer {
         this.view.setProjectComponents(project.getComponents().toArray());
     }
     
+    /**
+     * Gets whichever of this Projects Tasks is selected in the list of Tasks.
+     * 
+     * @return Selected Task
+     */
     public Task getSelectedTask() {
         return (Task)this.view.getSelectedTask();
     }
     
+    /**
+     * Gets whichever of this Projects Components is selected in the list of Components.
+     * 
+     * @return Selected Component
+     */
     public Component getSelectedComponent() {
         return (Component)this.view.getSelectedComponent();
     }
     
+    /**
+     * Validates the user inputs when saving a new / edited Project.
+     * 
+     * @return true if validation passes, false if it fails.
+     */
     private boolean validateUserInputs() {
         ArrayList<String> errors = new ArrayList();
         
@@ -118,12 +161,17 @@ public class ProjectDetailController implements Observer {
         }
     }
     
+    /**
+     * Event listener for the 'Save' button. Validates user input and saves the Project
+     * if it passes.
+     */
     class SaveButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (validateUserInputs()) {
                 view.setCursor(new Cursor(Cursor.WAIT_CURSOR));
                 
+                // Setup the project with user inputted data from the view
                 Object[] objects = view.getTeam();
                 SetOfUsers team = new SetOfUsers();
                 for (Object object : objects) {
@@ -154,6 +202,7 @@ public class ProjectDetailController implements Observer {
                 project.setTasks(tasks);
                 project.setComponents(components);
                 if (project.save()) {
+                    // Success
                     if (modelChoiceController != null) {
                         modelChoiceController.closeView();
                     }
@@ -161,6 +210,7 @@ public class ProjectDetailController implements Observer {
                     isNew = false;
                 }
                 else {
+                    // Failure
                     project = temp;
                     JOptionPane.showMessageDialog(view, "Error saving Project", "'Project' Error", JOptionPane.ERROR_MESSAGE);
                 }
@@ -170,6 +220,10 @@ public class ProjectDetailController implements Observer {
         }        
     }
     
+    /**
+     * Event listener for the 'Discard changes' button. Disables editing of the 
+     * view's UI controls and reverts and user inputs.
+     */
     class DiscardButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -181,6 +235,9 @@ public class ProjectDetailController implements Observer {
         }        
     }
     
+    /**
+     * Event listener for the 'Edit' button. Enables editing of the view's UI controls.
+     */
     class EditButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {   
@@ -188,6 +245,10 @@ public class ProjectDetailController implements Observer {
         }        
     }
     
+    /**
+     * Event listener for the 'Add / Remove' button alongside the Team list. Launches
+     * a ModelChoice view to allow the user to add or remove Users.
+     */
     class TeamChoiceActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ae) {
@@ -197,6 +258,10 @@ public class ProjectDetailController implements Observer {
         }        
     }
     
+    /**
+     * Event listener for the 'Add / Remove' button alongside the Tasks list. Launches
+     * a ModelChoice view to allow the user to add or remove Tasks.
+     */
     class TasksChoiceActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ae) {
@@ -206,6 +271,10 @@ public class ProjectDetailController implements Observer {
         }        
     }
     
+    /**
+     * Event listener for the 'Add / Remove' button alongside the Components list. Launches
+     * a ModelChoice view to allow the user to add or remove Components.
+     */
     class ComponentsChoiceActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ae) {
@@ -215,6 +284,10 @@ public class ProjectDetailController implements Observer {
         }        
     }
     
+    /**
+     * Event listener for the 'Save' button in the ModelChoiceView. Updates the
+     * view with the new values (Team, Tasks or Components).
+     */
     class ModelChoiceSaveActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ae) {
@@ -244,13 +317,21 @@ public class ProjectDetailController implements Observer {
         }        
     }
     
+    /**
+     * Event listener for the list of Tasks. If the selected value changes, the view's
+     * 'View' button alongside the list of Tasks is either enabled or disabled.
+     */
     class TasksListSelectionListener implements ListSelectionListener {
         @Override
         public void valueChanged(ListSelectionEvent lse) {
-            view.setCanEditTask(!((DefaultListSelectionModel)lse.getSource()).isSelectionEmpty() && canEditTasks);
+            view.setCanViewTask(!((DefaultListSelectionModel)lse.getSource()).isSelectionEmpty());
         }
     }
     
+    /**
+     * Event listener for the list of Components. If the selected value changes, the view's
+     * 'View' button alongside the list of Components is either enabled or disabled.
+     */
     class ComponentsListSelectionListener implements ListSelectionListener {
         @Override
         public void valueChanged(ListSelectionEvent lse) {

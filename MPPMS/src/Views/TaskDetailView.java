@@ -26,7 +26,7 @@ public class TaskDetailView extends javax.swing.JPanel {
         assetChoiceButton.setEnabled(editMode);
     }
     
-    public void setCanEditAsset(boolean canEdit) {
+    public void setCanViewAsset(boolean canEdit) {
         assetViewButton.setEnabled(canEdit);
     }
     
@@ -101,7 +101,7 @@ public class TaskDetailView extends javax.swing.JPanel {
         this.assetChoiceButton.addActionListener(listener);
     }
     
-    public void addAssetEditActionListener(ActionListener listener) {
+    public void addAssetViewActionListener(ActionListener listener) {
         this.assetViewButton.addActionListener(listener);
     }
     

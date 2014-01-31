@@ -175,6 +175,10 @@ public class Project extends Model {
         success &= dbConn.deleteAndInsertQuery(getInnerAttributesAndValues(), "PROJECT");
         
         if (success) {
+            /*
+            Craig - Database content has changed so we tell the Subject to
+            update its Observers
+            */
             AppObservable.getInstance().notifyObserversToRefresh();
         }
         

@@ -11,30 +11,55 @@ import java.util.Observable;
 import java.util.Observer;
 import javax.swing.JOptionPane;
 
+/**
+ * Controller class for AssetDetailView. Observer of AppObservable.
+ * 
+ * @see AssetDetailView
+ * @see AppObservable
+ */
 public class AssetDetailController implements Observer {
     private final AssetDetailView view;
     
     private Asset asset;
     private boolean isNew;
     
+    /**
+     * AssetDetailController constructor
+     *
+     * @param view This controller's view
+     * @param asset The Asset to be displayed / edited
+     */
     public AssetDetailController(AssetDetailView view, Asset asset) {
         this.view = view;
         this.asset = asset;
+        // Indicate whether or not we are creating a new Asset which doesn't yet exist in the database.
         this.isNew = this.asset.getId() < 1;
     }
     
+    /**
+     * Initialise the view and add event listeners to its UI controls.
+     */
     public void initialise() {
         refreshView();
         
+        // Enable / disable specific UI controls
         this.view.setEditMode(this.isNew);
         
+        // Event listeners
         this.view.addSaveButtonActionListener(new SaveButtonActionListener());
         this.view.addEditButtonActionListener(new EditButtonActionListener());
         this.view.addDiscardButtonActionListener(new DiscardButtonActionListener());
         
+        /**
+         * Craig - TC B2c: Real time updates
+         * Register this controller as an observer
+         */
         AppObservable.getInstance().addObserver(this);
     }
     
+    /**
+     * Refresh all of the data displayed in the view.
+     */
     private void refreshView() {
         this.view.setIdLabelText("ID: " + this.asset.getId());
         this.view.setDescriptionText(this.asset.getDescription());
@@ -42,6 +67,11 @@ public class AssetDetailController implements Observer {
         this.view.setLengthText(this.asset.getLengthAsString());
     }
     
+    /**
+     * Validation of the user inputs when editing or creating an Asset.
+     * 
+     * @return true if the validation passes, false if it fails.
+     */
     private boolean validateUserInputs() {
         ArrayList<String> errors = new ArrayList();
         
@@ -71,6 +101,13 @@ public class AssetDetailController implements Observer {
         }
     }
     
+    /**
+     * Event listener for the 'Save' button. Only attempts to save the Asset if
+     * validation passes.
+     * 
+     * @see #validateUserInputs()
+     * @see ActionListener
+     */
     class SaveButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -84,10 +121,12 @@ public class AssetDetailController implements Observer {
                 asset.setLength(view.getLength());
                 
                 if (asset.save()) {
+                    // Success
                     view.setEditMode(false);
                     isNew = false;
                 }
                 else {
+                    // Failure
                     asset = temp;
                     JOptionPane.showMessageDialog(view, "Error saving Asset", "'Asset' Error", JOptionPane.ERROR_MESSAGE);
                 }
@@ -97,6 +136,9 @@ public class AssetDetailController implements Observer {
         }        
     }
     
+    /**
+     * Event listener for the 'Discard changes' button. Disables UI control editing.
+     */
     class DiscardButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -105,6 +147,9 @@ public class AssetDetailController implements Observer {
         }        
     }
     
+    /**
+     * Event listener for the 'Edit' button. Enables UI control editing.
+     */
     class EditButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {   

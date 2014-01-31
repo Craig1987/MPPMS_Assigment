@@ -28,6 +28,12 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+/**
+ * Controller for IndexView. Observer to AppObservable.
+ * 
+ * @see IndexView
+ * @see AppObservable
+ */
 public class IndexController implements Observer {
     private final User currentUser;
     
@@ -40,10 +46,18 @@ public class IndexController implements Observer {
     private ImportAssetsController importAssetsController;
     private ProjectsHierarchyController contentHierarchyController;
     
+    /**
+     * IndexController constructor
+     * 
+     * @param currentUser The logged in User
+     */
     public IndexController(User currentUser) {
         this.currentUser = currentUser;
     }
     
+    /**
+     * Initialises the view, adds event listeners and makes the view visible.
+     */
     public void launch() {
         populateTables();
         
@@ -73,9 +87,17 @@ public class IndexController implements Observer {
         
         this.view.setVisible(true);
         
+        /**
+         * Craig - TC B2c: Real time updates
+         * Register this controller as an observer
+         */
         AppObservable.getInstance().addObserver(this);
     }
     
+    /**
+     * Retrieves all relevant data for the logged in User and populates the 4
+     * tables (1 per tab).
+     */
     private void populateTables() {
         this.view.setProjectsTableData(Project.getProjectsForUser(currentUser));
         this.view.setTasksTableData(Task.getTasksForUser(currentUser));
@@ -83,6 +105,11 @@ public class IndexController implements Observer {
         this.view.setAssetsTableData(Asset.getAllAssets());
     }
     
+    /**
+     * Called when the selected value of the Projects table changes. Creates a new
+     * ProjectDetailView and ProjectDetailController - the view is shown within 
+     * this controller's view.
+     */
     private void projectValueChanged() {
         if (view.getSelectedProject() == null) {
             view.setDetailViewPanel(null);
@@ -101,6 +128,11 @@ public class IndexController implements Observer {
         }
     }
     
+    /**
+     * Called when the selected value of the Tasks table changes. Creates a new
+     * TaskDetailView and TaskDetailController - the view is shown within 
+     * this controller's view.
+     */
     private void taskValueChanged() {
         if (view.getSelectedTask() == null) {
             view.setDetailViewPanel(null);
@@ -115,6 +147,11 @@ public class IndexController implements Observer {
         }
     }
     
+    /**
+     * Called when the selected value of the Components table changes. Creates a new
+     * ComponentDetailView and ComponentDetailController - the view is shown within 
+     * this controller's view.
+     */
     private void componentValueChanged() {
         if (view.getSelectedComponent() == null) {
             view.setDetailViewPanel(null);
@@ -129,6 +166,11 @@ public class IndexController implements Observer {
         }
     }
     
+    /**
+     * Called when the selected value of the Assets table changes. Creates a new
+     * AssetDetailView and AssetDetailController - the view is shown within 
+     * this controller's view.
+     */
     private void assetValueChanged() {
         if (view.getSelectedAsset() == null) {
             view.setDetailViewPanel(null);
@@ -141,6 +183,9 @@ public class IndexController implements Observer {
         }
     }
     
+    /**
+     * Called whenever a selected value changes in any of the 4 tables.
+     */
     private void valueChanged() {
         view.setCursor(new Cursor(Cursor.WAIT_CURSOR));
         switch (view.getSelectedTabName()) {
@@ -181,11 +226,15 @@ public class IndexController implements Observer {
         valueChanged();
     }
     
+    /**
+     * Event listener for the 'Create New Project' button. Clears the selected
+     * Project and shows a new ProjectDetailView with blank / default values.
+     */
     class NewProjectButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {        
             ProjectDetailView detailView = new ProjectDetailView();
-            detailView.addDiscardButtonActionListener(new DiscardNewProjectActionListener());
+            detailView.addDiscardButtonActionListener(new DiscardNewActionListener());
             
             projectDetailController = new ProjectDetailController(detailView, new Project());
             projectDetailController.initialise();
@@ -195,11 +244,15 @@ public class IndexController implements Observer {
         }
     }
     
+    /**
+     * Event listener for the 'Create New Task' button. Clears the selected
+     * Task and shows a new TaskDetailView with blank / default values.
+     */
     class NewTaskButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             TaskDetailView detailView = new TaskDetailView();
-            detailView.addDiscardButtonActionListener(new DiscardNewProjectActionListener());
+            detailView.addDiscardButtonActionListener(new DiscardNewActionListener());
             
             taskDetailController = new TaskDetailController(detailView, new Task(), currentUser, view);
             taskDetailController.initialise();
@@ -209,11 +262,15 @@ public class IndexController implements Observer {
         }
     }
     
+    /**
+     * Event listener for the 'Create New Component' button. Clears the selected
+     * Component and shows a new ComponentDetailView with blank / default values.
+     */
     class NewComponentButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             ComponentDetailView detailView = new ComponentDetailView();
-            detailView.addDiscardButtonActionListener(new DiscardNewProjectActionListener());
+            detailView.addDiscardButtonActionListener(new DiscardNewActionListener());
             
             componentDetailController = new ComponentDetailController(detailView, new Component());
             componentDetailController.initialise();
@@ -223,11 +280,15 @@ public class IndexController implements Observer {
         }
     }
     
+    /**
+     * Event listener for the 'Create New Asset' button. Clears the selected
+     * Asset and shows a new AssetDetailView with blank / default values.
+     */
     class NewAssetButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             AssetDetailView detailView = new AssetDetailView();
-            detailView.addDiscardButtonActionListener(new DiscardNewProjectActionListener());
+            detailView.addDiscardButtonActionListener(new DiscardNewActionListener());
             
             assetDetailController = new AssetDetailController(detailView, new Asset());
             assetDetailController.initialise();
@@ -237,6 +298,9 @@ public class IndexController implements Observer {
         }
     }
     
+    /**
+     * Event listener for the 'Import Assets' button. Shows a new ImportAssetsView.
+     */
     class ImportAssetsButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -250,13 +314,20 @@ public class IndexController implements Observer {
         }
     }
     
-    class DiscardNewProjectActionListener implements ActionListener {
+    /**
+     * Event listener for the 'Discard changes' button in all DetailViews. If a 
+     * new model is discarded, the detail area in this controller's view is emptied.
+     */
+    class DiscardNewActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             view.setDetailViewPanel(new JPanel());
         }
     }
     
+    /**
+     * Event listener for the Application->Exit menu option. Exits the entire application.
+     */
     class ApplicationMenuExitActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -264,6 +335,10 @@ public class IndexController implements Observer {
         }
     }
     
+    /**
+     * Event listener for the User->Log Out menu option. Closes the view and returns 
+     * to the login screen.
+     */
     class UserMenuLogOutActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -277,6 +352,10 @@ public class IndexController implements Observer {
         }
     }
     
+    /**
+     * Event listener for the Projects table. Forces the detail area to update
+     * thus displaying the newly selected Project (or nothing if deselecting).
+     */
     class ProjectsTableListSelectionListener implements ListSelectionListener {
         @Override
         public void valueChanged(ListSelectionEvent lse) {
@@ -284,6 +363,10 @@ public class IndexController implements Observer {
         }
     }
     
+    /**
+     * Event listener for the Tasks table. Forces the detail area to update
+     * thus displaying the newly selected Task (or nothing if deselecting).
+     */
     class TasksTableListSelectionListener implements ListSelectionListener {
         @Override
         public void valueChanged(ListSelectionEvent lse) {
@@ -291,6 +374,10 @@ public class IndexController implements Observer {
         }
     }
     
+    /**
+     * Event listener for the Components table. Forces the detail area to update
+     * thus displaying the newly selected Component (or nothing if deselecting).
+     */
     class ComponentsTableListSelectionListener implements ListSelectionListener {
         @Override
         public void valueChanged(ListSelectionEvent lse) {
@@ -298,6 +385,10 @@ public class IndexController implements Observer {
         }
     }
     
+    /**
+     * Event listener for the Assets table. Forces the detail area to update
+     * thus displaying the newly selected Asset (or nothing if deselecting).
+     */
     class AssetsTableListSelectionListener implements ListSelectionListener {
         @Override
         public void valueChanged(ListSelectionEvent lse) {
@@ -305,6 +396,10 @@ public class IndexController implements Observer {
         }
     }
     
+    /**
+     * Event listener for the view's tab pane. Forces the detail area to update
+     * thus displaying whatever is selected in the newly chosen tab.
+     */
     class TabChangeListener implements ChangeListener {
         @Override
         public void stateChanged(ChangeEvent ce) {
@@ -312,6 +407,11 @@ public class IndexController implements Observer {
         }        
     }
     
+    /**
+     * Event listener for the 'View' button alongside the list of Tasks in the
+     * ProjectDetailView. Switches to the Tasks tab and displays the Task which
+     * was selected in the ProjectDetailView.
+     */
     class ProjectDetailTaskViewButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -320,6 +420,11 @@ public class IndexController implements Observer {
         }
     }
     
+    /**
+     * Event listener for the 'View' button alongside the list of Components in the
+     * ProjectDetailView. Switches to the Components tab and displays the Component which
+     * was selected in the ProjectDetailView.
+     */
     class ProjectDetailComponentViewButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -328,6 +433,11 @@ public class IndexController implements Observer {
         }
     }
     
+    /**
+     * Event listener for the 'View' button alongside the list of Assets in the
+     * TaskDetailView. Switches to the Assets tab and displays the Asset which
+     * was selected in the TaskDetailView.
+     */
     class TaskDetailAssetViewButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -336,6 +446,11 @@ public class IndexController implements Observer {
         }
     }
     
+    /**
+     * Event listener for the 'View' button alongside the list of Assets in the
+     * ComponentDetailView. Switches to the Assets tab and displays the Asset which
+     * was selected in the ComponentDetailView.
+     */
     class ComponentDetailAssetViewButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -344,6 +459,10 @@ public class IndexController implements Observer {
         }
     }
     
+    /**
+     * Event listener for the 'Project Overview' button inside ProjectDetailView.
+     * Opens the ProjectOverviewView for the selected project.
+     */
     class ProjectDetailOverviewButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -355,6 +474,9 @@ public class IndexController implements Observer {
         }
     }
 
+    /**
+     * Event listener for the 'Content Hierarchy' button. Opens the ContentHierarchyView.
+     */
     class ContentHierarchyButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -365,6 +487,10 @@ public class IndexController implements Observer {
         }
     }
     
+    /**
+     * Event listener for the 'View' button in the ProjectOverviewView. Switches to the 
+     * Projects tab and selects the Project which was selected in ProjectOverview.
+     */
     class ProjectOverviewViewButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {

@@ -18,7 +18,7 @@ public class ComponentDetailView extends javax.swing.JPanel {
         assetChoiceButton.setEnabled(editMode);
     }
     
-    public void setCanEditAsset(boolean canEdit) {
+    public void setCanViewAsset(boolean canEdit) {
         viewAssetButton.setEnabled(canEdit);
     }
     

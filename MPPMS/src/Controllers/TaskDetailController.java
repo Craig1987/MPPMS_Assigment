@@ -21,6 +21,12 @@ import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+/**
+ * Controller for TaskDetailView. Observes AppObservable.
+ * 
+ * @see AppObservable
+ * @see TaskDetailView
+ */
 public class TaskDetailController implements Observer {
     private final TaskDetailView view;
     private final boolean canEdit;
@@ -32,6 +38,15 @@ public class TaskDetailController implements Observer {
     
     private ModelChoiceController modelChoiceController;
     
+    /**
+     * TaskDetailController constructor.
+     * 
+     * @param view This controller's view
+     * @param task The Task to display data about
+     * @param currentUser The logged in user
+     * @param parentFrame The parent JFrame for modal ModerationTaskGeneratorView.
+     * @see ModerationTaskGeneratorView
+     */
     public TaskDetailController(TaskDetailView view, Task task, User currentUser, JFrame parentFrame) {
         this.view = view;
         this.task = task;
@@ -43,15 +58,17 @@ public class TaskDetailController implements Observer {
         this.parentFrame = parentFrame;
     }
     
+    /**
+     * Initialises the view and adds event listeners.
+     */
     public void initialise() {
         refreshView();
         
         this.view.setEditMode(this.isNew, this.canEdit);
-        this.view.setCanEditAsset(false);
+        this.view.setCanViewAsset(false);
         
         this.view.addAssignedToChoiceActionListener(new AssignedToChoiceActionListener());
         this.view.addAssetChoiceActionListener(new AssetChoiceActionListener());
-        this.view.addAssetEditActionListener(new AssetEditActionListener());
         this.view.addSaveButtonActionListener(new SaveButtonActionListener());
         this.view.addEditButtonActionListener(new EditButtonActionListener());
         this.view.addAssetsListSelectionListener(new AssetsListSelectionListener());
@@ -60,9 +77,16 @@ public class TaskDetailController implements Observer {
             this.view.addEditReportActionListener(new EditReportActionListener());
         }
         
+        /**
+         * Craig - TC B2c: Real time updates
+         * Register this controller as an observer
+         */
         AppObservable.getInstance().addObserver(this);
     }
     
+    /**
+     * Refreshes the view to show the Tasks's data.
+     */
     private void refreshView() {
         view.setIdLabelText("ID: " + task.getId());
         view.setTitleText(task.getTitle());
@@ -74,6 +98,10 @@ public class TaskDetailController implements Observer {
         view.setAssets(task.getAssets().toArray());
     }
     
+    /**
+     * Validates user inputs before saving a new or edited Task.
+     * @return 
+     */
     private boolean validateUserInputs() {
         ArrayList<String> errors = new ArrayList();
         
@@ -104,16 +132,31 @@ public class TaskDetailController implements Observer {
         }
     }
     
+    /**
+     * Gets the selected Asset in the view's list of Assets
+     * 
+     * @return The selected Asset
+     */
     public Asset getSelectedAsset() {
         return (Asset)this.view.getSelectedAsset();
     }
     
+    /**
+     * Event listener for the 'Save' button. Validates user input before saving the
+     * updated Task.
+     */
     class SaveButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (validateUserInputs()) {
                 view.setCursor(new Cursor(Cursor.WAIT_CURSOR));
                 
+                /*
+                Craig - TC B3b: Auto task creation
+                Determine if the requirements are met to be able to automatically
+                generate a QA_Moderation task for this task (status changed to Completed
+                and this is a QC Task)
+                */
                 boolean canOfferAutoTaskGeneration = (task.getTaskType() == Task.TaskType.QC &&
                                                     task.getStatus() != (Task.Status)view.getStatus() && 
                                                     ((Task.Status)view.getStatus()) == Task.Status.Completed); 
@@ -140,6 +183,13 @@ public class TaskDetailController implements Observer {
                 task.setAssets(assets);
 
                 if (task.save()) {
+                    // Success
+                    /*
+                    Craig - TC B3b: Auto task creation
+                    Ask the user if they want the auto generation to take place
+                    and if so launch a Frame to prompt for which QC Team Leader
+                    should be assigned this task.
+                    */
                     if (canOfferAutoTaskGeneration) {
                         int result = JOptionPane.showConfirmDialog(view, 
                                                 "Generate a QA_Moderation Task now that this QC Task is completed?", 
@@ -158,6 +208,7 @@ public class TaskDetailController implements Observer {
                     isNew = false;
                 }
                 else {
+                    // Failure
                     task = temp;
                     JOptionPane.showMessageDialog(view, "Error saving Task", "'Task' Error", JOptionPane.ERROR_MESSAGE);
                 }
@@ -167,6 +218,10 @@ public class TaskDetailController implements Observer {
         }        
     }
     
+    /**
+     * Event listener for the 'Discard changes' button. Disables editing of UI controls 
+     * and reverts user inputs.
+     */
     class DiscardButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -178,6 +233,9 @@ public class TaskDetailController implements Observer {
         }        
     }
     
+    /**
+     * Event listener for the 'Edit' button. Enables editing of the view's controls.
+     */
     class EditButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {   
@@ -185,6 +243,11 @@ public class TaskDetailController implements Observer {
         }        
     }
     
+    /**
+     * Event listener for the 'Add / Remove' button alongside the AssignedTo list.
+     * Launches a ModelChoice view allowing the user to add or remove users who are
+     * assigned this Task.
+     */
     class AssignedToChoiceActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ae) {
@@ -194,6 +257,10 @@ public class TaskDetailController implements Observer {
         }        
     }
     
+    /**
+     * Event listener for the 'Add / Remove' button alongside the Assets list.
+     * Launches a ModelChoice view allowing the user to add or remove the Task's Assets.
+     */
     class AssetChoiceActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ae) {
@@ -203,13 +270,12 @@ public class TaskDetailController implements Observer {
         }
     }
     
-    class AssetEditActionListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent ae) {
-            // TODO
-        }
-    }
-    
+    /**
+     * Event listener for the 'Save' button in the ModelChoiceView. Updates the view
+     * with the chosen Users that were selected.
+     * 
+     * @see ModelChoiceView
+     */
     class ModelChoiceAssignedToSaveActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ae) {
@@ -220,6 +286,12 @@ public class TaskDetailController implements Observer {
         }        
     }
     
+    /**
+     * Event listener for the 'Save' button in the ModelChoiceView. Updates the view
+     * with the chosen Assets that were selected.
+     * 
+     * @see ModelChoiceView
+     */
     class ModelChoiceAssetsSaveActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ae) {
@@ -230,6 +302,10 @@ public class TaskDetailController implements Observer {
         }        
     }
     
+    /**
+     * Event listener for the 'Edit report' button. Launches a ReportDetailView to 
+     * display this Tasks's Report's data.
+     */
     class EditReportActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ae) {
@@ -238,10 +314,14 @@ public class TaskDetailController implements Observer {
         }
     }
     
+    /**
+     * Event listener for the list of Assets. Enables or disables the 'View' button 
+     * alongside the list of Assets.
+     */
     class AssetsListSelectionListener implements ListSelectionListener {
         @Override
         public void valueChanged(ListSelectionEvent lse) {
-            view.setCanEditAsset(!((DefaultListSelectionModel)lse.getSource()).isSelectionEmpty());
+            view.setCanViewAsset(!((DefaultListSelectionModel)lse.getSource()).isSelectionEmpty());
         }
     }
 }

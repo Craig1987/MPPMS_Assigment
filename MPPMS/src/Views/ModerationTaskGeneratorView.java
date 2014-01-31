@@ -4,26 +4,54 @@ import java.awt.event.ActionListener;
 import javax.swing.DefaultComboBoxModel;
 
 /**
+ * The view used to allow a user to select a QC Team Leader when automatically 
+ * generating a QA_Moderation Task.
  *
- * @author Craig
+ * @author Craig - TC B3b: Auto task creation
+ * @see JDialog
  */
 public class ModerationTaskGeneratorView extends javax.swing.JDialog {
 
+    /**
+     * ModerationTaskGeneratorView constructor
+     *
+     * @author Craig - TC B3b: Auto task creation.
+     * @param parent Parent JFrame used for position and modality.
+     * @param modal true of this JDialog is modal, else false.
+     */
     public ModerationTaskGeneratorView(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(parent);
     }
     
+    /**
+     * Populates the QC Team Leaders ComboBox and selects the first item.
+     *
+     * @author Craig - TC B3b: Auto task creation
+     * @param items The items which will be used to populate the ComboBox.
+     */
     public void setTeamLeaders(Object[] items) {
         this.teamLeadersCombo.setModel(new DefaultComboBoxModel<>(items));
         this.teamLeadersCombo.setSelectedIndex(0);
     }
     
+    /**
+     * Returns the selected Team Leader.
+     *
+     * @author Craig - TC B3b: Auto task creation
+     * @return The selected Team Leader as an Object.
+     */
     public Object getSelectedTeamleader() {
         return this.teamLeadersCombo.getSelectedItem();
     }
     
+    /**
+     * Adds an ActionLister for the 'Generate' button.
+     *
+     * @author Craig - TC B3b: Auto task creation
+     * @param listener The ActionListener to add.
+     */
     public void addGenerateButtonActionListener(ActionListener listener) {
         this.generateButton.addActionListener(listener);
     }

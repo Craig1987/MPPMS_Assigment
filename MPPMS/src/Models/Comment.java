@@ -84,6 +84,10 @@ public class Comment extends Model {
         }
             
         if (success) {
+            /*
+            Craig - Database content has changed so we tell the Subject to
+            update its Observers
+            */
             AppObservable.getInstance().notifyObserversToRefresh();
         }
         

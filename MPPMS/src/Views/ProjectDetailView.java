@@ -40,7 +40,7 @@ public class ProjectDetailView extends javax.swing.JPanel {
         this.overviewButton.setVisible(b);
     }
     
-    public void setCanEditTask(boolean canEdit) {
+    public void setCanViewTask(boolean canEdit) {
         this.tasksViewButton.setEnabled(canEdit);
     }
     

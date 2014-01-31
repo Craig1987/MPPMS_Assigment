@@ -19,9 +19,10 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 /**
- *
- * IMPORTANT: To use a model with this controller/view it must extend Model
+ * Controller for ModelChoiceView. Any models (User, Asset etc.) passed to this 
+ * controller must inherit from Model.
  * 
+ * @see Model
  */
 public class ModelChoiceController implements Observer {
     private final ModelChoiceView view = new ModelChoiceView();
@@ -36,6 +37,13 @@ public class ModelChoiceController implements Observer {
         Asset
     }
     
+    /**
+     * ModelChoiceController constructor. This constructor is used when passing in
+     * available models but no chosen ones.
+     * 
+     * @param allTheModels All available models
+     * @param locationParent Parent panel for positioning purposes
+     */
     public ModelChoiceController(Collection allTheModels, JPanel locationParent) {
         allModels = (ArrayList<Model>) allTheModels;
         
@@ -49,11 +57,15 @@ public class ModelChoiceController implements Observer {
         setLabels();
     }
     
-    /*
-        preChosenModels MUST be a ArrayList of the EXACT objects as in allTheModels
-        due to the way ArrayList.remove removes based on object ID rather than
-        looking at it's fields
-    */
+    /**
+     * ModelChoiceController constructor. This constructor is used when passing in
+     * both available models and pre-chosen models. If available models contain
+     * any of the same models as in chosen, they are parsed so that there are no duplicates.
+     * 
+     * @param allTheModels All available models
+     * @param preChosenModels Pre-selected models
+     * @param locationParent Parent panel for positioning purposes
+     */
     public ModelChoiceController(Collection allTheModels, Collection preChosenModels, JPanel locationParent) {
         allModels = (ArrayList<Model>) allTheModels;
         
@@ -77,6 +89,9 @@ public class ModelChoiceController implements Observer {
         setLabels();
     }
     
+    /**
+     * Adds event listeners to the view and makes the view visible.
+     */
     public void launch() {
         view.addAddModelButtonActionListener(new AddModelButtonActionListener());
         view.addRemoveModelButtonActionListener(new RemoveModelButtonActionListener());
@@ -86,35 +101,69 @@ public class ModelChoiceController implements Observer {
         
         view.setVisible(true);
         
+        /**
+         * Craig - TC B2c: Real time updates
+         * Register this controller as an observer
+         */
         AppObservable.getInstance().addObserver(this);
     }
     
+    /**
+     * Disposes of the view.
+     */
     public void closeView() {
         view.dispose();
     }
     
+    /**
+     * Adds an action listener to the 'Save' button.
+     * 
+     * @param listener The Action listener to be added
+     */
     public void addSaveButtonActionListener(ActionListener listener) {
         view.addSaveChosenModelsButtonActionListener(listener);
     }
     
+    /**
+     * Gets all models in the view's 'Chosen' list.
+     * 
+     * @return ArrayList of chosen Models
+     */
     public ArrayList<Model> getChosenModels() {
         return view.getChosenModels();
     }
     
+    /**
+     * Gets all models in the view's 'Available' list.
+     * 
+     * @return ArrayList of available Models
+     */
     public ArrayList<Model> getAvailableModels() {
         return view.getAvailableModels();
     }
     
+    /**
+     * Gets the type of the model being dealt with.
+     * @return The model type (User, Asset etc.)
+     */
     public ModelType getModelType() {
         return this.modelType;
     }
     
+    /**
+     * Figures out the type of Model being dealth with.
+     * 
+     * @return The model type (User, Asset etc.)
+     */
     private ModelType determineModelType() {
         String classDescription = allModels.get(0).getClass().toString();
         String className = classDescription.substring(classDescription.lastIndexOf(".") + 1);
         return ModelType.valueOf(className);
     }
     
+    /**
+     * Sets the view's data labels based on the determined model type.
+     */
     private void setLabels() {
         view.setTitle("MPPMS - Select " + this.modelType + "s");
         view.setTitleLabel("Select " + this.modelType + "s");
@@ -124,6 +173,12 @@ public class ModelChoiceController implements Observer {
 
     @Override
     public void update(Observable o, Object o1) {
+        /**
+         * This method is called after something in the database has changed.
+         * It retrieves all of it's data again (which will now be updated) and sets
+         * it in the view.
+         */
+        
         this.allModels.clear();
         
         // Update selected models
@@ -222,6 +277,10 @@ public class ModelChoiceController implements Observer {
         this.view.setAvailableModels(updatedAvailable.toArray());
     }
     
+    /**
+     * Event listener for the '<-- Add' button. Moves any selected models in the
+     * view's available models list to the view's chosen models list.
+     */
     class AddModelButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -243,6 +302,10 @@ public class ModelChoiceController implements Observer {
         }
     }
     
+    /**
+     * Event listener for the 'Remove -->' button. Moves any selected models in the
+     * view's chosen models list to the view's available models list.
+     */
     class RemoveModelButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -264,6 +327,10 @@ public class ModelChoiceController implements Observer {
         }
     }
     
+    /**
+     * Event listener for the 'Clear selected' button. Moves all models in the view's
+     * chosen models list to the view's available models list.
+     */
     class ClearSelectionButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {            
@@ -272,6 +339,10 @@ public class ModelChoiceController implements Observer {
         }
     }
     
+    /**
+     * Event listener for the view's chosen models list. Enables and disables the
+     * 'Remove -->' button.
+     */
     class ChosenModelsListSelectionListener implements ListSelectionListener {
         @Override
         public void valueChanged(ListSelectionEvent lse) {
@@ -279,6 +350,10 @@ public class ModelChoiceController implements Observer {
         }
     }
     
+    /**
+     * Event listener for the view's available models list. Enables and disables the
+     * '<-- Add' button.
+     */
     class AvailableModelsListSelectionListener implements ListSelectionListener {
         @Override
         public void valueChanged(ListSelectionEvent lse) {
