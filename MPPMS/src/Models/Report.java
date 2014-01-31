@@ -53,11 +53,15 @@ public class Report extends Model {
     
     @Override
     public String toString() {
-        String result = this.comments.size() + " comment" + (this.comments.size() > 1 ? "s" : "");        
+        // Kirsty - displays number of comments and last edit date, or 'blank report' if there are no comments
+        String result;       
         if (this.comments.size() > 0) {
+            result = this.comments.size() + " comment" + (this.comments.size() > 1 ? "s" : ""); 
             Date lastEditDate = this.comments.get(this.comments.size() - 1).getDate();
             result += " (last edited " + new SimpleDateFormat("dd MMM yyyy").format(lastEditDate) + ")";
         }
+        else
+            result = "Blank report";
         return result;
     }
     

@@ -66,7 +66,7 @@ public class TaskDetailController implements Observer {
         view.setTaskType(Task.TaskType.values(), task.getTaskType());
         view.setStatus(Task.Status.values(), task.getStatus());
         view.setPriority(Task.Priority.values(), task.getPriority());
-        view.setReportText((task.getReport().getId() < 1 ? "Blank report" : task.getReport().toString()));
+        view.setReportText(task.getReport().toString());
         view.setAssignedTo(task.getAssignedTo().toArray());
         view.setAssets(task.getAssets().toArray());
     }

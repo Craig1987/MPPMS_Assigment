@@ -19,8 +19,6 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreePath;
-
 /**
  * 
  * @author Kirsty
@@ -48,8 +46,10 @@ public class ProjectsHierarchyController implements Observer {
         view.setControlsEnabled(false);
         view.setControlsVisible(false);
         view.setVisible(true);
-        refreshView();
-        
+        refreshView(); // Populates the JTree (projectTree)
+
+        // Observer pattern: update() is called when this is notified by AppObservable
+        // Changes made to a model (e.g. Task) elsewhere will be reflected in the ProjectsHierarchyView
         AppObservable.getInstance().addObserver(this);
     }
     
@@ -108,7 +108,6 @@ public class ProjectsHierarchyController implements Observer {
             }
 
             DefaultTreeModel newModel = new DefaultTreeModel(rootNode);
-            newModel.nodeStructureChanged(rootNode);
             view.setTreeModel(newModel);
        }
     }
@@ -116,15 +115,25 @@ public class ProjectsHierarchyController implements Observer {
     @Override
     public void update(Observable o, Object o1) {       
         refreshView();
+        // Ensures that asset is up-to-date
+           /* Asset.getAssetByID checks a static SetOfAssets
+              which has just been repopulated from the database */
         this.asset = Asset.getAssetByID(this.asset.getId());
+        
+        // Populates the controls on the right of the split pane which the selected assets information
         updateAssetDetail();
     }
     
     public void updateAssetDetail() {
-        view.setProjectDetails("Project: " + selectedProject.toString());
-        view.setAssetDetails("Asset: " + asset.toString());
+        
+        // Labels showing what project and asset is currently selected
+        view.setProjectDetails(selectedProject.toString());
+        view.setAssetDetails(asset.toString());
+        
+        // Controls can be used as an asset has been selected
         view.setControlsEnabled(true);
 
+        // Only retrieve the tasks and components for the selected project
         SetOfTasks tasks = selectedProject.getTasks();
         SetOfComponents comps = selectedProject.getComponents();
 
@@ -152,6 +161,7 @@ public class ProjectsHierarchyController implements Observer {
                addComps.add(comp);
         }
 
+        // Controls will only be enabled if there is a task(s)/component(s) to be displayed
         view.removeTasksEnabled(removeTasks.size() > 0);
         view.setRemoveTasksComboBox(removeTasks.toArray());
 
@@ -175,13 +185,17 @@ public class ProjectsHierarchyController implements Observer {
             if (selectedNode != null) {
                 Object assetObj = selectedNode.getUserObject();
             
+                // Check that the node selected can be cast to an Asset
                 if (assetObj instanceof Asset) {
                     asset = (Asset) assetObj; 
 
-                    // If asset is selected then 3 levels up should be a project
+                    // If an asset is selected then 3 levels up should be a project
                     DefaultMutableTreeNode projectNode = (DefaultMutableTreeNode) selectedNode.getParent().getParent().getParent();
                     Object projectObj = projectNode.getUserObject();
 
+                    /* The current hierarchy of models mean that projectObj shouldn't 
+                            be anything other than a Project
+                    - this check will prevent an error should the models change structure */
                     if (projectObj instanceof Project)
                     {
                         selectedProject = (Project) projectObj;
