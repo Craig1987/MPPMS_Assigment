@@ -26,7 +26,7 @@ public class ReportDetailView extends javax.swing.JFrame {
     }
     
     public String getContent() {
-        return contentText.getText();
+        return contentText.getText().replace("'", "''");
     }
     
     public void setComments(Object[] comments) {

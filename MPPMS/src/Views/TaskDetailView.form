@@ -62,7 +62,7 @@
                       <Component id="jScrollPane2" pref="0" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="assetEditButton" alignment="1" max="32767" attributes="0"/>
+                          <Component id="assetViewButton" alignment="1" max="32767" attributes="0"/>
                           <Component id="assetChoiceButton" alignment="1" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -133,7 +133,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="assetChoiceButton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
-                      <Component id="assetEditButton" min="-2" max="-2" attributes="0"/>
+                      <Component id="assetViewButton" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Component id="jScrollPane2" alignment="0" min="-2" pref="51" max="-2" attributes="0"/>
               </Group>
@@ -301,9 +301,9 @@
         <Property name="text" type="java.lang.String" value="Add / Remove"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="assetEditButton">
+    <Component class="javax.swing.JButton" name="assetViewButton">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Edit"/>
+        <Property name="text" type="java.lang.String" value="View"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">

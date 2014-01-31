@@ -78,6 +78,10 @@ public class TaskDetailController implements Observer {
             errors.add("\t - Enter a title");
         }
         
+        if ((Task.Status)this.view.getStatus() != Task.Status.New && this.view.getAssignedTo().length == 0) {
+            errors.add("\t - Assign at least 1 User or set Status to '" + Task.Status.New.toString() + "'");
+        }
+        
         if (errors.size() > 0) {
             String errorMsg = "Unable to save new Asset.\nDetails:";
             for (String error : errors) {

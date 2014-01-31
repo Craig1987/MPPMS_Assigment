@@ -19,7 +19,7 @@ public class ComponentDetailView extends javax.swing.JPanel {
     }
     
     public void setCanEditAsset(boolean canEdit) {
-        editAssetButton.setEnabled(canEdit);
+        viewAssetButton.setEnabled(canEdit);
     }
     
     public void setIdLabelText(String text) {
@@ -31,7 +31,7 @@ public class ComponentDetailView extends javax.swing.JPanel {
     }
     
     public String getDescription() {
-        return this.descriptionArea.getText();
+        return this.descriptionArea.getText().replace("'", "''");
     }
     
     public void setAssets(Object[] assets) {
@@ -69,8 +69,8 @@ public class ComponentDetailView extends javax.swing.JPanel {
         discardButton.addActionListener(listener);
     }
     
-    public void addAssetEditButtonActionListener(ActionListener listener) {
-        editAssetButton.addActionListener(listener);
+    public void addAssetViewButtonActionListener(ActionListener listener) {
+        viewAssetButton.addActionListener(listener);
     }
     
     public void addAssetsListSelectionListener(ListSelectionListener listener) {
@@ -99,7 +99,7 @@ public class ComponentDetailView extends javax.swing.JPanel {
         discardButton = new javax.swing.JButton();
         saveButton = new javax.swing.JButton();
         editButton = new javax.swing.JButton();
-        editAssetButton = new javax.swing.JButton();
+        viewAssetButton = new javax.swing.JButton();
 
         lblProjectDetails.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblProjectDetails.setText("Component Details");
@@ -148,7 +148,7 @@ public class ComponentDetailView extends javax.swing.JPanel {
                 .addComponent(editButton))
         );
 
-        editAssetButton.setText("Edit");
+        viewAssetButton.setText("View");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -170,7 +170,7 @@ public class ComponentDetailView extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(assetChoiceButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(editAssetButton, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(viewAssetButton, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
@@ -199,7 +199,7 @@ public class ComponentDetailView extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(assetChoiceButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(editAssetButton)))
+                        .addComponent(viewAssetButton)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -208,7 +208,6 @@ public class ComponentDetailView extends javax.swing.JPanel {
     private javax.swing.JButton assetChoiceButton;
     private javax.swing.JTextArea descriptionArea;
     private javax.swing.JButton discardButton;
-    private javax.swing.JButton editAssetButton;
     private javax.swing.JButton editButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -219,5 +218,6 @@ public class ComponentDetailView extends javax.swing.JPanel {
     private javax.swing.JLabel lblProjectDetails;
     private javax.swing.JList listAssets;
     private javax.swing.JButton saveButton;
+    private javax.swing.JButton viewAssetButton;
     // End of variables declaration//GEN-END:variables
 }

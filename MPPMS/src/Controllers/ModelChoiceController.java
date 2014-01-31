@@ -250,7 +250,7 @@ public class ModelChoiceController implements Observer {
             ArrayList<Model> availableModels = view.getAvailableModels();
             
             try {
-                for (Model model : view.getSelectedAvailableModels()) {
+                for (Model model : view.getSelectedChosenModels()) {
                     chosenModels.remove(model);
                     availableModels.add(model);
                 }

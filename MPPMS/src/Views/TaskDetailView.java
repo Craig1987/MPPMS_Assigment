@@ -27,7 +27,7 @@ public class TaskDetailView extends javax.swing.JPanel {
     }
     
     public void setCanEditAsset(boolean canEdit) {
-        assetEditButton.setEnabled(canEdit);
+        assetViewButton.setEnabled(canEdit);
     }
     
     public void setIdLabelText(String text) {
@@ -39,7 +39,7 @@ public class TaskDetailView extends javax.swing.JPanel {
     }
     
     public String getTaskTitle() {
-        return this.textTaskTitle.getText();
+        return this.textTaskTitle.getText().replace("'", "''");
     }
     
     public void setTaskType(Object[] items, Object selectedItem) {
@@ -102,7 +102,7 @@ public class TaskDetailView extends javax.swing.JPanel {
     }
     
     public void addAssetEditActionListener(ActionListener listener) {
-        this.assetEditButton.addActionListener(listener);
+        this.assetViewButton.addActionListener(listener);
     }
     
     public void addEditButtonActionListener(ActionListener listener) {
@@ -121,8 +121,8 @@ public class TaskDetailView extends javax.swing.JPanel {
         this.editReportButton.addActionListener(listener);
     }
     
-    public void addAssetEditButtonActionListener(ActionListener listener) {
-        this.assetEditButton.addActionListener(listener);
+    public void addAssetViewButtonActionListener(ActionListener listener) {
+        this.assetViewButton.addActionListener(listener);
     }
     
     public void addAssetsListSelectionListener(ListSelectionListener listener) {
@@ -172,7 +172,7 @@ public class TaskDetailView extends javax.swing.JPanel {
         listAssets = new javax.swing.JList();
         lblAssets = new javax.swing.JLabel();
         assetChoiceButton = new javax.swing.JButton();
-        assetEditButton = new javax.swing.JButton();
+        assetViewButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         cmboTaskType = new javax.swing.JComboBox();
 
@@ -237,7 +237,7 @@ public class TaskDetailView extends javax.swing.JPanel {
 
         assetChoiceButton.setText("Add / Remove");
 
-        assetEditButton.setText("Edit");
+        assetViewButton.setText("View");
 
         jLabel1.setText("Type:");
 
@@ -284,7 +284,7 @@ public class TaskDetailView extends javax.swing.JPanel {
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(assetEditButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(assetViewButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(assetChoiceButton, javax.swing.GroupLayout.Alignment.TRAILING)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -340,7 +340,7 @@ public class TaskDetailView extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(assetChoiceButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(assetEditButton))
+                        .addComponent(assetViewButton))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -349,7 +349,7 @@ public class TaskDetailView extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton assetChoiceButton;
-    private javax.swing.JButton assetEditButton;
+    private javax.swing.JButton assetViewButton;
     private javax.swing.JButton assignedToChoiceButton;
     private javax.swing.JComboBox cmboPriority;
     private javax.swing.JComboBox cmboStatus;
