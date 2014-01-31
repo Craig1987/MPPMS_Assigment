@@ -47,10 +47,6 @@ public class Report extends Model {
         }
     }
     
-    public void removeComment(Comment comment) {
-        comments.remove(comment);
-    }
-    
     @Override
     public String toString() {
         // Kirsty - displays number of comments and last edit date, or 'blank report' if there are no comments

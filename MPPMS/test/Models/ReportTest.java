@@ -1,7 +1,7 @@
 package Models;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.text.SimpleDateFormat;
+import static org.hamcrest.CoreMatchers.instanceOf;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -27,8 +27,13 @@ public class ReportTest {
     public static void tearDownClass() {
     }
     
+    public int testId() { return 123; }
+    public SetOfComments testComments() { return report.getComments(); }
+    public String testTitle() { return "Test title"; }
+    
     @Before
     public void setUp() {
+        report = new Report(testId());
     }
     
     @After
@@ -41,12 +46,8 @@ public class ReportTest {
     @Test
     public void testGetId() {
         System.out.println("getId");
-        Report instance = new Report();
-        int expResult = 0;
-        int result = instance.getId();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        assertEquals(testId(), report.getId());
     }
 
     /**
@@ -55,12 +56,9 @@ public class ReportTest {
     @Test
     public void testGetTitle() {
         System.out.println("getTitle");
-        Report instance = new Report();
-        String expResult = "";
-        String result = instance.getTitle();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+         
+        report.setTitle(testTitle());
+        assertEquals(testTitle(), report.getTitle());
     }
 
     /**
@@ -69,11 +67,9 @@ public class ReportTest {
     @Test
     public void testSetTitle() {
         System.out.println("setTitle");
-        String title = "";
-        Report instance = new Report();
-        instance.setTitle(title);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        report.setTitle(testTitle());
+        assertEquals(testTitle(), report.getTitle());
     }
 
     /**
@@ -82,24 +78,12 @@ public class ReportTest {
     @Test
     public void testAddComment() {
         System.out.println("addComment");
-        Comment comment = null;
-        Report instance = new Report();
-        instance.addComment(comment);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of removeComment method, of class Report.
-     */
-    @Test
-    public void testRemoveComment() {
-        System.out.println("removeComment");
-        Comment comment = null;
-        Report instance = new Report();
-        instance.removeComment(comment);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        Comment test = new Comment();
+        report.addComment(test);
+        
+        SetOfComments comments = report.getComments();
+        assertTrue(comments.contains(test));
     }
 
     /**
@@ -108,12 +92,11 @@ public class ReportTest {
     @Test
     public void testToString() {
         System.out.println("toString");
-        Report instance = new Report();
-        String expResult = "";
-        String result = instance.toString();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        String test = (report.getComments().size() > 0 ? report.getComments().size() + " comment" + (report.getComments().size() > 1 ? "s" : "")
+            + " (last edited " + new SimpleDateFormat("dd MMM yyyy").format(report.getComments().get(report.getComments().size() - 1).getDate()) + ")"
+            : "Blank report");
+        assertEquals(test, report.toString());
     }
 
     /**
@@ -122,12 +105,8 @@ public class ReportTest {
     @Test
     public void testGetComments() {
         System.out.println("getComments");
-        Report instance = new Report();
-        SetOfComments expResult = null;
-        SetOfComments result = instance.getComments();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        assertEquals(report.getComments(), instanceOf(SetOfComments.class));
     }
 
     /**
@@ -136,52 +115,9 @@ public class ReportTest {
     @Test
     public void testClearAndNullifyAll() {
         System.out.println("clearAndNullifyAll");
+        
         Report.clearAndNullifyAll();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of save method, of class Report.
-     */
-    @Test
-    public void testSave() {
-        System.out.println("save");
-        Report instance = new Report();
-        boolean expResult = false;
-        boolean result = instance.save();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getAttributesAndValues method, of class Report.
-     */
-    @Test
-    public void testGetAttributesAndValues() {
-        System.out.println("getAttributesAndValues");
-        boolean includeId = false;
-        Report instance = new Report();
-        HashMap<String, String> expResult = null;
-        HashMap<String, String> result = instance.getAttributesAndValues(includeId);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getInnerAttributesAndValues method, of class Report.
-     */
-    @Test
-    public void testGetInnerAttributesAndValues() {
-        System.out.println("getInnerAttributesAndValues");
-        Report instance = new Report();
-        ArrayList<HashMap<String, Object>> expResult = null;
-        ArrayList<HashMap<String, Object>> result = instance.getInnerAttributesAndValues();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(null, Report.getAllReports());
     }
 
     /**
@@ -190,11 +126,8 @@ public class ReportTest {
     @Test
     public void testGetAllReports() {
         System.out.println("getAllReports");
-        SetOfReports expResult = null;
-        SetOfReports result = Report.getAllReports();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        assertEquals(Report.getAllReports(), instanceOf(Report.class));
     }
 
     /**
@@ -203,12 +136,8 @@ public class ReportTest {
     @Test
     public void testGetReportByID() {
         System.out.println("getReportByID");
-        int id = 0;
-        Report expResult = null;
-        Report result = Report.getReportByID(id);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        assertEquals(report, Report.getReportByID(report.getId()));
     }
     
 }

@@ -3,8 +3,6 @@ package Models;
 import Models.Task.Priority;
 import Models.Task.Status;
 import Models.Task.TaskType;
-import java.util.ArrayList;
-import java.util.HashMap;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -37,6 +35,7 @@ public class TaskTest {
     public SetOfAssets testAssets() { return Asset.getAllAssets(); }
     public Priority testPriority() { return Task.Priority.Normal; }
     public Status testStatus() { return Task.Status.Assigned; }
+    public SetOfTasks testTasks() { return Task.getAllTasks(); }
     
     @Before
     public void setUp() {
@@ -53,8 +52,9 @@ public class TaskTest {
     @Test
     public void testSetTaskType() {
         System.out.println("setTaskType");
-        task.setTaskType(TaskType.QA);
-        assertEquals(TaskType.QA, task.getTaskType());
+        
+        task.setTaskType(testType());
+        assertEquals(testType(), task.getTaskType());
     }
 
     /**
@@ -64,6 +64,7 @@ public class TaskTest {
     public void testGetId() {
         System.out.println("getId");
         
+        task.setId(testId());
         assertEquals(testId(), task.getId());
     }
 
@@ -73,9 +74,9 @@ public class TaskTest {
     @Test
     public void testSetId() {
         System.out.println("setId");
-        int test = 66;
-        task.setId(66);
-        assertEquals(test, task.getId());
+        
+        task.setId(testId());
+        assertEquals(testId(), task.getId());
     }
 
     /**
@@ -85,6 +86,7 @@ public class TaskTest {
     public void testGetTaskType() {
         System.out.println("getTaskType");
         
+        task.setTaskType(testType());
         assertEquals(testType(), task.getTaskType());
     }
 
@@ -187,8 +189,8 @@ public class TaskTest {
     public void testGetStatus() {
         System.out.println("getStatus");
 
-        task.setStatus(testStatus());
-        assertEquals(testStatus(), task.getStatus());
+        task.setStatus(Status.Assigned);
+        assertEquals(Status.Assigned, task.getStatus());
     }
 
     /**
@@ -197,11 +199,9 @@ public class TaskTest {
     @Test
     public void testSetStatus() {
         System.out.println("setStatus");
-        Task.Status status = null;
-        Task instance = new Task();
-        instance.setStatus(status);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        task.setStatus(Status.Assigned);
+        assertEquals(Status.Assigned, task.getStatus());
     }
 
     /**
@@ -210,12 +210,10 @@ public class TaskTest {
     @Test
     public void testGetReport() {
         System.out.println("getReport");
-        Task instance = new Task();
-        Report expResult = null;
-        Report result = instance.getReport();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
+        Report test = new Report();
+        task.setReport(test);
+        assertEquals(test, task.getReport());
     }
 
     /**
@@ -224,11 +222,10 @@ public class TaskTest {
     @Test
     public void testSetReport() {
         System.out.println("setReport");
-        Report report = null;
-        Task instance = new Task();
-        instance.setReport(report);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+  
+        Report test = new Report();
+        task.setReport(test);
+        assertEquals(test, task.getReport());
     }
 
     /**
@@ -259,11 +256,8 @@ public class TaskTest {
     @Test
     public void testGetAllTasks() {
         System.out.println("getAllTasks");
-        SetOfTasks expResult = null;
-        SetOfTasks result = Task.getAllTasks();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
+        assertEquals(testTasks(), Task.getAllTasks());
     }
 
     /**
@@ -272,12 +266,8 @@ public class TaskTest {
     @Test
     public void testGetTaskByID() {
         System.out.println("getTaskByID");
-        int id = 0;
-        Task expResult = null;
-        Task result = Task.getTaskByID(id);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        assertEquals(task, Task.getTaskByID(task.getId()));
     }
 
     /**
@@ -286,12 +276,12 @@ public class TaskTest {
     @Test
     public void testGetTasksForUser() {
         System.out.println("getTasksForUser");
-        User user = null;
-        SetOfTasks expResult = null;
-        SetOfTasks result = Task.getTasksForUser(user);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        User user = new User(User.Role.ProjectCoordinator, "Username", "Password", "Forename", "Surname", "ClientName");
+        task.addAssignedTo(user);
+        
+        SetOfTasks tasks = Task.getTasksForUser(user);
+        assertTrue(tasks.contains(task));
     }
 
     /**
@@ -300,12 +290,12 @@ public class TaskTest {
     @Test
     public void testGetTasksByStatus() {
         System.out.println("getTasksByStatus");
-        Task.Status status = null;
-        SetOfTasks expResult = null;
-        SetOfTasks result = Task.getTasksByStatus(status);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        Status test = Task.Status.Assigned;
+        task.setStatus(test);
+        
+        SetOfTasks tasks = Task.getTasksByStatus(test);
+        assertTrue(tasks.contains(task));
     }
     
 }
