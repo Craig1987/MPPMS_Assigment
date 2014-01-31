@@ -4,5 +4,6 @@
 	<Type>Video</Type>
 	<Length>12345</Length>
 	<Description>this is a video asset</Description>
+        <FilePath>safexmas.mov</FilePath>
 </Asset>
 </root>

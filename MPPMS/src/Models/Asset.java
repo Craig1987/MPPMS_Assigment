@@ -2,6 +2,7 @@ package Models;
 
 import Application.AppObservable;
 import Data.DatabaseConnector;
+import java.io.File;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -16,6 +17,8 @@ public class Asset extends Model {
     private AssetType assetType;    
     private int length;
     private String description;
+    private File file;
+
     
     public enum AssetType {
         Audio,
@@ -48,6 +51,14 @@ public class Asset extends Model {
     
     public void setLength(int length) {
         this.length = length;
+    }
+    
+    public void setFile(File f) {
+        file = f;
+    }
+    
+    public File getFile() {
+        return file;
     }
     
     public String getLengthAsString() {
@@ -105,6 +116,7 @@ public class Asset extends Model {
             put("ASSETTYPE", wrapInSingleQuotes(getAssetType().toString()));
             put("ASSETLENGTH", "" + getLength());
             put("DESCRIPTION", wrapInSingleQuotes(getDescription()));
+            put("FILEPATH", wrapInSingleQuotes(file.getPath()));
         }};
     }
 
@@ -153,6 +165,15 @@ public class Asset extends Model {
                                         assets.getInt("AssetLength"), 
                                         AssetType.valueOf(assets.getString("AssetType")), 
                                         assets.getString("Description"));
+                String filepath = assets.getString("FILEPATH");
+                
+                if (filepath != null){
+                    File f = new File(filepath);
+                    
+                    if (f.exists())
+                        asset.setFile(f);
+                }
+                
                 allAssets.add(asset);
             }
             dbConn.dispose();

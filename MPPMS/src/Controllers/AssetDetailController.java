@@ -71,6 +71,13 @@ public class AssetDetailController implements Observer {
         }
     }
     
+    class PreviewButtonActionListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            new MultimediaDisplayController(asset);
+        }
+    }
+    
     class SaveButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {

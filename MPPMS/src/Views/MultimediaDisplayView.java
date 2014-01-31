@@ -53,18 +53,16 @@ public class MultimediaDisplayView extends javax.swing.JFrame {
     
     File file;
     MediaPlayer player;
-    TestAsset asset;
+    Asset asset;
     
     JButton start, stop;
     JPanel mediaPanel, annotationsPanel;
 
 
-    public MultimediaDisplayView() {
+    public MultimediaDisplayView(Asset a) {
         initComponents();
         
-        //asset = new TestAsset(new File("batman.jpg"));
-        asset = new TestAsset(new File("safexmas.mov"));
-        //asset = new TestAsset(new File("groovy.wav"));
+        asset = a;
         
         // setup media file and player
         file   = asset.getFile();
@@ -96,11 +94,10 @@ public class MultimediaDisplayView extends javax.swing.JFrame {
         );
         
         launchMedia();
-        addAnnotations();
 
         // add media and annotations panel to main window
         add(mediaPanel);
-        add(annotationsPanel);
+        //add(annotationsPanel);
         add(Box.createVerticalGlue());
         
         // adjust size of window
@@ -137,15 +134,6 @@ public class MultimediaDisplayView extends javax.swing.JFrame {
     private String getFileExtension(File f){
         String filename = f.getName();
         return filename.substring(filename.indexOf(".") + 1);
-    }
-    
-    private void addAnnotations() {
-        for (Annotation an : asset.getAnnotations()) {
-            final JLabel annotaionLabel = new JLabel();
-            annotaionLabel.setText(annotationLabelText(an));
-            annotaionLabel.addMouseListener(new AnnotationListener(annotaionLabel, an));
-            annotationsPanel.add(annotaionLabel);
-        }
     }
     
     private String annotationLabelText(Annotation an) {

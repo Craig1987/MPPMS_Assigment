@@ -58,8 +58,15 @@ public class ImportAssetsController {
                         int length = Integer.parseInt(element.getElementsByTagName("Length").item(0).getTextContent());
                         Asset.AssetType assetType = Asset.AssetType.valueOf(element.getElementsByTagName("Type").item(0).getTextContent());
                         String description = element.getElementsByTagName("Description").item(0).getTextContent();
+                        String filePath = element.getElementsByTagName("FilePath").item(0).getTextContent();
 
                         Asset asset = new Asset(0, length, assetType, description);
+                        
+                        File f = new File(filePath);
+                        
+                        if (f.exists())
+                            asset.setFile(f);
+                        
                         asset.save();
                         
                         // Create Inbound QA Task for Asset
