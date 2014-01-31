@@ -23,15 +23,23 @@ public class Task extends Model {
     private Report report;
     
     public enum TaskType {
-        QA,
+        Asset_Retrieval,
         QC,
+        Inbound_QA,
+        QA_Moderation,        
         Build
     }
     
     public enum Status {
-        New,
+        Created,
         Assigned,
-        In_Progress,
+        Assets_Ordered,
+        Assets_Arrived,
+        QC_In_Progress,
+        QC_Completed,
+        Moderation_In_Progress,
+        In_Fixes,
+        Delayed,
         Completed
     }
     public enum Priority {
@@ -46,7 +54,7 @@ public class Task extends Model {
         this.id = 0;
         this.taskType = TaskType.QC;
         this.title = "";
-        this.status = Status.New;
+        this.status = Status.Created;
         this.priority = Priority.Normal;
         this.report = new Report(); // An empty report is always created
     }

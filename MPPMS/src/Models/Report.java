@@ -23,7 +23,7 @@ public class Report extends Model {
         this.comments = new SetOfComments();
     }
 
-    Report() {
+    public Report() {
         this.id = 0;
         this.comments = new SetOfComments();
         this.title = "";

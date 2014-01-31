@@ -16,6 +16,7 @@ import java.util.Collection;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.DefaultListSelectionModel;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -24,13 +25,14 @@ public class TaskDetailController implements Observer {
     private final TaskDetailView view;
     private final boolean canEdit;
     private final User currentUser;
+    private final JFrame parentFrame;
     
     private Task task;
     private boolean isNew;
     
     private ModelChoiceController modelChoiceController;
     
-    public TaskDetailController(TaskDetailView view, Task task, User currentUser) {
+    public TaskDetailController(TaskDetailView view, Task task, User currentUser, JFrame parentFrame) {
         this.view = view;
         this.task = task;
         this.isNew = task.getId() == 0;
@@ -38,6 +40,7 @@ public class TaskDetailController implements Observer {
                         currentUser.getRole() == Role.ProjectCoordinator || 
                         currentUser.getRole() == Role.QCTeamLeader);
         this.currentUser = currentUser;
+        this.parentFrame = parentFrame;
     }
     
     public void initialise() {
@@ -78,8 +81,8 @@ public class TaskDetailController implements Observer {
             errors.add("\t - Enter a title");
         }
         
-        if ((Task.Status)this.view.getStatus() != Task.Status.New && this.view.getAssignedTo().length == 0) {
-            errors.add("\t - Assign at least 1 User or set Status to '" + Task.Status.New.toString() + "'");
+        if ((Task.Status)this.view.getStatus() != Task.Status.Created && this.view.getAssignedTo().length == 0) {
+            errors.add("\t - Assign at least 1 User or set Status to '" + Task.Status.Created.toString() + "'");
         }
         
         if (errors.size() > 0) {
@@ -111,6 +114,10 @@ public class TaskDetailController implements Observer {
             if (validateUserInputs()) {
                 view.setCursor(new Cursor(Cursor.WAIT_CURSOR));
                 
+                boolean canOfferAutoTaskGeneration = (task.getTaskType() == Task.TaskType.QC &&
+                                                    task.getStatus() != (Task.Status)view.getStatus() && 
+                                                    ((Task.Status)view.getStatus()) == Task.Status.Completed); 
+                
                 Object[] objects = view.getAssignedTo();
                 SetOfUsers assignedTo = new SetOfUsers();
                 for (Object object : objects) {
@@ -124,15 +131,26 @@ public class TaskDetailController implements Observer {
                 }
 
                 Task temp = task;
-                
+
                 task.setTaskType(Task.TaskType.valueOf(view.getTaskType().toString()));
                 task.setTitle(view.getTaskTitle());            
                 task.setPriority(Task.Priority.valueOf(view.getPriority().toString()));
                 task.setStatus(Task.Status.valueOf(view.getStatus().toString()));
                 task.setAssignedTo(assignedTo);
                 task.setAssets(assets);
-                
+
                 if (task.save()) {
+                    if (canOfferAutoTaskGeneration) {
+                        int result = JOptionPane.showConfirmDialog(view, 
+                                                "Generate a QA_Moderation Task now that this QC Task is completed?", 
+                                                "Automatic QA_Moderation Task Generation", 
+                                                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                        if (result == JOptionPane.YES_OPTION) {
+                            ModerationTaskGeneratorController controller = new ModerationTaskGeneratorController(parentFrame, task.getId(), task.getAssets());
+                            controller.launch();
+                        }
+                    }
+                    
                     if (modelChoiceController != null) {
                         modelChoiceController.closeView();
                     }

@@ -26,7 +26,7 @@ public class ProjectOverviewController implements Observer {
     }
     
     public void launch() {        
-        this.view.setOptions(Task.Status.values(), Task.Status.New);
+        this.view.setOptions(Task.Status.values(), Task.Status.Created);
         this.view.setViewButtonEnabled(false);
         
         this.view.addProjectComboActionListener(new ProjectComboActionListener());
