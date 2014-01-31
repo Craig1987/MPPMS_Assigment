@@ -32,7 +32,7 @@ public class AssetDetailView extends javax.swing.JPanel {
     }
     
     public String getDescription() {
-        return this.descriptionArea.getText();
+        return this.descriptionArea.getText().replace("'", "''");
     }
     
     public void setLengthText(String text) {

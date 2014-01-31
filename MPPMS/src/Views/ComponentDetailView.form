@@ -34,7 +34,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="assetChoiceButton" max="32767" attributes="0"/>
-                          <Component id="editAssetButton" min="-2" pref="101" max="-2" attributes="0"/>
+                          <Component id="viewAssetButton" min="-2" pref="101" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" attributes="0">
@@ -71,7 +71,7 @@
                   <Group type="102" attributes="0">
                       <Component id="assetChoiceButton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
-                      <Component id="editAssetButton" min="-2" max="-2" attributes="0"/>
+                      <Component id="viewAssetButton" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
@@ -190,9 +190,9 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JButton" name="editAssetButton">
+    <Component class="javax.swing.JButton" name="viewAssetButton">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Edit"/>
+        <Property name="text" type="java.lang.String" value="View"/>
       </Properties>
     </Component>
   </SubComponents>

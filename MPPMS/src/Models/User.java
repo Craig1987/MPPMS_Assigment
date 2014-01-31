@@ -80,7 +80,7 @@ public class User extends Model {
     
     @Override
     public String toString() {
-        return this.getName();
+        return this.getName() + " (" + this.getUsername() + ")";
     }
     
     public static SetOfUsers getAllUsers() {

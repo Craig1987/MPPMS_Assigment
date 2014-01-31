@@ -34,7 +34,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="teamChoiceButton" alignment="1" max="32767" attributes="0"/>
-                          <Component id="tasksEditButton" alignment="1" max="32767" attributes="0"/>
+                          <Component id="tasksViewButton" alignment="1" max="32767" attributes="0"/>
                           <Component id="tasksChoiceButton" alignment="1" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -43,7 +43,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="componentsChoiceButton" max="32767" attributes="0"/>
-                          <Component id="componentsEditButton" max="32767" attributes="0"/>
+                          <Component id="componentsViewButton" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
@@ -151,7 +151,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="tasksChoiceButton" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
-                              <Component id="tasksEditButton" min="-2" max="-2" attributes="0"/>
+                              <Component id="tasksViewButton" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Component id="jScrollPane2" min="-2" pref="51" max="-2" attributes="0"/>
                       </Group>
@@ -163,7 +163,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="componentsChoiceButton" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
-                              <Component id="componentsEditButton" min="-2" max="-2" attributes="0"/>
+                              <Component id="componentsViewButton" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -304,9 +304,9 @@
         <Property name="text" type="java.lang.String" value="Add / Remove"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="tasksEditButton">
+    <Component class="javax.swing.JButton" name="tasksViewButton">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Edit"/>
+        <Property name="text" type="java.lang.String" value="View"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="componentsChoiceButton">
@@ -328,9 +328,9 @@
         </Property>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="componentsEditButton">
+    <Component class="javax.swing.JButton" name="componentsViewButton">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Edit"/>
+        <Property name="text" type="java.lang.String" value="View"/>
       </Properties>
     </Component>
     <Component class="com.toedter.calendar.JDateChooser" name="pickCreationDate">

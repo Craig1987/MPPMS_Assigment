@@ -127,7 +127,7 @@ public class Asset extends Model {
     
     @Override
     public String toString() {
-        return "(ID: " + getId() + ") " + getAssetType() + " asset (Length: " + getLengthAsString() + ")";
+        return "(ID: " + getId() + ") " + getAssetType() + " asset (Length: " + getLengthAsString() + ") " + (getDescription().length() > 25 ? getDescription().substring(0, 25) + "..." : getDescription());
     }
     
     public static SetOfAssets getAllAssets() {

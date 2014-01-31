@@ -72,7 +72,7 @@ public class ImportAssetsController {
                         
                         asset.save();
                         
-                        // Create Inbound QA Task for Asset
+                        // Create Inbound QA_Moderation Task for Asset
                         if (view.getTasksCheckbox()) {
                             createTasks(asset);
                         }
@@ -91,7 +91,7 @@ public class ImportAssetsController {
         assets.add(asset);
         Task newTask = new Task();
         newTask.setTitle("Inbound QA Task for Asset " + asset.getId());
-        newTask.setTaskType(TaskType.QA);
+        newTask.setTaskType(TaskType.Inbound_QA);
         newTask.setAssets(assets);
         newTask.save();
     }

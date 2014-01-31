@@ -93,7 +93,6 @@ public class DatabaseConnector {
     
     public boolean deleteAndInsertQuery(ArrayList<HashMap<String, Object>> attributesAndValues, String parentModelName) {
         boolean savedOK = true;
-        boolean alreadyDeletedExistingEntries = false;
         
         for (HashMap<String, Object> hMap : attributesAndValues) {
             String table = (String)hMap.get("TABLENAME");
