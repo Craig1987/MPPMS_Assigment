@@ -49,6 +49,9 @@ public class AssetDetailController implements Observer {
         this.view.addSaveButtonActionListener(new SaveButtonActionListener());
         this.view.addEditButtonActionListener(new EditButtonActionListener());
         this.view.addDiscardButtonActionListener(new DiscardButtonActionListener());
+        this.view.addPreviewButtonActionListener(new PreviewButtonActionListener());
+        
+        this.view.showPreviewButton(asset.getFile() != null);
         
         /**
          * Craig - TC B2c: Real time updates
@@ -98,6 +101,13 @@ public class AssetDetailController implements Observer {
         if (!this.isNew) {
             this.asset = Asset.getAssetByID(this.asset.getId());        
             refreshView();
+        }
+    }
+    
+    class PreviewButtonActionListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            new MultimediaDisplayController(asset);
         }
     }
     

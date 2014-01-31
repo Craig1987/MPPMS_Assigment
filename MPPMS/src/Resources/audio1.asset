@@ -4,5 +4,6 @@
 	<Type>Audio</Type>
 	<Length>333</Length>
 	<Description>this is an audio asset</Description>
+        <FilePath>groovy.wav</FilePath>
 </Asset>
 </root>
